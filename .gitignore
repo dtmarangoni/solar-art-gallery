@@ -100,5 +100,14 @@ dist
 # DynamoDB Local files
 .dynamodb/
 
+# S3 Bucket Local files
+buckets
+
 # TernJS port file
 .tern-port
+
+# Webpack directories
+.webpack
+
+# VS Code local files
+.vscode
