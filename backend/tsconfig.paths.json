@@ -1,9 +1,9 @@
 {
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@functions/*": ["src/functions/*"],
-      "@libs/*": ["src/libs/*"]
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@lambda/*": ["src/lambda/*"],
+            "@utils/*": ["src/utils/*"]
+        }
     }
-  }
 }
