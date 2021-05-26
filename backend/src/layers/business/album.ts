@@ -1,11 +1,12 @@
 import 'source-map-support/register';
-import { Key } from 'aws-sdk/clients/dynamodb';
+import type { FromSchema } from 'json-schema-to-ts';
 import { v4 as uuidv4 } from 'uuid';
 import * as createHttpError from 'http-errors';
 
-import { AlbumAccess } from '../ports/AWS/DynamoDB/albumAccess';
-import { Album } from '../../models/database/Album';
 import { decodeNextKey, validateLimitParam } from '@utils/dynamoDB';
+import { Album } from '../../models/database/Album';
+import { AlbumAccess } from '../ports/AWS/DynamoDB/albumAccess';
+import { default as addAlbumSchema } from '@lambda/http/addAlbum/schema';
 
 // The Album Access port
 const albumAccess = new AlbumAccess();
@@ -49,6 +50,29 @@ export async function getUserAlbums(userId: string, limit?: string, exclusiveSta
     // Remove the user ID before sending the album items
     // return { items: rmUserIdFromArr(albums.items), lastEvaluatedKey: albums.lastEvaluatedKey };
     return { items: albums.items, lastEvaluatedKey: albums.lastEvaluatedKey };
+}
+
+/**
+ * Add an album item in Album database table.
+ * @param userId The album owner user id.
+ * @param albumParams The required parameters to add a new album item
+ * in database.
+ * @returns The added album item.
+ */
+export async function addAlbum(userId: string, albumParams: FromSchema<typeof addAlbumSchema>) {
+    const album: Album = {
+        userId,
+        albumId: uuidv4(),
+        creationDate: new Date().toISOString(),
+        visibility: albumParams.visibility,
+        title: albumParams.title,
+        description: albumParams.description,
+        coverId: uuidv4(),
+    };
+    // Add the album item to DB
+    await albumAccess.addAlbum(album);
+    // Return the album item as confirmation of a success operation
+    return album;
 }
 
 /**

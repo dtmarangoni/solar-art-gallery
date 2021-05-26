@@ -96,4 +96,15 @@ export class AlbumAccess {
             .promise();
         return { items: result.Items as Album[], lastEvaluatedKey: result.LastEvaluatedKey };
     }
+
+    /**
+     * Add an album item in Album DynamoDB table.
+     * @param item The album item.
+     * @returns The added album item.
+     */
+    async addAlbum(item: Album) {
+        await this.dynamoDB.put({ TableName: this.albumTable, Item: item }).promise();
+        // Return the album item as confirmation of a success operation
+        return item;
+    }
 }
