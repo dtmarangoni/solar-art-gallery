@@ -6,7 +6,7 @@ import { createLogger } from '@utils/logger';
 import { MiddlewarePhases } from '@utils/middleware/logger.middleware';
 import { ValidatedEventAPIGatewayProxyHandlerV2 } from '@utils/apiGateway';
 import { formatJSONResponse, privateMiddyfy } from '@utils/lambda';
-import { addAlbum } from '../../../layers/business/album';
+import { editAlbum } from '../../../layers/business/album';
 
 // Winston logger
 const logger = createLogger();
@@ -16,27 +16,30 @@ const handler: ValidatedEventAPIGatewayProxyHandlerV2<typeof schema> = async (
     context: any
 ): Promise<APIGatewayProxyResultV2> => {
     logger.info(`${MiddlewarePhases.during} ${context.functionName}`, {
-        action: 'Adding a new album item to DB',
+        action: 'Editing an user album item in DB',
         functionName: context.functionName,
         requestId: context.awsRequestId,
         timestamp: new Date().toISOString(),
         phase: MiddlewarePhases.during,
     });
 
-    // Add a new album item to DB
-    const newAlbum = await addAlbum(context.userId, event.body);
+    // Get the album id from request path params
+    const albumId = event.pathParameters.albumId;
+
+    // Edit the user album item in DB
+    const editedAlbum = await editAlbum(context.userId, albumId, event.body);
 
     logger.info(`${MiddlewarePhases.during} ${context.functionName}`, {
-        action: 'New album item added to DB',
-        items: newAlbum,
+        action: 'Album item edited on DB',
+        items: editedAlbum,
         functionName: context.functionName,
         requestId: context.awsRequestId,
         timestamp: new Date().toISOString(),
         phase: MiddlewarePhases.during,
     });
 
-    // Return the CREATED response with the new album item
-    return formatJSONResponse(201, { item: newAlbum });
+    // Return the OK response with the edited album item
+    return formatJSONResponse(200, { item: editedAlbum });
 };
 
 export const main = privateMiddyfy(handler);

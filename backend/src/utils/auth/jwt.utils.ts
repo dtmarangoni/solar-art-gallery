@@ -64,6 +64,6 @@ export function verifyRSAToken(
         }) as Jwt;
     } catch (error) {
         // Invalid token
-        throw new createHttpError.Unauthorized('Invalid token.');
+        throw new createHttpError.Forbidden('Invalid token.');
     }
 }

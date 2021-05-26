@@ -72,7 +72,7 @@ export class AlbumAccess {
     /**
      * Get all user's albums items from Album DynamoDB table with
      * optional pagination.
-     * @param userId The albums items owner user id.
+     * @param userId The albums items owner user ID.
      * @param limit The maximum number of returned items per call.
      * @param exclusiveStartKey The DynamoDB item key to start the
      * query from.
@@ -98,11 +98,35 @@ export class AlbumAccess {
     }
 
     /**
+     * Gets a user album item from Album DynamoDB table.
+     * @param userId The album item owner user ID.
+     * @param albumId The album ID
+     * @returns The album item.
+     */
+    async getUserAlbum(userId: string, albumId: string) {
+        const result = await this.dynamoDB
+            .get({ TableName: this.albumTable, Key: { userId, albumId } })
+            .promise();
+        return result.Item as Album;
+    }
+
+    /**
      * Add an album item in Album DynamoDB table.
      * @param item The album item.
      * @returns The added album item.
      */
     async addAlbum(item: Album) {
+        await this.dynamoDB.put({ TableName: this.albumTable, Item: item }).promise();
+        // Return the album item as confirmation of a success operation
+        return item;
+    }
+
+    /**
+     * Edit an album item in Album DynamoDB table.
+     * @param item The album item with the new properties.
+     * @returns The edited album item.
+     */
+    async editAlbum(item: Album) {
         await this.dynamoDB.put({ TableName: this.albumTable, Item: item }).promise();
         // Return the album item as confirmation of a success operation
         return item;

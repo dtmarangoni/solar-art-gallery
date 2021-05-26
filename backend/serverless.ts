@@ -1,6 +1,6 @@
 import type { AWS } from '@serverless/typescript';
 
-import { getPublicAlbums, getUserAlbums, addAlbum } from '@lambda/http';
+import { getPublicAlbums, getUserAlbums, addAlbum, editAlbum } from '@lambda/http';
 import { authorizer } from '@lambda/auth';
 
 const serverlessConfiguration: AWS = {
@@ -57,7 +57,7 @@ const serverlessConfiguration: AWS = {
         },
         s3: { port: 6000 },
     },
-    functions: { authorizer, getPublicAlbums, getUserAlbums, addAlbum },
+    functions: { authorizer, getPublicAlbums, getUserAlbums, addAlbum, editAlbum },
     resources: {
         Resources: {
             AlbumDynamoDBTable: {

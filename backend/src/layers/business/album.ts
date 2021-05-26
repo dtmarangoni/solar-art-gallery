@@ -7,6 +7,7 @@ import { decodeNextKey, validateLimitParam } from '@utils/dynamoDB';
 import { Album } from '../../models/database/Album';
 import { AlbumAccess } from '../ports/AWS/DynamoDB/albumAccess';
 import { default as addAlbumSchema } from '@lambda/http/addAlbum/schema';
+import { default as editAlbumSchema } from '@lambda/http/editAlbum/schema';
 
 // The Album Access port
 const albumAccess = new AlbumAccess();
@@ -53,6 +54,34 @@ export async function getUserAlbums(userId: string, limit?: string, exclusiveSta
 }
 
 /**
+ * Gets a user album from Album database table.
+ * @param userId The album owner user ID.
+ * @param albumId The album item ID.
+ * @returns The album item in case it exists or throw an error
+ * otherwise.
+ */
+export async function getUserAlbum(userId: string, albumId: string) {
+    const album = await albumAccess.getUserAlbum(userId, albumId);
+
+    if (!album) {
+        throw new createHttpError.NotFound("This album item doesn't exists.");
+    }
+
+    return album;
+}
+
+/**
+ * Check whether a user album item exists in Album database table.
+ * @param userId The album owner user ID.
+ * @param albumId The album item ID.
+ * @returns True if the album exists and false otherwise.
+ */
+export async function albumExists(userId: string, albumId: string) {
+    const album = await albumAccess.getUserAlbum(userId, albumId);
+    return !!album;
+}
+
+/**
  * Add an album item in Album database table.
  * @param userId The album owner user id.
  * @param albumParams The required parameters to add a new album item
@@ -73,6 +102,26 @@ export async function addAlbum(userId: string, albumParams: FromSchema<typeof ad
     await albumAccess.addAlbum(album);
     // Return the album item as confirmation of a success operation
     return album;
+}
+
+/**
+ * Edit an album item in Album database table.
+ * @param userId The album owner user id.
+ * @param albumParams The required and/or optional parameters to be
+ * edited in the album item.
+ * @returns The edited album item.
+ */
+export async function editAlbum(
+    userId: string,
+    albumId: string,
+    albumParams: FromSchema<typeof editAlbumSchema>
+) {
+    const album = await getUserAlbum(userId, albumId);
+    const editedAlbum = { ...album, ...albumParams };
+    // Edit the album item in DB
+    await albumAccess.editAlbum(editedAlbum);
+    // Return the album item as confirmation of a success operation
+    return editedAlbum;
 }
 
 /**
@@ -99,20 +148,3 @@ function rmUserIdFromArr(albums: Album[]) {
     });
     return newAlbums;
 }
-
-// /**
-//  * Check whether a album item exists in database.
-//  * @param userId The album owner user ID.
-//  * @param albumId The album item ID.
-//  * @returns The album item in case it exists or throw an error
-//  * otherwise.
-//  */
-// async function albumExists(userId: string, albumId: string) {
-//     let album = await albumAccess.getTodo(userId, albumId);
-
-//     if (!album) {
-//         throw new createHttpError.BadRequest("This album item doesn't exists.");
-//     }
-
-//     return album;
-// }
