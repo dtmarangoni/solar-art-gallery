@@ -5,8 +5,9 @@ import { formatJSONResponse } from '@utils/lambda';
 /**
  * Middy middleware phases in functions calls
  */
-enum phases {
+export enum MiddlewarePhases {
     before = 'before',
+    during = 'during',
     after = 'after',
     error = 'error',
 }
@@ -30,11 +31,11 @@ export const loggerMiddleware = () => {
  */
 async function before(event: any) {
     // Log the request before lambda execution
-    logger.info(`${phases.before} ${event.context.functionName}`, {
+    logger.info(`${MiddlewarePhases.before} ${event.context.functionName}`, {
         functionName: event.context.functionName,
         requestId: event.context.awsRequestId,
         timestamp: new Date().toISOString(),
-        phase: phases.before,
+        phase: MiddlewarePhases.before,
         request: event,
     });
 }
@@ -46,11 +47,11 @@ async function before(event: any) {
  */
 async function after(event: any) {
     // Log the request response after lambda execution
-    logger.info(`${phases.after} ${event.context.functionName}`, {
+    logger.info(`${MiddlewarePhases.after} ${event.context.functionName}`, {
         functionName: event.context.functionName,
         requestId: event.context.awsRequestId,
         timestamp: new Date().toISOString(),
-        phase: phases.after,
+        phase: MiddlewarePhases.after,
         request: event,
     });
 }
@@ -72,7 +73,7 @@ async function onError(event: any) {
     // Log the error
     logger.log(
         httpLogLevel(statusCode),
-        `${phases.error} ${event.context.functionName}: ${message}`,
+        `${MiddlewarePhases.error} ${event.context.functionName}: ${message}`,
         {
             functionName: event.context.functionName,
             requestId: event.context.awsRequestId,

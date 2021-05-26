@@ -9,7 +9,7 @@ export const getUserID = () => {
     return {
         before: async (request: any) => {
             // Decode the JWT token
-            const authToken = getAuthToken(request.event.headers.Authorization);
+            const authToken = getAuthToken(request.event.headers?.Authorization);
             const decodedToken = decodeToken(authToken);
             // Get the token cryptographic key id
             const cryptoKId = decodedToken.header.kid;

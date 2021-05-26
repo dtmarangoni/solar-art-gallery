@@ -1,5 +1,8 @@
 import type { AWS } from '@serverless/typescript';
 
+import { getPublicAlbums, getUserAlbums } from '@lambda/http';
+import { authorizer } from '@lambda/auth';
+
 const serverlessConfiguration: AWS = {
     service: 'solar-art-gallery',
     frameworkVersion: '2',
@@ -13,6 +16,7 @@ const serverlessConfiguration: AWS = {
         'serverless-s3-local',
     ],
     package: { individually: true },
+    useDotenv: true,
     provider: {
         name: 'aws',
         profile: '${env:AWS_PROFILE}',
@@ -23,8 +27,9 @@ const serverlessConfiguration: AWS = {
         // tracing: { apiGateway: true, lambda: true },  Add when enabling AWS X-Ray tracing
         environment: {
             AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
-            TODO_TABLE: 'Todo-${self:provider.stage}',
-            TODO_INDEX: 'TodoIndex',
+            ALBUM_TABLE: 'Album-${self:provider.stage}',
+            ALBUM_LOCAL_INDEX: 'AlbumLocalIndex',
+            ALBUM_GLOBAL_INDEX: 'AlbumGlobalIndex',
             IMAGES_S3_BUCKET: 'serverless-dtm-todo-images-${self:provider.stage}',
             S3_SIGNED_URL_EXP: '300',
         },
@@ -32,6 +37,7 @@ const serverlessConfiguration: AWS = {
     },
     custom: {
         webpack: { webpackConfig: './webpack.config.js', includeModules: true },
+        dotenvVars: '${file(dotenv.config.js)}',
         remover: { buckets: ['${self:provider.environment.IMAGES_S3_BUCKET}'] },
         'serverless-iam-roles-per-function': { defaultInherit: true },
         'serverless-offline': { httpPort: 4000 },
@@ -39,11 +45,11 @@ const serverlessConfiguration: AWS = {
             stages: ['${self:provider.stage}'],
             start: { port: 5000, inMemory: true, migrate: true, seed: true },
             seed: {
-                todo: {
+                album: {
                     sources: [
                         {
-                            table: '${self:provider.environment.TODO_TABLE}',
-                            sources: ['./mock/dbSeed/todoSeed.json'],
+                            table: '${self:provider.environment.ALBUM_TABLE}',
+                            sources: ['./mock/database/albumSeed.json'],
                         },
                     ],
                 },
@@ -51,8 +57,97 @@ const serverlessConfiguration: AWS = {
         },
         s3: { port: 6000 },
     },
-    functions: {},
-    resources: { Resources: {} },
+    functions: { authorizer, getPublicAlbums, getUserAlbums },
+    resources: {
+        Resources: {
+            AlbumDynamoDBTable: {
+                Type: 'AWS::DynamoDB::Table',
+                Properties: {
+                    TableName: '${self:provider.environment.ALBUM_TABLE}',
+                    AttributeDefinitions: [
+                        { AttributeName: 'userId', AttributeType: 'S' },
+                        { AttributeName: 'albumId', AttributeType: 'S' },
+                        { AttributeName: 'creationDate', AttributeType: 'S' },
+                        { AttributeName: 'visibility', AttributeType: 'S' },
+                    ],
+                    KeySchema: [
+                        { AttributeName: 'userId', KeyType: 'HASH' },
+                        { AttributeName: 'albumId', KeyType: 'RANGE' },
+                    ],
+                    LocalSecondaryIndexes: [
+                        {
+                            IndexName: '${self:provider.environment.ALBUM_LOCAL_INDEX}',
+                            KeySchema: [
+                                { AttributeName: 'userId', KeyType: 'HASH' },
+                                { AttributeName: 'creationDate', KeyType: 'RANGE' },
+                            ],
+                            Projection: { ProjectionType: 'ALL' },
+                        },
+                    ],
+                    GlobalSecondaryIndexes: [
+                        {
+                            IndexName: '${self:provider.environment.ALBUM_GLOBAL_INDEX}',
+                            KeySchema: [
+                                { AttributeName: 'visibility', KeyType: 'HASH' },
+                                { AttributeName: 'albumId', KeyType: 'RANGE' },
+                            ],
+                            Projection: { ProjectionType: 'ALL' },
+                        },
+                    ],
+                    BillingMode: 'PAY_PER_REQUEST',
+                },
+            },
+            // ImagesS3Bucket: {
+            //     Type: 'AWS::S3::Bucket',
+            //     Properties: {
+            //         BucketName: '${self:provider.environment.IMAGES_S3_BUCKET}',
+            //         CorsConfiguration: {
+            //             CorsRules: [
+            //                 {
+            //                     AllowedOrigins: ['*'],
+            //                     AllowedHeaders: ['*'],
+            //                     AllowedMethods: ['GET', 'PUT', 'POST', 'DELETE', 'HEAD'],
+            //                     MaxAge: 3000,
+            //                 },
+            //             ],
+            //         },
+            //     },
+            // },
+            // ImagesS3BucketPolicy: {
+            //     Type: 'AWS::S3::BucketPolicy',
+            //     Properties: {
+            //         Bucket: { Ref: 'ImagesS3Bucket' },
+            //         PolicyDocument: {
+            //             Id: 'ImagesS3BucketPolicy',
+            //             Version: '2012-10-17',
+            //             Statement: [
+            //                 {
+            //                     Sid: 'PublicReadForGetBucketObjects',
+            //                     Effect: 'Allow',
+            //                     Principal: '*',
+            //                     Action: 'S3:GetObject',
+            //                     Resource:
+            //                         'arn:aws:s3:::${self:provider.environment.IMAGES_S3_BUCKET}/*',
+            //                 },
+            //             ],
+            //         },
+            //     },
+            // },
+            APIGatewayResponseDefault4xx: {
+                Type: 'AWS::ApiGateway::GatewayResponse',
+                Properties: {
+                    ResponseType: 'DEFAULT_4XX',
+                    ResponseParameters: {
+                        'gatewayresponse.header.Access-Control-Allow-Origin': "'*'",
+                        'gatewayresponse.header.Access-Control-Allow-Headers':
+                            "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+                        'gatewayresponse.header.Access-Control-Allow-Methods': "'GET,POST,OPTIONS'",
+                    },
+                    RestApiId: { Ref: 'ApiGatewayRestApi' },
+                },
+            },
+        },
+    },
 };
 
 module.exports = serverlessConfiguration;
