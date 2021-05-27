@@ -98,12 +98,12 @@ export class AlbumAccess {
     }
 
     /**
-     * Gets a user album item from Album DynamoDB table.
+     * Gets an user album item from Album DynamoDB table.
      * @param userId The album item owner user ID.
      * @param albumId The album ID
      * @returns The album item.
      */
-    async getUserAlbum(userId: string, albumId: string) {
+    async getAlbum(userId: string, albumId: string) {
         const result = await this.dynamoDB
             .get({ TableName: this.albumTable, Key: { userId, albumId } })
             .promise();
@@ -130,5 +130,17 @@ export class AlbumAccess {
         await this.dynamoDB.put({ TableName: this.albumTable, Item: item }).promise();
         // Return the album item as confirmation of a success operation
         return item;
+    }
+
+    /**
+     * Delete an album item from Album DynamoDB table.
+     * @param userId The album item owner user ID.
+     * @param albumId The album ID
+     * @returns The DynamoDB DeleteItemOutput.
+     */
+    async deleteAlbum(userId: string, albumId: string) {
+        return await this.dynamoDB
+            .delete({ TableName: this.albumTable, Key: { userId, albumId } })
+            .promise();
     }
 }

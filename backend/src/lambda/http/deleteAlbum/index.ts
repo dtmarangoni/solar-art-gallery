@@ -6,7 +6,7 @@ export default {
     events: [
         {
             http: {
-                method: 'patch',
+                method: 'delete',
                 path: '/album/my',
                 cors: true,
                 authorizer: {
