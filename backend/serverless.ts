@@ -6,7 +6,8 @@ import {
     addAlbum,
     editAlbum,
     deleteAlbum,
-    getAlbumArts,
+    getPublicAlbumArts,
+    getUserAlbumArts,
 } from '@lambda/http';
 import { authorizer } from '@lambda/auth';
 
@@ -36,10 +37,11 @@ const serverlessConfiguration: AWS = {
         environment: {
             AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
             ALBUM_TABLE: 'Album-${self:provider.stage}',
-            ALBUM_LOCAL_INDEX: 'AlbumLocalIndex-${self:provider.stage}',
-            ALBUM_GLOBAL_INDEX: 'AlbumGlobalIndex-${self:provider.stage}',
+            ALBUM_USER_ID_LSI: 'AlbumUserIdLSI-${self:provider.stage}',
+            ALBUM_VISIBILITY_GSI: 'AlbumVisibilityGSI-${self:provider.stage}',
+            ALBUM_ALBUM_ID_GSI: 'AlbumAlbumIdGSI-${self:provider.stage}',
             ART_TABLE: 'Art-${self:provider.stage}',
-            ART_LOCAL_INDEX: 'ArtLocalIndex-${self:provider.stage}',
+            ART_ALBUM_ID_LSI: 'ArtAlbumIdLSI-${self:provider.stage}',
             IMAGES_S3_BUCKET: 'serverless-dtm-todo-images-${self:provider.stage}',
             S3_SIGNED_URL_EXP: '300',
         },
@@ -92,7 +94,8 @@ const serverlessConfiguration: AWS = {
         addAlbum,
         editAlbum,
         deleteAlbum,
-        getAlbumArts,
+        getPublicAlbumArts,
+        getUserAlbumArts,
     },
     resources: {
         Resources: {
@@ -112,7 +115,7 @@ const serverlessConfiguration: AWS = {
                     ],
                     LocalSecondaryIndexes: [
                         {
-                            IndexName: '${self:provider.environment.ALBUM_LOCAL_INDEX}',
+                            IndexName: '${self:provider.environment.ALBUM_USER_ID_LSI}',
                             KeySchema: [
                                 { AttributeName: 'userId', KeyType: 'HASH' },
                                 { AttributeName: 'creationDate', KeyType: 'RANGE' },
@@ -122,9 +125,17 @@ const serverlessConfiguration: AWS = {
                     ],
                     GlobalSecondaryIndexes: [
                         {
-                            IndexName: '${self:provider.environment.ALBUM_GLOBAL_INDEX}',
+                            IndexName: '${self:provider.environment.ALBUM_VISIBILITY_GSI}',
                             KeySchema: [
                                 { AttributeName: 'visibility', KeyType: 'HASH' },
+                                { AttributeName: 'creationDate', KeyType: 'RANGE' },
+                            ],
+                            Projection: { ProjectionType: 'ALL' },
+                        },
+                        {
+                            IndexName: '${self:provider.environment.ALBUM_ALBUM_ID_GSI}',
+                            KeySchema: [
+                                { AttributeName: 'albumId', KeyType: 'HASH' },
                                 { AttributeName: 'creationDate', KeyType: 'RANGE' },
                             ],
                             Projection: { ProjectionType: 'ALL' },
@@ -148,7 +159,7 @@ const serverlessConfiguration: AWS = {
                     ],
                     LocalSecondaryIndexes: [
                         {
-                            IndexName: '${self:provider.environment.ART_LOCAL_INDEX}',
+                            IndexName: '${self:provider.environment.ART_ALBUM_ID_LSI}',
                             KeySchema: [
                                 { AttributeName: 'albumId', KeyType: 'HASH' },
                                 { AttributeName: 'sequenceNum', KeyType: 'RANGE' },

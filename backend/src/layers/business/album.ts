@@ -53,14 +53,13 @@ export async function getUserAlbums(userId: string, limit?: string, exclusiveSta
 }
 
 /**
- * Gets an user album from Album database table.
- * @param userId The album owner user ID.
+ * Query for an album item in Album database table.
  * @param albumId The album item ID.
  * @returns The album item in case it exists or throw an error
  * otherwise.
  */
-export async function getAlbum(userId: string, albumId: string) {
-    const album = await albumAccess.getAlbum(userId, albumId);
+export async function queryAlbum(albumId: string) {
+    const album = await albumAccess.queryAlbum(albumId);
     // Check if the album has been found
     if (!album) throw new createHttpError.NotFound("This album item doesn't exists.");
     // Return the album in case it exists
@@ -68,13 +67,12 @@ export async function getAlbum(userId: string, albumId: string) {
 }
 
 /**
- * Check whether a user album item exists in Album database table.
- * @param userId The album owner user ID.
+ * Check whether an album item exists in Album database table.
  * @param albumId The album item ID.
  * @returns True if the album exists and false otherwise.
  */
-export async function albumExists(userId: string, albumId: string) {
-    const album = await albumAccess.getAlbum(userId, albumId);
+export async function albumExists(albumId: string) {
+    const album = await albumAccess.queryAlbum(albumId);
     // Return true if the album exists and false otherwise
     return !!album;
 }
@@ -112,11 +110,15 @@ export async function addAlbum(userId: string, albumParams: FromSchema<typeof ad
 export async function editAlbum(userId: string, albumParams: FromSchema<typeof editAlbumSchema>) {
     // Verify if the album exists before editing
     // This function will throw an error if the album doesn't exists
-    const album = await getAlbum(userId, albumParams.albumId);
+    const album = await queryAlbum(albumParams.albumId);
+    // Verify if the user calling this method is the album owner
+    if (userId !== album.userId) throw new createHttpError.Forbidden('Unauthorized.');
+
     // Edit the album properties
-    const editedAlbum = { ...album, ...albumParams };
+    const editedAlbum: Album = { ...album, ...albumParams };
     // Edit the album item in DB
     await albumAccess.editAlbum(editedAlbum);
+
     // Return the album item as confirmation of a success operation
     return editedAlbum;
 }
@@ -131,9 +133,12 @@ export async function deleteAlbum(
     userId: string,
     albumParams: FromSchema<typeof deleteAlbumSchema>
 ) {
-    // Verify if the album exists before trying to delete
+    // Verify if the album exists before deleting
     // This function will throw an error if the album doesn't exists
-    const album = await getAlbum(userId, albumParams.albumId);
+    const album = await queryAlbum(albumParams.albumId);
+    // Verify if the user calling this method is the album owner
+    if (userId !== album.userId) throw new createHttpError.Forbidden('Unauthorized.');
+
     // Delete the album item from DB
     await albumAccess.deleteAlbum(userId, albumParams.albumId);
     // Return the album item as confirmation of a success operation

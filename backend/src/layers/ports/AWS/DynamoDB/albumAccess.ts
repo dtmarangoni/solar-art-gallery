@@ -10,14 +10,18 @@ export class AlbumAccess {
      * Constructs a AlbumAccess instance.
      * @param dynamoDB AWS DynamoDB instance.
      * @param albumTable Album table name.
-     * @param albumGlobalIndex Album table global secondary index name.
-     * @param albumLocalIndex Album table local secondary index name.
+     * @param albumVisibilityGSI Album table visibility global
+     * secondary index.
+     * @param albumAlbumIdGSI Album table album ID global secondary
+     * index.
+     * @param albumUserIdLSI Album table user ID local secondary index.
      */
     constructor(
         private readonly dynamoDB = AlbumAccess.createDBClient(),
         private readonly albumTable = process.env.ALBUM_TABLE,
-        private readonly albumGlobalIndex = process.env.ALBUM_GLOBAL_INDEX,
-        private readonly albumLocalIndex = process.env.ALBUM_LOCAL_INDEX
+        private readonly albumVisibilityGSI = process.env.ALBUM_VISIBILITY_GSI,
+        private readonly albumAlbumIdGSI = process.env.ALBUM_ALBUM_ID_GSI,
+        private readonly albumUserIdLSI = process.env.ALBUM_USER_ID_LSI
     ) {}
 
     /**
@@ -58,7 +62,7 @@ export class AlbumAccess {
         const result = await this.dynamoDB
             .query({
                 TableName: this.albumTable,
-                IndexName: this.albumGlobalIndex,
+                IndexName: this.albumVisibilityGSI,
                 KeyConditionExpression: 'visibility = :visibility',
                 ExpressionAttributeValues: { ':visibility': AlbumVisibility.public },
                 Limit: limit,
@@ -86,7 +90,7 @@ export class AlbumAccess {
         const result = await this.dynamoDB
             .query({
                 TableName: this.albumTable,
-                IndexName: this.albumLocalIndex,
+                IndexName: this.albumUserIdLSI,
                 KeyConditionExpression: 'userId = :userId',
                 ExpressionAttributeValues: { ':userId': userId },
                 Limit: limit,
@@ -98,16 +102,20 @@ export class AlbumAccess {
     }
 
     /**
-     * Gets an user album item from Album DynamoDB table.
-     * @param userId The album item owner user ID.
-     * @param albumId The album ID
+     * Query for an album item in Album DynamoDB table.
+     * @param albumId The album ID.
      * @returns The album item.
      */
-    async getAlbum(userId: string, albumId: string) {
+    async queryAlbum(albumId: string) {
         const result = await this.dynamoDB
-            .get({ TableName: this.albumTable, Key: { userId, albumId } })
+            .query({
+                TableName: this.albumTable,
+                IndexName: this.albumAlbumIdGSI,
+                KeyConditionExpression: 'albumId = :albumId',
+                ExpressionAttributeValues: { ':albumId': albumId },
+            })
             .promise();
-        return result.Item as Album;
+        return result.Items[0] as Album;
     }
 
     /**

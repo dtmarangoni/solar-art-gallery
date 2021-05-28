@@ -10,7 +10,8 @@ export { default as deleteAlbum } from './album/deleteAlbum/index';
 /**
  * Art Lambda functions
  */
-export { default as getAlbumArts } from '@lambda/http/art/getPublicAlbumArts/index';
+export { default as getPublicAlbumArts } from '@lambda/http/art/getPublicAlbumArts/index';
+export { default as getUserAlbumArts } from '@lambda/http/art/getUserAlbumArts/index';
 
 /**
  * JSON schema Lambda functions validators

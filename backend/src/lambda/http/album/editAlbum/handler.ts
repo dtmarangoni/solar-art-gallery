@@ -23,7 +23,7 @@ const handler: ValidatedEventAPIGatewayProxyHandlerV2<typeof schema> = async (
         phase: MiddlewarePhases.during,
     });
 
-    // Edit the user album item in DB
+    // Edit an album item in DB
     const editedAlbum = await editAlbum(context.userId, event.body);
 
     logger.info(`${MiddlewarePhases.during} ${context.functionName}`, {

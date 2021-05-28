@@ -10,12 +10,12 @@ export class ArtAccess {
      * Constructs an ArtAccess instance.
      * @param dynamoDB AWS DynamoDB instance.
      * @param artTable Art table name.
-     * @param artLocalIndex Art table local secondary index name.
+     * @param artAlbumIdLSI Art table album ID local secondary index.
      */
     constructor(
         private readonly dynamoDB = ArtAccess.createDBClient(),
         private readonly artTable = process.env.ART_TABLE,
-        private readonly artLocalIndex = process.env.ART_LOCAL_INDEX
+        private readonly artAlbumIdLSI = process.env.ART_ALBUM_ID_LSI
     ) {}
 
     /**
@@ -42,13 +42,13 @@ export class ArtAccess {
     }
 
     /**
-     * Get all album arts items from Art DynamoDB table with optional
+     * Get all arts of an album from Art DynamoDB table with optional
      * pagination.
      * @param albumId The album id.
      * @param limit The maximum number of returned items per call.
      * @param exclusiveStartKey The DynamoDB item key to start the
      * query from.
-     * @returns The album arts items with optional pagination.
+     * @returns The arts of an album with optional pagination.
      */
     async getAlbumArts(
         albumId: string,
@@ -58,7 +58,7 @@ export class ArtAccess {
         const result = await this.dynamoDB
             .query({
                 TableName: this.artTable,
-                IndexName: this.artLocalIndex,
+                IndexName: this.artAlbumIdLSI,
                 KeyConditionExpression: 'albumId = :albumId',
                 ExpressionAttributeValues: { ':albumId': albumId },
                 Limit: limit,
