@@ -2,15 +2,7 @@ import { handlerPath } from '@utils/lambda';
 
 export default {
     handler: `${handlerPath(__dirname)}/handler.main`,
-    events: [
-        {
-            http: {
-                method: 'get',
-                path: '/album/public',
-                cors: true,
-            },
-        },
-    ],
+    events: [{ http: { method: 'get', path: '/album/public', cors: true } }],
     iamRoleStatements: [
         {
             Effect: 'Allow',

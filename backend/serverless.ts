@@ -1,6 +1,13 @@
 import type { AWS } from '@serverless/typescript';
 
-import { getPublicAlbums, getUserAlbums, addAlbum, editAlbum, deleteAlbum } from '@lambda/http';
+import {
+    getPublicAlbums,
+    getUserAlbums,
+    addAlbum,
+    editAlbum,
+    deleteAlbum,
+    getAlbumArts,
+} from '@lambda/http';
 import { authorizer } from '@lambda/auth';
 
 const serverlessConfiguration: AWS = {
@@ -11,6 +18,7 @@ const serverlessConfiguration: AWS = {
         'serverless-iam-roles-per-function',
         'serverless-pseudo-parameters',
         'serverless-s3-remover',
+        'serverless-dynamodb-seed',
         'serverless-offline',
         'serverless-dynamodb-local',
         'serverless-s3-local',
@@ -28,8 +36,10 @@ const serverlessConfiguration: AWS = {
         environment: {
             AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
             ALBUM_TABLE: 'Album-${self:provider.stage}',
-            ALBUM_LOCAL_INDEX: 'AlbumLocalIndex',
-            ALBUM_GLOBAL_INDEX: 'AlbumGlobalIndex',
+            ALBUM_LOCAL_INDEX: 'AlbumLocalIndex-${self:provider.stage}',
+            ALBUM_GLOBAL_INDEX: 'AlbumGlobalIndex-${self:provider.stage}',
+            ART_TABLE: 'Art-${self:provider.stage}',
+            ART_LOCAL_INDEX: 'ArtLocalIndex-${self:provider.stage}',
             IMAGES_S3_BUCKET: 'serverless-dtm-todo-images-${self:provider.stage}',
             S3_SIGNED_URL_EXP: '300',
         },
@@ -41,6 +51,16 @@ const serverlessConfiguration: AWS = {
         remover: { buckets: ['${self:provider.environment.IMAGES_S3_BUCKET}'] },
         'serverless-iam-roles-per-function': { defaultInherit: true },
         'serverless-offline': { httpPort: 4000 },
+        seed: {
+            awsAlbumSeed: {
+                table: '${self:provider.environment.ALBUM_TABLE}',
+                sources: ['./mock/database/albumSeed.json'],
+            },
+            awsArtSeed: {
+                table: '${self:provider.environment.ART_TABLE}',
+                sources: ['./mock/database/artSeed.json'],
+            },
+        },
         dynamodb: {
             stages: ['${self:provider.stage}'],
             start: { port: 5000, inMemory: true, migrate: true, seed: true },
@@ -53,11 +73,27 @@ const serverlessConfiguration: AWS = {
                         },
                     ],
                 },
+                art: {
+                    sources: [
+                        {
+                            table: '${self:provider.environment.ART_TABLE}',
+                            sources: ['./mock/database/artSeed.json'],
+                        },
+                    ],
+                },
             },
         },
         s3: { port: 6000 },
     },
-    functions: { authorizer, getPublicAlbums, getUserAlbums, addAlbum, editAlbum, deleteAlbum },
+    functions: {
+        authorizer,
+        getPublicAlbums,
+        getUserAlbums,
+        addAlbum,
+        editAlbum,
+        deleteAlbum,
+        getAlbumArts,
+    },
     resources: {
         Resources: {
             AlbumDynamoDBTable: {
@@ -89,7 +125,33 @@ const serverlessConfiguration: AWS = {
                             IndexName: '${self:provider.environment.ALBUM_GLOBAL_INDEX}',
                             KeySchema: [
                                 { AttributeName: 'visibility', KeyType: 'HASH' },
-                                { AttributeName: 'albumId', KeyType: 'RANGE' },
+                                { AttributeName: 'creationDate', KeyType: 'RANGE' },
+                            ],
+                            Projection: { ProjectionType: 'ALL' },
+                        },
+                    ],
+                    BillingMode: 'PAY_PER_REQUEST',
+                },
+            },
+            ArtDynamoDBTable: {
+                Type: 'AWS::DynamoDB::Table',
+                Properties: {
+                    TableName: '${self:provider.environment.ART_TABLE}',
+                    AttributeDefinitions: [
+                        { AttributeName: 'albumId', AttributeType: 'S' },
+                        { AttributeName: 'artId', AttributeType: 'S' },
+                        { AttributeName: 'sequenceNum', AttributeType: 'N' },
+                    ],
+                    KeySchema: [
+                        { AttributeName: 'albumId', KeyType: 'HASH' },
+                        { AttributeName: 'artId', KeyType: 'RANGE' },
+                    ],
+                    LocalSecondaryIndexes: [
+                        {
+                            IndexName: '${self:provider.environment.ART_LOCAL_INDEX}',
+                            KeySchema: [
+                                { AttributeName: 'albumId', KeyType: 'HASH' },
+                                { AttributeName: 'sequenceNum', KeyType: 'RANGE' },
                             ],
                             Projection: { ProjectionType: 'ALL' },
                         },

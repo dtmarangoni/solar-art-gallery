@@ -1,0 +1,370 @@
+[
+    {
+        "albumId": "d8610cdd-78f3-4862-ac3c-6faf284a6fa5",
+        "artId": "db5f3284-c9e2-4e19-829a-7bdecb700d87",
+        "sequenceNum": 1,
+        "creationDate": "2021-03-30T15:25:34Z",
+        "title": "Macaw, red and blue",
+        "description": "Ara chloroptera"
+    },
+    {
+        "albumId": "d8610cdd-78f3-4862-ac3c-6faf284a6fa5",
+        "artId": "fbd360c1-1eda-46ac-9a86-b956351c876d",
+        "sequenceNum": 2,
+        "creationDate": "2021-04-05T11:55:11Z",
+        "title": "Owl, snowy",
+        "description": "Nyctea scandiaca"
+    },
+    {
+        "albumId": "d8610cdd-78f3-4862-ac3c-6faf284a6fa5",
+        "artId": "d45cb910-34d4-4cde-a0ea-eead61f253e0",
+        "sequenceNum": 3,
+        "creationDate": "2020-07-14T08:43:55Z",
+        "title": "Osprey",
+        "description": "Pandon haliaetus"
+    },
+    {
+        "albumId": "d8610cdd-78f3-4862-ac3c-6faf284a6fa5",
+        "artId": "44088bce-98ca-40aa-ac19-80680916bb1c",
+        "sequenceNum": 4,
+        "creationDate": "2021-04-28T11:12:07Z",
+        "title": "Greylag goose",
+        "description": "Anser anser"
+    },
+    {
+        "albumId": "d8610cdd-78f3-4862-ac3c-6faf284a6fa5",
+        "artId": "c5fb687b-fcc1-4974-bfa8-2b9575d4d36e",
+        "sequenceNum": 5,
+        "creationDate": "2021-04-14T23:47:06Z",
+        "title": "Large-eared bushbaby",
+        "description": "Galago crassicaudataus"
+    },
+    {
+        "albumId": "7ba92892-6181-4f17-bb20-485a1e0e4fc9",
+        "artId": "d9b18c5c-9c01-40f6-8fbc-3c46d8d380f1",
+        "sequenceNum": 1,
+        "creationDate": "2020-11-23T14:54:25Z",
+        "title": "Nile crocodile",
+        "description": "Crocodylus niloticus"
+    },
+    {
+        "albumId": "7ba92892-6181-4f17-bb20-485a1e0e4fc9",
+        "artId": "43e695f1-29f6-4648-9982-7c9d5293de3e",
+        "sequenceNum": 2,
+        "creationDate": "2020-06-04T22:17:26Z",
+        "title": "Marine iguana",
+        "description": "Amblyrhynchus cristatus"
+    },
+    {
+        "albumId": "7ba92892-6181-4f17-bb20-485a1e0e4fc9",
+        "artId": "ded6038f-91fb-4fdf-aae2-f331827e87e3",
+        "sequenceNum": 3,
+        "creationDate": "2020-11-24T16:26:31Z",
+        "title": "Tailless tenrec",
+        "description": "Tenrec ecaudatus"
+    },
+    {
+        "albumId": "7ba92892-6181-4f17-bb20-485a1e0e4fc9",
+        "artId": "5cbc31d9-e537-4dc7-a3b8-da1ff5de6933",
+        "sequenceNum": 4,
+        "creationDate": "2020-11-27T18:21:23Z",
+        "title": "Knob-nosed goose",
+        "description": "Sarkidornis melanotos"
+    },
+    {
+        "albumId": "7ba92892-6181-4f17-bb20-485a1e0e4fc9",
+        "artId": "7cc88ecd-78b0-43b4-a55a-247fd11d28c1",
+        "sequenceNum": 5,
+        "creationDate": "2020-08-28T23:19:51Z",
+        "title": "Azara's zorro",
+        "description": "Pseudalopex gymnocercus"
+    },
+    {
+        "albumId": "7ba92892-6181-4f17-bb20-485a1e0e4fc9",
+        "artId": "58c70223-a7cb-4355-8da5-ee4ede07821c",
+        "sequenceNum": 6,
+        "creationDate": "2020-06-19T00:21:00Z",
+        "title": "Owl, great horned",
+        "description": "Bubo virginianus"
+    },
+    {
+        "albumId": "7ba92892-6181-4f17-bb20-485a1e0e4fc9",
+        "artId": "c64a9be7-e152-4b6e-9f32-d1283db8655e",
+        "sequenceNum": 7,
+        "creationDate": "2021-03-13T22:44:59Z",
+        "title": "Brown lemur",
+        "description": "Lemur fulvus"
+    },
+    {
+        "albumId": "7ba92892-6181-4f17-bb20-485a1e0e4fc9",
+        "artId": "97cd5084-bbd0-40f2-ae94-ccdef19f5e6b",
+        "sequenceNum": 8,
+        "creationDate": "2020-07-28T06:43:41Z",
+        "title": "Crane, stanley",
+        "description": "Anthropoides paradisea"
+    },
+    {
+        "albumId": "7ba92892-6181-4f17-bb20-485a1e0e4fc9",
+        "artId": "9f80a3f0-7302-47f1-952f-009e60d86c12",
+        "sequenceNum": 9,
+        "creationDate": "2020-10-12T13:49:10Z",
+        "title": "Asian red fox",
+        "description": "Vulpes vulpes"
+    },
+    {
+        "albumId": "66ecec1d-6c54-4412-a470-62631e17a69b",
+        "artId": "3fba1b3d-fcd9-47d1-89fc-d80742e5c0af",
+        "sequenceNum": 1,
+        "creationDate": "2020-10-25T03:04:22Z",
+        "title": "Raccoon dog",
+        "description": "Nyctereutes procyonoides"
+    },
+    {
+        "albumId": "66ecec1d-6c54-4412-a470-62631e17a69b",
+        "artId": "dbf58912-8823-451c-917e-839b7052014d",
+        "sequenceNum": 2,
+        "creationDate": "2020-05-30T02:47:59Z",
+        "title": "Snake, eastern indigo",
+        "description": "Drymarchon corias couperi"
+    },
+    {
+        "albumId": "66ecec1d-6c54-4412-a470-62631e17a69b",
+        "artId": "6c801b06-efad-4a6e-9ce7-69af023c5460",
+        "sequenceNum": 3,
+        "creationDate": "2020-11-21T21:24:28Z",
+        "title": "Square-lipped rhinoceros",
+        "description": "Ceratotherium simum"
+    },
+    {
+        "albumId": "02bffe98-8aac-4ade-99a0-d64e1d4c5809",
+        "artId": "b49e48ca-42e2-4c16-8309-43cb9eaedfe8",
+        "sequenceNum": 1,
+        "creationDate": "2021-05-01T02:50:46Z",
+        "title": "Black-collared barbet",
+        "description": "Lybius torquatus"
+    },
+    {
+        "albumId": "02bffe98-8aac-4ade-99a0-d64e1d4c5809",
+        "artId": "6234fa65-5373-4f03-90db-57752abccbd7",
+        "sequenceNum": 2,
+        "creationDate": "2021-02-02T21:03:16Z",
+        "title": "Brush-tailed bettong",
+        "description": "Bettongia penicillata"
+    },
+    {
+        "albumId": "02bffe98-8aac-4ade-99a0-d64e1d4c5809",
+        "artId": "fa31d23c-2f86-454d-8582-dbc6dcd8cf99",
+        "sequenceNum": 3,
+        "creationDate": "2021-01-13T00:49:10Z",
+        "title": "Genoveva",
+        "description": "Junonia genoveua"
+    },
+    {
+        "albumId": "02bffe98-8aac-4ade-99a0-d64e1d4c5809",
+        "artId": "ac96b4e4-3d4a-4128-988d-89adf99293fb",
+        "sequenceNum": 4,
+        "creationDate": "2020-06-10T11:46:53Z",
+        "title": "Anteater, australian spiny",
+        "description": "Tachyglossus aculeatus"
+    },
+    {
+        "albumId": "02bffe98-8aac-4ade-99a0-d64e1d4c5809",
+        "artId": "cff774c8-b895-4e75-931c-76c63c88fa49",
+        "sequenceNum": 5,
+        "creationDate": "2020-09-24T09:50:49Z",
+        "title": "Ring-tailed lemur",
+        "description": "Lemur catta"
+    },
+    {
+        "albumId": "02bffe98-8aac-4ade-99a0-d64e1d4c5809",
+        "artId": "7f3b3170-0abc-406f-ba47-d262921a80c0",
+        "sequenceNum": 6,
+        "creationDate": "2020-12-08T20:05:19Z",
+        "title": "Phalarope, northern",
+        "description": "Phalaropus lobatus"
+    },
+    {
+        "albumId": "02bffe98-8aac-4ade-99a0-d64e1d4c5809",
+        "artId": "9cc92362-6f2b-47ee-be9d-8ea0a59a72a2",
+        "sequenceNum": 7,
+        "creationDate": "2020-09-20T11:15:27Z",
+        "title": "Bird, pied butcher",
+        "description": "Cracticus nigroagularis"
+    },
+    {
+        "albumId": "02bffe98-8aac-4ade-99a0-d64e1d4c5809",
+        "artId": "4246097d-3939-44e4-a165-1d5cab18b502",
+        "sequenceNum": 8,
+        "creationDate": "2020-10-23T09:27:34Z",
+        "title": "Porcupine, prehensile-tailed",
+        "description": "Coendou prehensilis"
+    },
+    {
+        "albumId": "02bffe98-8aac-4ade-99a0-d64e1d4c5809",
+        "artId": "65d2ba10-4c26-4df8-baa4-27be7d565426",
+        "sequenceNum": 9,
+        "creationDate": "2021-04-17T06:57:00Z",
+        "title": "Goose, cereopsis",
+        "description": "Cereopsis novaehollandiae"
+    },
+    {
+        "albumId": "94f0514a-9091-4d64-ac8d-e90b1796890a",
+        "artId": "f527e5b5-b959-4613-bb81-79c49c6abd54",
+        "sequenceNum": 1,
+        "creationDate": "2021-05-19T14:48:30Z",
+        "title": "Great skua",
+        "description": "Catharacta skua"
+    },
+    {
+        "albumId": "94f0514a-9091-4d64-ac8d-e90b1796890a",
+        "artId": "b086aecc-4e00-4c14-9e40-a3c906f66c5f",
+        "sequenceNum": 2,
+        "creationDate": "2021-02-14T15:12:51Z",
+        "title": "Chameleon (unidentified)",
+        "description": "Chamaelo sp."
+    },
+    {
+        "albumId": "94f0514a-9091-4d64-ac8d-e90b1796890a",
+        "artId": "19bd0981-08a1-4639-8c76-c628e0475917",
+        "sequenceNum": 3,
+        "creationDate": "2020-12-27T00:21:38Z",
+        "title": "Barbet, crested",
+        "description": "Trachyphonus vaillantii"
+    },
+    {
+        "albumId": "94f0514a-9091-4d64-ac8d-e90b1796890a",
+        "artId": "a09535ee-51c1-4344-9ec8-b7184b94549f",
+        "sequenceNum": 4,
+        "creationDate": "2020-08-10T10:13:13Z",
+        "title": "Red meerkat",
+        "description": "Cynictis penicillata"
+    },
+    {
+        "albumId": "94f0514a-9091-4d64-ac8d-e90b1796890a",
+        "artId": "2b7bd028-af54-496a-b9b7-60864afd63f8",
+        "sequenceNum": 5,
+        "creationDate": "2020-06-27T08:17:14Z",
+        "title": "Crane, sandhill",
+        "description": "Grus canadensis"
+    },
+    {
+        "albumId": "94f0514a-9091-4d64-ac8d-e90b1796890a",
+        "artId": "8d9d8e88-969e-49e6-ab21-3061c8dcafb6",
+        "sequenceNum": 6,
+        "creationDate": "2021-01-22T11:12:48Z",
+        "title": "Sage hen",
+        "description": "Centrocercus urophasianus"
+    },
+    {
+        "albumId": "94f0514a-9091-4d64-ac8d-e90b1796890a",
+        "artId": "5f9188df-5196-4361-b666-df9e23632ff7",
+        "sequenceNum": 7,
+        "creationDate": "2021-02-06T18:32:56Z",
+        "title": "Oriental short-clawed otter",
+        "description": "Aonyx cinerea"
+    },
+    {
+        "albumId": "94f0514a-9091-4d64-ac8d-e90b1796890a",
+        "artId": "1409b22a-a4d9-4c79-836b-d0cd1c5b1b60",
+        "sequenceNum": 8,
+        "creationDate": "2020-10-23T14:46:30Z",
+        "title": "Gull, kelp",
+        "description": "Larus dominicanus"
+    },
+    {
+        "albumId": "94f0514a-9091-4d64-ac8d-e90b1796890a",
+        "artId": "ee6dfbec-9b79-451b-b67e-43c856304f9b",
+        "sequenceNum": 9,
+        "creationDate": "2021-02-27T13:14:51Z",
+        "title": "Common nighthawk",
+        "description": "Chordeiles minor"
+    },
+    {
+        "albumId": "6b585b86-1469-462a-a194-d4d90a33fd6a",
+        "artId": "f06a179f-a2de-41f3-933a-d13a54b776b9",
+        "sequenceNum": 1,
+        "creationDate": "2021-04-11T03:59:35Z",
+        "title": "Serval",
+        "description": "Felis serval"
+    },
+    {
+        "albumId": "6b585b86-1469-462a-a194-d4d90a33fd6a",
+        "artId": "b499cf1d-63bf-420e-91f0-740dd837ced5",
+        "sequenceNum": 2,
+        "creationDate": "2020-08-10T06:49:04Z",
+        "title": "Black kite",
+        "description": "Milvus migrans"
+    },
+    {
+        "albumId": "6b585b86-1469-462a-a194-d4d90a33fd6a",
+        "artId": "1a52657c-bab6-4e02-9716-39859c0fb663",
+        "sequenceNum": 3,
+        "creationDate": "2020-08-16T15:13:48Z",
+        "title": "Crane, sandhill",
+        "description": "Grus canadensis"
+    },
+    {
+        "albumId": "6b585b86-1469-462a-a194-d4d90a33fd6a",
+        "artId": "9b7c6331-5457-4bfb-8adc-2d433a75baeb",
+        "sequenceNum": 4,
+        "creationDate": "2020-11-02T10:50:15Z",
+        "title": "Trumpeter swan",
+        "description": "Cygnus buccinator"
+    },
+    {
+        "albumId": "35ca103c-5dc4-4ee1-af9a-287e1141d1e1",
+        "artId": "a055f936-66b8-43d0-a3e3-3b06c04bd2e0",
+        "sequenceNum": 1,
+        "creationDate": "2020-06-10T16:37:52Z",
+        "title": "Whale, baleen",
+        "description": "Eubalaena australis"
+    },
+    {
+        "albumId": "35ca103c-5dc4-4ee1-af9a-287e1141d1e1",
+        "artId": "7a5e9c69-8edf-4660-a519-49bc0ea28770",
+        "sequenceNum": 2,
+        "creationDate": "2020-07-22T17:48:34Z",
+        "title": "Vulture, white-headed",
+        "description": "Aegypius occipitalis"
+    },
+    {
+        "albumId": "35ca103c-5dc4-4ee1-af9a-287e1141d1e1",
+        "artId": "2cada035-074c-4296-a4a6-6bf1564fe0a7",
+        "sequenceNum": 3,
+        "creationDate": "2021-05-21T22:30:30Z",
+        "title": "Lava gull",
+        "description": "Larus fuliginosus"
+    },
+    {
+        "albumId": "35ca103c-5dc4-4ee1-af9a-287e1141d1e1",
+        "artId": "2c19f970-9467-42ef-9685-04df58c7b6d2",
+        "sequenceNum": 4,
+        "creationDate": "2021-05-25T19:09:56Z",
+        "title": "Prairie falcon",
+        "description": "Falco mexicanus"
+    },
+    {
+        "albumId": "35ca103c-5dc4-4ee1-af9a-287e1141d1e1",
+        "artId": "47d7c0ee-d550-43dc-b4d5-b321ee771063",
+        "sequenceNum": 5,
+        "creationDate": "2020-10-10T09:45:39Z",
+        "title": "Macaw, blue and yellow",
+        "description": "Ara ararauna"
+    },
+    {
+        "albumId": "35ca103c-5dc4-4ee1-af9a-287e1141d1e1",
+        "artId": "2426eb85-7475-40ed-b57d-3b14ac8c22e1",
+        "sequenceNum": 6,
+        "creationDate": "2020-06-16T08:44:18Z",
+        "title": "Common duiker",
+        "description": "Sylvicapra grimma"
+    },
+    {
+        "albumId": "35ca103c-5dc4-4ee1-af9a-287e1141d1e1",
+        "artId": "a8c1e68c-5f06-4868-a926-1037f751dcd5",
+        "sequenceNum": 7,
+        "creationDate": "2020-09-23T03:13:30Z",
+        "title": "Javan gold-spotted mongoose",
+        "description": "Herpestes javanicus"
+    }
+]

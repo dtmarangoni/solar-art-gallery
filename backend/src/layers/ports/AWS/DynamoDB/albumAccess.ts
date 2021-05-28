@@ -63,7 +63,7 @@ export class AlbumAccess {
                 ExpressionAttributeValues: { ':visibility': AlbumVisibility.public },
                 Limit: limit,
                 ExclusiveStartKey: exclusiveStartKey,
-                ScanIndexForward: true,
+                ScanIndexForward: false,
             })
             .promise();
         return { items: result.Items as Album[], lastEvaluatedKey: result.LastEvaluatedKey };
@@ -91,7 +91,7 @@ export class AlbumAccess {
                 ExpressionAttributeValues: { ':userId': userId },
                 Limit: limit,
                 ExclusiveStartKey: exclusiveStartKey,
-                ScanIndexForward: true,
+                ScanIndexForward: false,
             })
             .promise();
         return { items: result.Items as Album[], lastEvaluatedKey: result.LastEvaluatedKey };

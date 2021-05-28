@@ -13,11 +13,7 @@ export default {
                     name: 'Authorizer',
                     arn: { 'Fn::GetAtt': ['AuthorizerLambdaFunction', 'Arn'] },
                 },
-                request: {
-                    schemas: {
-                        'application/json': schema,
-                    },
-                },
+                request: { schemas: { 'application/json': schema } },
             },
         },
     ],

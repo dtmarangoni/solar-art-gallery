@@ -25,10 +25,10 @@ export async function getPublicAlbums(limit?: string, exclusiveStartKey?: string
     let queryExclusiveStartKey = decodeNextKey(exclusiveStartKey);
 
     // Get all public albums items from DB
-    const albums = await albumAccess.getPublicAlbums(queryLimit, queryExclusiveStartKey);
+    const result = await albumAccess.getPublicAlbums(queryLimit, queryExclusiveStartKey);
     // Remove the user ID before sending the album items
-    // return { items: rmUserIdFromArr(albums.items), lastEvaluatedKey: albums.lastEvaluatedKey };
-    return { items: albums.items, lastEvaluatedKey: albums.lastEvaluatedKey };
+    // return { items: rmUserIdFromArr(result.items), lastEvaluatedKey: result.lastEvaluatedKey };
+    return { items: result.items, lastEvaluatedKey: result.lastEvaluatedKey };
 }
 
 /**
@@ -46,10 +46,10 @@ export async function getUserAlbums(userId: string, limit?: string, exclusiveSta
     let queryExclusiveStartKey = decodeNextKey(exclusiveStartKey);
 
     // Get all user albums items from DB
-    const albums = await albumAccess.getUserAlbums(userId, queryLimit, queryExclusiveStartKey);
+    const result = await albumAccess.getUserAlbums(userId, queryLimit, queryExclusiveStartKey);
     // Remove the user ID before sending the album items
-    // return { items: rmUserIdFromArr(albums.items), lastEvaluatedKey: albums.lastEvaluatedKey };
-    return { items: albums.items, lastEvaluatedKey: albums.lastEvaluatedKey };
+    // return { items: rmUserIdFromArr(result.items), lastEvaluatedKey: result.lastEvaluatedKey };
+    return { items: result.items, lastEvaluatedKey: result.lastEvaluatedKey };
 }
 
 /**
@@ -61,11 +61,9 @@ export async function getUserAlbums(userId: string, limit?: string, exclusiveSta
  */
 export async function getAlbum(userId: string, albumId: string) {
     const album = await albumAccess.getAlbum(userId, albumId);
-
-    if (!album) {
-        throw new createHttpError.NotFound("This album item doesn't exists.");
-    }
-
+    // Check if the album has been found
+    if (!album) throw new createHttpError.NotFound("This album item doesn't exists.");
+    // Return the album in case it exists
     return album;
 }
 
@@ -77,6 +75,7 @@ export async function getAlbum(userId: string, albumId: string) {
  */
 export async function albumExists(userId: string, albumId: string) {
     const album = await albumAccess.getAlbum(userId, albumId);
+    // Return true if the album exists and false otherwise
     return !!album;
 }
 
