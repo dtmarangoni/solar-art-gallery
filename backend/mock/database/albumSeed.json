@@ -1,48 +1,48 @@
 [
     {
-        "userId": "01d9b744-64e1-481d-a947-8d8f99fd2e81",
+        "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
         "albumId": "d8610cdd-78f3-4862-ac3c-6faf284a6fa5",
-        "creationDate": "2021-02-07T04:35:54Z",
+        "creationDate": "2021-05-18T17:02:20Z",
         "visibility": "public",
         "title": "Crime and Punishment",
         "description": "Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.",
-        "coverId": "1bbf1252-53bf-4a29-87ed-d67f10802698"
+        "coverUrl": "file store cover img url"
     },
     {
-        "userId": "01d9b744-64e1-481d-a947-8d8f99fd2e81",
+        "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
         "albumId": "7ba92892-6181-4f17-bb20-485a1e0e4fc9",
         "creationDate": "2020-09-29T20:18:55Z",
         "visibility": "private",
         "title": "Legend of Bagger Vance, The",
         "description": "Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.",
-        "coverId": "ec6ec14c-e2c6-48ae-99f2-2d91dd84d32e"
+        "coverUrl": "file store cover img url"
     },
     {
-        "userId": "01d9b744-64e1-481d-a947-8d8f99fd2e81",
+        "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
         "albumId": "66ecec1d-6c54-4412-a470-62631e17a69b",
-        "creationDate": "2020-12-22T08:52:24Z",
+        "creationDate": "2021-05-18T17:02:20Z",
         "visibility": "public",
         "title": "Lifeforce",
         "description": "Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.",
-        "coverId": "4636ba6e-2210-4581-b017-bd811bed5650"
+        "coverUrl": "file store cover img url"
     },
     {
-        "userId": "01d9b744-64e1-481d-a947-8d8f99fd2e81",
+        "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
         "albumId": "02bffe98-8aac-4ade-99a0-d64e1d4c5809",
         "creationDate": "2021-03-01T20:51:43Z",
         "visibility": "public",
         "title": "This Is Spinal Tap",
         "description": "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
-        "coverId": "3d490285-1d84-4670-a4f9-19fba8c61fa6"
+        "coverUrl": "file store cover img url"
     },
     {
-        "userId": "01d9b744-64e1-481d-a947-8d8f99fd2e81",
+        "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
         "albumId": "94f0514a-9091-4d64-ac8d-e90b1796890a",
         "creationDate": "2021-04-20T07:12:35Z",
         "visibility": "private",
         "title": "Fermat's Room (La habitación de Fermat)",
         "description": "Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.",
-        "coverId": "a023bcf5-f3fb-4c2f-b2cf-0b2a72432c52"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "74ae3cec-7b99-41d9-bbcc-ef73bcedfc09",
@@ -51,7 +51,7 @@
         "visibility": "private",
         "title": "Lovers and Other Strangers",
         "description": "In congue. Etiam justo. Etiam pretium iaculis justo.",
-        "coverId": "1763adb9-7317-4b27-9594-fd13f97bdd85"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "74ae3cec-7b99-41d9-bbcc-ef73bcedfc09",
@@ -60,7 +60,7 @@
         "visibility": "public",
         "title": "Moscow Does Not Believe in Tears (Moskva slezam ne verit)",
         "description": "Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.",
-        "coverId": "3ac22b29-0d18-4a57-9aa3-76800fd8a242"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "74ae3cec-7b99-41d9-bbcc-ef73bcedfc09",
@@ -69,7 +69,7 @@
         "visibility": "private",
         "title": "Trekkies 2",
         "description": "Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.",
-        "coverId": "8537e166-e40f-46cb-8c24-dc9255079531"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "74ae3cec-7b99-41d9-bbcc-ef73bcedfc09",
@@ -78,7 +78,7 @@
         "visibility": "private",
         "title": "Company, The",
         "description": "Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.",
-        "coverId": "860a7498-82b6-4cba-adaf-df8588168e64"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "74ae3cec-7b99-41d9-bbcc-ef73bcedfc09",
@@ -87,7 +87,7 @@
         "visibility": "public",
         "title": "It's All About Love",
         "description": "Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.",
-        "coverId": "3ff2c299-6548-4390-b38b-e122fbbf8236"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "74ae3cec-7b99-41d9-bbcc-ef73bcedfc09",
@@ -96,7 +96,7 @@
         "visibility": "private",
         "title": "De nieuwe Wildernis",
         "description": "Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.",
-        "coverId": "ff37c5ae-f7b5-44ff-87c8-a8d7cf33a3c1"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "74ae3cec-7b99-41d9-bbcc-ef73bcedfc09",
@@ -105,7 +105,7 @@
         "visibility": "public",
         "title": "Crimson Tide",
         "description": "Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est.",
-        "coverId": "bbde11c6-6be1-464d-8158-2e5b18e4880f"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "74ae3cec-7b99-41d9-bbcc-ef73bcedfc09",
@@ -114,7 +114,7 @@
         "visibility": "public",
         "title": "Alligator",
         "description": "Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.",
-        "coverId": "2b9870c2-c3e5-4245-8de0-eb9a61ce0563"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "74ae3cec-7b99-41d9-bbcc-ef73bcedfc09",
@@ -123,7 +123,7 @@
         "visibility": "private",
         "title": "Boats",
         "description": "Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.",
-        "coverId": "cfee8fa5-93df-464f-adf2-bdc36c2f126a"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "74ae3cec-7b99-41d9-bbcc-ef73bcedfc09",
@@ -132,7 +132,7 @@
         "visibility": "private",
         "title": "John Dies at the End",
         "description": "In congue. Etiam justo. Etiam pretium iaculis justo.",
-        "coverId": "13bc0e28-4d92-4719-80c7-c12d9bf301fd"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "74ae3cec-7b99-41d9-bbcc-ef73bcedfc09",
@@ -141,7 +141,7 @@
         "visibility": "public",
         "title": "Saltmen of Tibet, The (Salzmänner von Tibet, Die)",
         "description": "Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.",
-        "coverId": "046e2116-d7a7-4e4e-ab29-7c7a0eff21c8"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "74ae3cec-7b99-41d9-bbcc-ef73bcedfc09",
@@ -150,7 +150,7 @@
         "visibility": "private",
         "title": "Live Free or Die",
         "description": "Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.",
-        "coverId": "0903aadf-93b8-4b80-95d2-fe741ed7675a"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "74ae3cec-7b99-41d9-bbcc-ef73bcedfc09",
@@ -159,7 +159,7 @@
         "visibility": "public",
         "title": "Reprise",
         "description": "Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.",
-        "coverId": "d1ee0d8d-3144-45b3-9293-5fa87215c579"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "74ae3cec-7b99-41d9-bbcc-ef73bcedfc09",
@@ -168,7 +168,7 @@
         "visibility": "public",
         "title": "Chizuko's Younger Sister (Futari)",
         "description": "Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.",
-        "coverId": "cc498a2b-e2b1-40d8-a4df-7660006ae943"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "74ae3cec-7b99-41d9-bbcc-ef73bcedfc09",
@@ -177,7 +177,7 @@
         "visibility": "public",
         "title": "Planet Hulk",
         "description": "Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.",
-        "coverId": "7d7acbd3-7ebc-4778-81dc-9bebcd5f8343"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "74ae3cec-7b99-41d9-bbcc-ef73bcedfc09",
@@ -186,7 +186,7 @@
         "visibility": "public",
         "title": "Habana Blues",
         "description": "In congue. Etiam justo. Etiam pretium iaculis justo.",
-        "coverId": "073bbccb-f55e-4cb2-a864-cda420914323"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "74ae3cec-7b99-41d9-bbcc-ef73bcedfc09",
@@ -195,7 +195,7 @@
         "visibility": "public",
         "title": "One Man Band",
         "description": "Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.",
-        "coverId": "7ce5ce80-78fa-4acf-af8a-0ac94995d95d"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "74ae3cec-7b99-41d9-bbcc-ef73bcedfc09",
@@ -204,7 +204,7 @@
         "visibility": "public",
         "title": "Babbitt",
         "description": "Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.",
-        "coverId": "1f9d1659-17ee-406e-a6dc-3a96e6bb5053"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "74ae3cec-7b99-41d9-bbcc-ef73bcedfc09",
@@ -213,7 +213,7 @@
         "visibility": "private",
         "title": "American Zombie",
         "description": "Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.",
-        "coverId": "f0f952dd-15f1-4800-8388-be934ab99ec6"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "74ae3cec-7b99-41d9-bbcc-ef73bcedfc09",
@@ -222,7 +222,7 @@
         "visibility": "private",
         "title": "Esther Kahn",
         "description": "Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.",
-        "coverId": "b1e7cc29-569c-4449-821a-7f561826ed83"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "a5270eed-047b-43f1-8549-5a7ef19c4dd3",
@@ -231,7 +231,7 @@
         "visibility": "public",
         "title": "Space Pirate Captain Harlock: Arcadia of My Youth (Waga seishun no Arcadia)",
         "description": "Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.",
-        "coverId": "6fd1596c-a1ed-4235-82dc-688980998b54"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "6677d04e-bc51-4209-bf20-205f56de24ad",
@@ -240,7 +240,7 @@
         "visibility": "public",
         "title": "Boys Don't Cry (Chlopaki nie placza)",
         "description": "Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.",
-        "coverId": "fdccc5e8-4b44-4584-aad2-74e12a2048fd"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "a5270eed-047b-43f1-8549-5a7ef19c4dd3",
@@ -249,7 +249,7 @@
         "visibility": "private",
         "title": "On Top of the Whale (Het dak van de Walvis)",
         "description": "Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.",
-        "coverId": "4b212b7e-2aeb-4c23-8e64-14cd7fd3681d"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "a5270eed-047b-43f1-8549-5a7ef19c4dd3",
@@ -258,7 +258,7 @@
         "visibility": "private",
         "title": "Cheetah",
         "description": "In congue. Etiam justo. Etiam pretium iaculis justo.",
-        "coverId": "c642adef-a3e2-4686-9a1f-59919d24634a"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "a5270eed-047b-43f1-8549-5a7ef19c4dd3",
@@ -267,7 +267,7 @@
         "visibility": "public",
         "title": "My Little Chickadee",
         "description": "Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.",
-        "coverId": "2b319694-8f82-49f6-a9c1-7e65dad057e7"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "a5270eed-047b-43f1-8549-5a7ef19c4dd3",
@@ -276,7 +276,7 @@
         "visibility": "public",
         "title": "Mister Roberts",
         "description": "Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.",
-        "coverId": "994576d9-2cd0-4dc1-b33b-7db24559037e"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "6677d04e-bc51-4209-bf20-205f56de24ad",
@@ -285,7 +285,7 @@
         "visibility": "private",
         "title": "The 11 Commandments",
         "description": "Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.",
-        "coverId": "008ba64e-77ee-406d-a550-4afd306f0b66"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "6677d04e-bc51-4209-bf20-205f56de24ad",
@@ -294,7 +294,7 @@
         "visibility": "public",
         "title": "Driver, The",
         "description": "Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.",
-        "coverId": "71a5ac78-80d8-45be-9d2d-224c15e5b005"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "6677d04e-bc51-4209-bf20-205f56de24ad",
@@ -303,7 +303,7 @@
         "visibility": "private",
         "title": "Virginia's Run",
         "description": "Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.",
-        "coverId": "37076107-368d-483c-9601-b766facae0fa"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "6677d04e-bc51-4209-bf20-205f56de24ad",
@@ -312,7 +312,7 @@
         "visibility": "private",
         "title": "Maltese Falcon, The",
         "description": "Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.",
-        "coverId": "39a3437f-371e-44f8-a07b-b63b51276d2a"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "6677d04e-bc51-4209-bf20-205f56de24ad",
@@ -321,7 +321,7 @@
         "visibility": "public",
         "title": "Kill the Irishman",
         "description": "Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.",
-        "coverId": "7bd33273-aea2-4b4b-a806-d2ff1d0783bc"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "6677d04e-bc51-4209-bf20-205f56de24ad",
@@ -330,7 +330,7 @@
         "visibility": "public",
         "title": "Secret Glory, The",
         "description": "Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.",
-        "coverId": "2c58a360-4366-4f17-9f9b-c0f165eef120"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "6677d04e-bc51-4209-bf20-205f56de24ad",
@@ -339,7 +339,7 @@
         "visibility": "public",
         "title": "Beautiful Joe",
         "description": "Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus.",
-        "coverId": "ab83bca7-5e75-494e-95fd-1f37063a7d02"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "6677d04e-bc51-4209-bf20-205f56de24ad",
@@ -348,7 +348,7 @@
         "visibility": "private",
         "title": "To the Left of the Father (Lavoura Arcaica)",
         "description": "Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.",
-        "coverId": "3ddfb2a3-9c65-4a1d-8fcd-2a0dd8667b6a"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "6677d04e-bc51-4209-bf20-205f56de24ad",
@@ -357,7 +357,7 @@
         "visibility": "private",
         "title": "Savage Messiah",
         "description": "Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.",
-        "coverId": "e9afdd79-66bb-4c84-ba6c-09861ad771f6"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "6677d04e-bc51-4209-bf20-205f56de24ad",
@@ -366,7 +366,7 @@
         "visibility": "private",
         "title": "Diary for Timothy, A",
         "description": "Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.",
-        "coverId": "196a8b64-9f0e-4fe2-977f-d9b0719d76d0"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "6677d04e-bc51-4209-bf20-205f56de24ad",
@@ -375,7 +375,7 @@
         "visibility": "private",
         "title": "Dr. Jekyll and Mr. Hyde",
         "description": "Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.",
-        "coverId": "aad948f2-684d-4c9c-9142-f14dd70422e9"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "6677d04e-bc51-4209-bf20-205f56de24ad",
@@ -384,7 +384,7 @@
         "visibility": "public",
         "title": "Dragon Crusaders",
         "description": "Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.",
-        "coverId": "063b04a8-36e0-4976-82ba-9304be9aaed2"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "6677d04e-bc51-4209-bf20-205f56de24ad",
@@ -393,7 +393,7 @@
         "visibility": "public",
         "title": "Baby Face",
         "description": "Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus.",
-        "coverId": "01edb839-656e-497d-9241-06f6cae35f5a"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "6677d04e-bc51-4209-bf20-205f56de24ad",
@@ -402,7 +402,7 @@
         "visibility": "private",
         "title": "Down to the Sea in Ships",
         "description": "Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.",
-        "coverId": "b50b5c57-3fc0-4159-a1ac-3eca0c6cc387"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "6677d04e-bc51-4209-bf20-205f56de24ad",
@@ -411,7 +411,7 @@
         "visibility": "public",
         "title": "Dirty Dancing: Havana Nights",
         "description": "Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.",
-        "coverId": "914648c7-31a2-49c1-92f0-2be2a224462c"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "6677d04e-bc51-4209-bf20-205f56de24ad",
@@ -420,7 +420,7 @@
         "visibility": "private",
         "title": "Without Love",
         "description": "Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.",
-        "coverId": "ac7b28ec-c663-432e-a56f-72b2542cc9dd"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "6677d04e-bc51-4209-bf20-205f56de24ad",
@@ -429,7 +429,7 @@
         "visibility": "public",
         "title": "Beyond Hypothermia (Sip si 32 doe)",
         "description": "Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.",
-        "coverId": "727b027a-6d8f-4ecc-abe4-008c609aba38"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "6677d04e-bc51-4209-bf20-205f56de24ad",
@@ -438,7 +438,7 @@
         "visibility": "public",
         "title": "We Always Lie to Strangers",
         "description": "Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.",
-        "coverId": "271a2422-981e-4f64-b215-8b661b77f29a"
+        "coverUrl": "file store cover img url"
     },
     {
         "userId": "6677d04e-bc51-4209-bf20-205f56de24ad",
@@ -447,6 +447,6 @@
         "visibility": "public",
         "title": "Simple Life, A (Tao jie)",
         "description": "Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.",
-        "coverId": "8baf5520-a5d4-4bd7-a01a-f1605392e462"
+        "coverUrl": "file store cover img url"
     }
 ]

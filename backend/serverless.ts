@@ -8,6 +8,7 @@ import {
     deleteAlbum,
     getPublicAlbumArts,
     getUserAlbumArts,
+    putArts,
 } from '@lambda/http';
 import { authorizer } from '@lambda/auth';
 
@@ -96,6 +97,7 @@ const serverlessConfiguration: AWS = {
         deleteAlbum,
         getPublicAlbumArts,
         getUserAlbumArts,
+        putArts,
     },
     resources: {
         Resources: {

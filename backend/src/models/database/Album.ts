@@ -8,7 +8,7 @@ export interface Album {
     visibility: AlbumVisibility;
     title: string;
     description: string;
-    coverId: string;
+    coverUrl: string;
 }
 
 /**

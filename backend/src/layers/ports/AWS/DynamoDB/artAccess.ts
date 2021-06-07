@@ -68,4 +68,22 @@ export class ArtAccess {
             .promise();
         return { items: result.Items as Art[], lastEvaluatedKey: result.LastEvaluatedKey };
     }
+
+    /**
+     * Add and/or update multiple arts to an album in Art DynamoDB
+     * table.
+     * @param items The arts items.
+     * @returns The added and/or updated arts items.
+     */
+    async putArts(items: Art[]) {
+        await this.dynamoDB
+            .batchWrite({
+                RequestItems: {
+                    [this.artTable]: items.map((item) => ({ PutRequest: { Item: item } })),
+                },
+            })
+            .promise();
+        // Return the arts items as confirmation of a success operation
+        return items;
+    }
 }

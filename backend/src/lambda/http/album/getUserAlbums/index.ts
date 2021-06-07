@@ -20,7 +20,7 @@ export default {
             Effect: 'Allow',
             Action: ['dynamoDB:Query'],
             Resource: [
-                'arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.ALBUM_TABLE}',
+                'arn:aws:dynamodb:${self:provider.region}:#{AWS::AccountId}:table/${self:provider.environment.ALBUM_TABLE}',
                 'arn:aws:dynamodb:${self:provider.region}:#{AWS::AccountId}:table/${self:provider.environment.ALBUM_TABLE}/index/${self:provider.environment.ALBUM_USER_ID_LSI}',
             ],
         },

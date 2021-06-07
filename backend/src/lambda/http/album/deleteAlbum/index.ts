@@ -22,7 +22,7 @@ export default {
             Effect: 'Allow',
             Action: ['dynamoDB:Query', 'dynamoDB:DeleteItem'],
             Resource: [
-                'arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.ALBUM_TABLE}',
+                'arn:aws:dynamodb:${self:provider.region}:#{AWS::AccountId}:table/${self:provider.environment.ALBUM_TABLE}',
                 'arn:aws:dynamodb:${self:provider.region}:#{AWS::AccountId}:table/${self:provider.environment.ALBUM_TABLE}/index/${self:provider.environment.ALBUM_ALBUM_ID_GSI}',
             ],
         },

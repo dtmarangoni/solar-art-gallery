@@ -85,19 +85,25 @@ export async function albumExists(albumId: string) {
  * @returns The added album item.
  */
 export async function addAlbum(userId: string, albumParams: FromSchema<typeof addAlbumSchema>) {
+    // Generate the album ID
+    const albumId = uuidv4();
+    // Generate the file store cover img url and pre-signed upload url
+    // TODO File Store URL address, file mime type and pre-signed url
+    const coverUrl = `file_store_address/${albumId}/${albumId}.mime_type`;
+    const uploadUrl = `cal file store pre-signed url method with - file_store_address/${albumId}/${albumId}.mime_type`;
     const album: Album = {
         userId,
-        albumId: uuidv4(),
+        albumId,
         creationDate: new Date().toISOString(),
         visibility: albumParams.visibility,
         title: albumParams.title,
         description: albumParams.description,
-        coverId: uuidv4(),
+        coverUrl,
     };
     // Add the album item to DB
     await albumAccess.addAlbum(album);
     // Return the album item as confirmation of a success operation
-    return album;
+    return { ...album, uploadUrl };
 }
 
 /**
@@ -114,13 +120,23 @@ export async function editAlbum(userId: string, albumParams: FromSchema<typeof e
     // Verify if the user calling this method is the album owner
     if (userId !== album.userId) throw new createHttpError.Forbidden('Unauthorized.');
 
+    // Generate the file store cover img url and pre-signed upload url
+    // if necessary
+    // TODO File Store URL address, file mime type and pre-signed url
+    const coverUrl = albumParams.coverUrl
+        ? albumParams.coverUrl
+        : `file_store_address/${album.albumId}/${album.albumId}.mime_type`;
+    const uploadUrl = albumParams.coverUrl
+        ? undefined
+        : `cal file store pre-signed url method with - file_store_address/${album.albumId}/${album.albumId}.mime_type`;
+
     // Edit the album properties
-    const editedAlbum: Album = { ...album, ...albumParams };
+    const editedAlbum: Album = { ...album, ...albumParams, coverUrl };
     // Edit the album item in DB
     await albumAccess.editAlbum(editedAlbum);
 
     // Return the album item as confirmation of a success operation
-    return editedAlbum;
+    return { ...editedAlbum, uploadUrl };
 }
 
 /**

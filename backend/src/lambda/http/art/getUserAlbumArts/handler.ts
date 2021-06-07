@@ -44,7 +44,7 @@ const handler: APIGatewayProxyHandlerV2 = async (
         phase: MiddlewarePhases.during,
     });
 
-    // Return the response with all arts of an album
+    // Return the OK response with all arts of an album
     return formatJSONResponse(200, {
         items: arts.items,
         // Encode the Key JSON object so a client can return it in an
