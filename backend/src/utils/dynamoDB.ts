@@ -45,3 +45,19 @@ export function decodeNextKey(lastEvaluatedKey: string): Key {
 
     return JSON.parse(decodeURIComponent(lastEvaluatedKey));
 }
+
+/**
+ * Validate the DynamoDB scan or query search pagination options
+ * params.
+ * @param limit The maximum number of returned items per call.
+ * @param exclusiveStartKey The database album item key to start the
+ * scan or query from.
+ * @returns The validated limit and exclusiveStartKey if OK or
+ * undefined otherwise.
+ */
+export function validatePaginationParams(limit?: string, exclusiveStartKey?: string) {
+    return {
+        searchLimit: validateLimitParam(limit),
+        searchStartKey: decodeNextKey(exclusiveStartKey),
+    };
+}

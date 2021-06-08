@@ -6,7 +6,7 @@ import { createLogger } from '@utils/logger';
 import { MiddlewarePhases } from '@utils/middleware/logger.middleware';
 import { ValidatedEventAPIGatewayProxyHandlerV2 } from '@utils/apiGateway';
 import { formatJSONResponse, privateMiddyfy } from '@utils/lambda';
-import { editAlbum } from '../../../../layers/business/album';
+import { editAlbum } from '../../../../layers/business/database/album';
 
 // Winston logger
 const logger = createLogger();

@@ -9,6 +9,7 @@ import {
     getPublicAlbumArts,
     getUserAlbumArts,
     putArts,
+    deleteArts,
 } from '@lambda/http';
 import { authorizer } from '@lambda/auth';
 
@@ -44,7 +45,7 @@ const serverlessConfiguration: AWS = {
             ART_TABLE: 'Art-${self:provider.stage}',
             ART_ALBUM_ID_LSI: 'ArtAlbumIdLSI-${self:provider.stage}',
             IMAGES_S3_BUCKET: 'serverless-dtm-todo-images-${self:provider.stage}',
-            S3_SIGNED_URL_EXP: '300',
+            S3_SIGNED_URL_EXP: '900',
         },
         lambdaHashingVersion: '20201221',
     },
@@ -98,6 +99,7 @@ const serverlessConfiguration: AWS = {
         getPublicAlbumArts,
         getUserAlbumArts,
         putArts,
+        deleteArts,
     },
     resources: {
         Resources: {

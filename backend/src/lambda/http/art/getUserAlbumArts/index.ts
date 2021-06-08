@@ -1,8 +1,22 @@
 import { handlerPath } from '@utils/lambda';
+import schema from './schema';
 
 export default {
     handler: `${handlerPath(__dirname)}/handler.main`,
-    events: [{ http: { method: 'get', path: '/album/my/{albumId}', cors: true } }],
+    events: [
+        {
+            http: {
+                method: 'post',
+                path: '/art/my',
+                cors: true,
+                authorizer: {
+                    name: 'Authorizer',
+                    arn: { 'Fn::GetAtt': ['AuthorizerLambdaFunction', 'Arn'] },
+                },
+                request: { schemas: { 'application/json': schema } },
+            },
+        },
+    ],
     iamRoleStatements: [
         {
             Effect: 'Allow',

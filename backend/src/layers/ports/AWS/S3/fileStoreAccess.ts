@@ -22,19 +22,19 @@ export class FileStoreAccess {
      * @returns The S3 client.
      */
     private static createS3Client() {
-        // Encapsulate AWS SDK to use AWS X-Ray
-        const XAWS = AWSXRay.captureAWS(AWS);
-
         // Serverless running in offline mode
         if (process.env.IS_OFFLINE) {
-            return new XAWS.S3({
+            // Serverless offline doesn't support X-Ray so far
+            return new AWS.S3({
                 s3ForcePathStyle: true,
                 accessKeyId: 'S3RVER',
                 secretAccessKey: 'S3RVER',
-                endpoint: new XAWS.Endpoint('http://localhost:6000'),
+                endpoint: new AWS.Endpoint('http://localhost:6000'),
             });
         } else {
-            // Running in live mode
+            // Running in live mode, thus encapsulate AWS SDK to use
+            // AWS X-Ray
+            const XAWS = AWSXRay.captureAWS(AWS);
             return new XAWS.S3({ signatureVersion: 'v4' });
         }
     }
@@ -48,17 +48,68 @@ export class FileStoreAccess {
     }
 
     /**
+     * Generates a pre-signed URL allowing an object download from S3
+     * file store.
+     * @param folderPath The full folder path where the object resides
+     * in the file store.
+     * @param objKeyName The key name of the object to be downloaded.
+     * @returns The pre-signed URL allowing the GET object operation to
+     * S3 file store.
+     */
+    genGetPreSignedUrl(folderPath: string, objKeyName: string) {
+        return this.s3Client.getSignedUrl('getObject', {
+            Bucket: this.s3Bucket,
+            Key: `${folderPath}/${objKeyName}`,
+            Expires: +this.signedUrlExp,
+        });
+    }
+
+    /**
      * Generates a pre-signed URL allowing a new object upload to S3
      * file store.
-     * @param objectKey The key name of the object to be uploaded.
+     * @param folderPath The full folder path where to insert the
+     * object in the file store.
+     * @param objKeyName The key name of the object to be uploaded.
      * @returns The pre-signed URL allowing the PUT object operation to
      * S3 file store.
      */
-    genPutPreSignedUrl(objectKey: string) {
+    genPutPreSignedUrl(folderPath: string, objKeyName: string) {
         return this.s3Client.getSignedUrl('putObject', {
             Bucket: this.s3Bucket,
-            Key: objectKey,
+            Key: `${folderPath}/${objKeyName}`,
             Expires: +this.signedUrlExp,
         });
+    }
+
+    /**
+     * Deletes an object from S3 file store.
+     * @param folderPath The full folder path where the object resides
+     * in the file store.
+     * @param objKeyName The key name of the object to be deleted.
+     * @returns The S3 file store Delete Object Output.
+     */
+    async deleteObject(folderPath: string, objKeyName: string) {
+        return await this.s3Client
+            .deleteObject({ Bucket: this.s3Bucket, Key: `${folderPath}/${objKeyName}` })
+            .promise();
+    }
+
+    /**
+     * Delete multiple objects from S3 file store.
+     * @param objects The objects array containing the full folder path
+     * where each object resides in file store and each object key name.
+     * @returns The S3 file store Delete Objects Output.
+     */
+    async deleteObjects(objects: { folderPath: string; keyName: string }[]) {
+        return await this.s3Client
+            .deleteObjects({
+                Bucket: this.s3Bucket,
+                Delete: {
+                    Objects: objects.map((object) => ({
+                        Key: `${object.folderPath}/${object.keyName}`,
+                    })),
+                },
+            })
+            .promise();
     }
 }

@@ -6,7 +6,7 @@ import { createLogger } from '@utils/logger';
 import { MiddlewarePhases } from '@utils/middleware/logger.middleware';
 import { ValidatedEventAPIGatewayProxyHandlerV2 } from '@utils/apiGateway';
 import { formatJSONResponse, privateMiddyfy } from '@utils/lambda';
-import { deleteAlbum } from '../../../../layers/business/album';
+import { deleteAlbum } from '../../../../layers/business/database/album';
 
 // Winston logger
 const logger = createLogger();
@@ -24,7 +24,7 @@ const handler: ValidatedEventAPIGatewayProxyHandlerV2<typeof schema> = async (
     });
 
     // Delete the user album item from DB
-    const deletedAlbum = await deleteAlbum(context.userId, event.body);
+    const deletedAlbumId = await deleteAlbum(context.userId, event.body);
 
     logger.info(`${MiddlewarePhases.during} ${context.functionName}`, {
         action: 'Album item deleted from DB',
@@ -35,8 +35,8 @@ const handler: ValidatedEventAPIGatewayProxyHandlerV2<typeof schema> = async (
         phase: MiddlewarePhases.during,
     });
 
-    // Return the OK response with the deleted confirmation
-    return formatJSONResponse(200, { message: 'Album deleted.', item: deletedAlbum });
+    // Return the OK response with the delete confirmation
+    return formatJSONResponse(200, { message: 'Album deleted.', item: deletedAlbumId });
 };
 
 export const main = privateMiddyfy(handler);

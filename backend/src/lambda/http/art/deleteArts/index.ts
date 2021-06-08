@@ -6,9 +6,13 @@ export default {
     events: [
         {
             http: {
-                method: 'post',
-                path: '/art/public',
+                method: 'delete',
+                path: '/art/my',
                 cors: true,
+                authorizer: {
+                    name: 'Authorizer',
+                    arn: { 'Fn::GetAtt': ['AuthorizerLambdaFunction', 'Arn'] },
+                },
                 request: { schemas: { 'application/json': schema } },
             },
         },
@@ -16,12 +20,11 @@ export default {
     iamRoleStatements: [
         {
             Effect: 'Allow',
-            Action: ['dynamoDB:Query'],
+            Action: ['dynamoDB:Query', 'dynamoDB:BatchWriteItem'],
             Resource: [
                 'arn:aws:dynamodb:${self:provider.region}:#{AWS::AccountId}:table/${self:provider.environment.ALBUM_TABLE}',
                 'arn:aws:dynamodb:${self:provider.region}:#{AWS::AccountId}:table/${self:provider.environment.ALBUM_TABLE}/index/${self:provider.environment.ALBUM_ALBUM_ID_GSI}',
                 'arn:aws:dynamodb:${self:provider.region}:#{AWS::AccountId}:table/${self:provider.environment.ART_TABLE}',
-                'arn:aws:dynamodb:${self:provider.region}:#{AWS::AccountId}:table/${self:provider.environment.ART_TABLE}/index/${self:provider.environment.ART_ALBUM_ID_LSI}',
             ],
         },
     ],

@@ -9,7 +9,7 @@ import { formatJSONResponse, privateMiddyfy } from '@utils/lambda';
 import { createLogger } from '@utils/logger';
 import { MiddlewarePhases } from '@utils/middleware/logger.middleware';
 import { encodeNextKey } from '@utils/dynamoDB';
-import { getUserAlbums } from '../../../../layers/business/album';
+import { getUserAlbums } from '../../../../layers/business/database/album';
 
 // Winston logger
 const logger = createLogger();

@@ -6,7 +6,7 @@ import { createLogger } from '@utils/logger';
 import { MiddlewarePhases } from '@utils/middleware/logger.middleware';
 import { ValidatedEventAPIGatewayProxyHandlerV2 } from '@utils/apiGateway';
 import { formatJSONResponse, privateMiddyfy } from '@utils/lambda';
-import { putArts } from '../../../../layers/business/art';
+import { putArts } from '../../../../layers/business/database/art';
 
 // Winston logger
 const logger = createLogger();
@@ -23,11 +23,8 @@ const handler: ValidatedEventAPIGatewayProxyHandlerV2<typeof schema> = async (
         phase: MiddlewarePhases.during,
     });
 
-    // Get the album id from path params
-    const albumId = event.pathParameters.albumId;
-
     // Add and/or updates multiple album arts in DB
-    const arts = await putArts(albumId, context.userId, event.body);
+    const arts = await putArts(context.userId, event.body);
 
     logger.info(`${MiddlewarePhases.during} ${context.functionName}`, {
         action: 'Multiple album arts added and/or updated in DB',

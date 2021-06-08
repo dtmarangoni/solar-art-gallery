@@ -3,10 +3,12 @@ import type { FromSchema } from 'json-schema-to-ts';
 import { v4 as uuidv4 } from 'uuid';
 import * as createHttpError from 'http-errors';
 
-import { decodeNextKey, validateLimitParam } from '@utils/dynamoDB';
-import { Album } from '../../models/database/Album';
-import { AlbumAccess } from '../ports/AWS/DynamoDB/albumAccess';
+import { validatePaginationParams } from '@utils/dynamoDB';
+import { rmUserId, rmUserIdFromArr } from '@utils/general';
+import { Album } from '../../../models/database/Album';
+import { AlbumAccess } from '../../ports/AWS/DynamoDB/albumAccess';
 import { addAlbumSchema, editAlbumSchema, deleteAlbumSchema } from '@lambda/http';
+import { getDownloadSignedUrl, getFsAlbumFolder, getUploadSignedUrl } from '../fileStore';
 
 // The Album Access port
 const albumAccess = new AlbumAccess();
@@ -21,14 +23,19 @@ const albumAccess = new AlbumAccess();
  */
 export async function getPublicAlbums(limit?: string, exclusiveStartKey?: string) {
     // Validate the query params
-    let queryLimit = validateLimitParam(limit);
-    let queryExclusiveStartKey = decodeNextKey(exclusiveStartKey);
+    let { searchLimit, searchStartKey } = validatePaginationParams(limit, exclusiveStartKey);
 
     // Get all public albums items from DB
-    const result = await albumAccess.getPublicAlbums(queryLimit, queryExclusiveStartKey);
-    // Remove the user ID before sending the album items
-    // return { items: rmUserIdFromArr(result.items), lastEvaluatedKey: result.lastEvaluatedKey };
-    return { items: result.items, lastEvaluatedKey: result.lastEvaluatedKey };
+    const result = await albumAccess.getPublicAlbums(searchLimit, searchStartKey);
+
+    // Remove the user ID from album items and generate the download
+    // pre-signed url for album covers images
+    const albums = rmUserIdFromArr(result.items).map((item) => ({
+        ...item,
+        coverUrl: getDownloadSignedUrl(getFsAlbumFolder(item.albumId), item.albumId),
+    }));
+
+    return { items: albums, lastEvaluatedKey: result.lastEvaluatedKey };
 }
 
 /**
@@ -42,14 +49,19 @@ export async function getPublicAlbums(limit?: string, exclusiveStartKey?: string
  */
 export async function getUserAlbums(userId: string, limit?: string, exclusiveStartKey?: string) {
     // Validate the query params
-    let queryLimit = validateLimitParam(limit);
-    let queryExclusiveStartKey = decodeNextKey(exclusiveStartKey);
+    let { searchLimit, searchStartKey } = validatePaginationParams(limit, exclusiveStartKey);
 
     // Get all user albums items from DB
-    const result = await albumAccess.getUserAlbums(userId, queryLimit, queryExclusiveStartKey);
-    // Remove the user ID before sending the album items
-    // return { items: rmUserIdFromArr(result.items), lastEvaluatedKey: result.lastEvaluatedKey };
-    return { items: result.items, lastEvaluatedKey: result.lastEvaluatedKey };
+    const result = await albumAccess.getUserAlbums(userId, searchLimit, searchStartKey);
+
+    // Remove the user ID from album items and generate the download
+    // pre-signed url for album covers images
+    const albums = rmUserIdFromArr(result.items).map((item) => ({
+        ...item,
+        coverUrl: getDownloadSignedUrl(getFsAlbumFolder(item.albumId), item.albumId),
+    }));
+
+    return { items: albums, lastEvaluatedKey: result.lastEvaluatedKey };
 }
 
 /**
@@ -67,17 +79,6 @@ export async function queryAlbum(albumId: string) {
 }
 
 /**
- * Check whether an album item exists in Album database table.
- * @param albumId The album item ID.
- * @returns True if the album exists and false otherwise.
- */
-export async function albumExists(albumId: string) {
-    const album = await albumAccess.queryAlbum(albumId);
-    // Return true if the album exists and false otherwise
-    return !!album;
-}
-
-/**
  * Add an album item in Album database table.
  * @param userId The album owner user id.
  * @param albumParams The required parameters to add a new album item
@@ -88,9 +89,9 @@ export async function addAlbum(userId: string, albumParams: FromSchema<typeof ad
     // Generate the album ID
     const albumId = uuidv4();
     // Generate the file store cover img url and pre-signed upload url
-    // TODO File Store URL address, file mime type and pre-signed url
-    const coverUrl = `file_store_address/${albumId}/${albumId}.mime_type`;
-    const uploadUrl = `cal file store pre-signed url method with - file_store_address/${albumId}/${albumId}.mime_type`;
+    const { coverUrl, uploadUrl } = fsAlbumUrls(albumId);
+
+    // Create the new album item
     const album: Album = {
         userId,
         albumId,
@@ -102,8 +103,10 @@ export async function addAlbum(userId: string, albumParams: FromSchema<typeof ad
     };
     // Add the album item to DB
     await albumAccess.addAlbum(album);
+
     // Return the album item as confirmation of a success operation
-    return { ...album, uploadUrl };
+    // removing the user ID
+    return { ...rmUserId(album), uploadUrl };
 }
 
 /**
@@ -114,21 +117,13 @@ export async function addAlbum(userId: string, albumParams: FromSchema<typeof ad
  * @returns The edited album item.
  */
 export async function editAlbum(userId: string, albumParams: FromSchema<typeof editAlbumSchema>) {
-    // Verify if the album exists before editing
-    // This function will throw an error if the album doesn't exists
-    const album = await queryAlbum(albumParams.albumId);
-    // Verify if the user calling this method is the album owner
-    if (userId !== album.userId) throw new createHttpError.Forbidden('Unauthorized.');
+    // Verify if the album exists and the user ownership before
+    // editing. This function will throw an error if not OK
+    const album = await albumOwnership(userId, albumParams.albumId);
 
     // Generate the file store cover img url and pre-signed upload url
     // if necessary
-    // TODO File Store URL address, file mime type and pre-signed url
-    const coverUrl = albumParams.coverUrl
-        ? albumParams.coverUrl
-        : `file_store_address/${album.albumId}/${album.albumId}.mime_type`;
-    const uploadUrl = albumParams.coverUrl
-        ? undefined
-        : `cal file store pre-signed url method with - file_store_address/${album.albumId}/${album.albumId}.mime_type`;
+    const { coverUrl, uploadUrl } = fsAlbumUrls(album.albumId, albumParams.coverUrl);
 
     // Edit the album properties
     const editedAlbum: Album = { ...album, ...albumParams, coverUrl };
@@ -136,52 +131,65 @@ export async function editAlbum(userId: string, albumParams: FromSchema<typeof e
     await albumAccess.editAlbum(editedAlbum);
 
     // Return the album item as confirmation of a success operation
-    return { ...editedAlbum, uploadUrl };
+    // removing the user ID
+    return { ...rmUserId(editedAlbum), uploadUrl };
 }
 
 /**
  * Delete an album item from Album database table.
- * @param userId The album owner user id.
+ * @param userId The album owner user ID.
  * @param albumParams The identification required parameters of the
  * album being deleted.
+ * @returns The deleted album item ID.
  */
 export async function deleteAlbum(
     userId: string,
     albumParams: FromSchema<typeof deleteAlbumSchema>
 ) {
-    // Verify if the album exists before deleting
-    // This function will throw an error if the album doesn't exists
-    const album = await queryAlbum(albumParams.albumId);
-    // Verify if the user calling this method is the album owner
-    if (userId !== album.userId) throw new createHttpError.Forbidden('Unauthorized.');
+    // Verify if the album exists and the user ownership before
+    // deleting. This function will throw an error if not OK
+    await albumOwnership(userId, albumParams.albumId);
 
     // Delete the album item from DB
     await albumAccess.deleteAlbum(userId, albumParams.albumId);
     // Return the album item as confirmation of a success operation
+    return albumParams;
+
+    // TODO Remove album cover and all arts images from file store
+}
+
+/**
+ * Check whether an album item exists in database table and if the user
+ * is the album owner.
+ * @param userId The user ID.
+ * @param albumId The album item ID.
+ * @returns The album item if it exists and if the user is the its
+ * owner or throw an error otherwise.
+ */
+export async function albumOwnership(userId: string, albumId: string) {
+    const album = await queryAlbum(albumId);
+    // Verify if the user is the album owner
+    if (userId !== album.userId) throw new createHttpError.Forbidden('Unauthorized.');
+    // Return the album item if its all OK
     return album;
 }
 
 /**
- * Utility method to remove userId from album items. Useful for request
- * responses.
- * @param album The complete album item.
- * @returns The new album item without the userId property.
+ * Generate the file store pre-signed download and the pre-signed
+ * upload url for an album cover image if necessary.
+ * @param albumId The album ID.
+ * @param albumCoverUrl The current album cover url if it exists.
+ * @returns An object containing the final download and upload
+ * pre-signed urls.
  */
-function rmUserId(album: Album) {
-    const { userId, ...newAlbum } = album;
-    return newAlbum;
-}
-
-/**
- * Utility method to remove userId from an array of album items. Useful
- * for request responses.
- * @param albums The complete album items array.
- * @returns The new album item array without the userId property.
- */
-function rmUserIdFromArr(albums: Album[]) {
-    const newAlbums = albums.map((album) => {
-        const { userId, ...newAlbum } = album;
-        return newAlbum;
-    });
-    return newAlbums;
+function fsAlbumUrls(albumId: string, albumCoverUrl?: string) {
+    // Generate the file store cover img url and pre-signed upload url
+    // if necessary
+    const coverUrl = albumCoverUrl
+        ? albumCoverUrl
+        : getDownloadSignedUrl(getFsAlbumFolder(albumId), albumId);
+    const uploadUrl = albumCoverUrl
+        ? undefined
+        : getUploadSignedUrl(getFsAlbumFolder(albumId), albumId);
+    return { coverUrl, uploadUrl };
 }

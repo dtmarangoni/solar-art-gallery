@@ -86,4 +86,24 @@ export class ArtAccess {
         // Return the arts items as confirmation of a success operation
         return items;
     }
+
+    /**
+     * Delete multiple arts from an album in Art DynamoDB table.
+     * @param items The arts IDs items to be deleted. For each element
+     * to be deleted it must contain the album ID and art ID.
+     * @returns The deleted arts items.
+     */
+    async deleteArts(items: { albumId: string; artId: string }[]) {
+        await this.dynamoDB
+            .batchWrite({
+                RequestItems: {
+                    [this.artTable]: items.map((item) => ({
+                        DeleteRequest: { Key: { albumId: item.albumId, artId: item.artId } },
+                    })),
+                },
+            })
+            .promise();
+        // Return the arts items as confirmation of a success operation
+        return items;
+    }
 }

@@ -6,8 +6,8 @@ export default {
     events: [
         {
             http: {
-                method: 'post',
-                path: '/album/my/{albumId}/art',
+                method: 'put',
+                path: '/art/my',
                 cors: true,
                 authorizer: {
                     name: 'Authorizer',
