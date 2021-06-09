@@ -35,7 +35,7 @@ const serverlessConfiguration: AWS = {
         stage: "${opt:stage, 'dev'}",
         runtime: 'nodejs14.x',
         apiGateway: { minimumCompressionSize: 1024, shouldStartNameWithService: true },
-        // tracing: { apiGateway: true, lambda: true },  Add when enabling AWS X-Ray tracing
+        tracing: { apiGateway: true, lambda: true },
         environment: {
             AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
             ALBUM_TABLE: 'Album-${self:provider.stage}',
@@ -44,7 +44,7 @@ const serverlessConfiguration: AWS = {
             ALBUM_ALBUM_ID_GSI: 'AlbumAlbumIdGSI-${self:provider.stage}',
             ART_TABLE: 'Art-${self:provider.stage}',
             ART_ALBUM_ID_LSI: 'ArtAlbumIdLSI-${self:provider.stage}',
-            IMAGES_S3_BUCKET: 'serverless-dtm-todo-images-${self:provider.stage}',
+            IMAGES_S3_BUCKET: 'solar-art-gallery-images-${self:provider.stage}',
             S3_SIGNED_URL_EXP: '900',
         },
         lambdaHashingVersion: '20201221',
@@ -146,6 +146,7 @@ const serverlessConfiguration: AWS = {
                         },
                     ],
                     BillingMode: 'PAY_PER_REQUEST',
+                    StreamSpecification: { StreamViewType: 'KEYS_ONLY' },
                 },
             },
             ArtDynamoDBTable: {
@@ -172,44 +173,25 @@ const serverlessConfiguration: AWS = {
                         },
                     ],
                     BillingMode: 'PAY_PER_REQUEST',
+                    StreamSpecification: { StreamViewType: 'KEYS_ONLY' },
                 },
             },
-            // ImagesS3Bucket: {
-            //     Type: 'AWS::S3::Bucket',
-            //     Properties: {
-            //         BucketName: '${self:provider.environment.IMAGES_S3_BUCKET}',
-            //         CorsConfiguration: {
-            //             CorsRules: [
-            //                 {
-            //                     AllowedOrigins: ['*'],
-            //                     AllowedHeaders: ['*'],
-            //                     AllowedMethods: ['GET', 'PUT', 'POST', 'DELETE', 'HEAD'],
-            //                     MaxAge: 3000,
-            //                 },
-            //             ],
-            //         },
-            //     },
-            // },
-            // ImagesS3BucketPolicy: {
-            //     Type: 'AWS::S3::BucketPolicy',
-            //     Properties: {
-            //         Bucket: { Ref: 'ImagesS3Bucket' },
-            //         PolicyDocument: {
-            //             Id: 'ImagesS3BucketPolicy',
-            //             Version: '2012-10-17',
-            //             Statement: [
-            //                 {
-            //                     Sid: 'PublicReadForGetBucketObjects',
-            //                     Effect: 'Allow',
-            //                     Principal: '*',
-            //                     Action: 'S3:GetObject',
-            //                     Resource:
-            //                         'arn:aws:s3:::${self:provider.environment.IMAGES_S3_BUCKET}/*',
-            //                 },
-            //             ],
-            //         },
-            //     },
-            // },
+            ImagesS3Bucket: {
+                Type: 'AWS::S3::Bucket',
+                Properties: {
+                    BucketName: '${self:provider.environment.IMAGES_S3_BUCKET}',
+                    CorsConfiguration: {
+                        CorsRules: [
+                            {
+                                AllowedOrigins: ['*'],
+                                AllowedHeaders: ['*'],
+                                AllowedMethods: ['GET', 'PUT', 'POST', 'DELETE', 'HEAD'],
+                                MaxAge: 3000,
+                            },
+                        ],
+                    },
+                },
+            },
             APIGatewayResponseDefault4xx: {
                 Type: 'AWS::ApiGateway::GatewayResponse',
                 Properties: {

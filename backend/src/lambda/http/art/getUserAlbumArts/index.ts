@@ -28,5 +28,10 @@ export default {
                 'arn:aws:dynamodb:${self:provider.region}:#{AWS::AccountId}:table/${self:provider.environment.ART_TABLE}/index/${self:provider.environment.ART_ALBUM_ID_LSI}',
             ],
         },
+        {
+            Effect: 'Allow',
+            Action: ['s3:GetObject'],
+            Resource: ['arn:aws:s3:::${self:provider.environment.IMAGES_S3_BUCKET}/*'],
+        },
     ],
 };

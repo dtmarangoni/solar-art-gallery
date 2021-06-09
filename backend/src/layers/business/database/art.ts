@@ -165,8 +165,11 @@ function sameAlbum(albumIds: string[]) {
  */
 async function prepareArtsData(userId: string, artsParams: FromSchema<typeof putArtsSchema>) {
     return artsParams.map((artParams, sequenceNum) => {
-        // Generate an art Id for new items
+        // Generate an art Id and creationDate only for new items
         const artId = artParams.artId ? artParams.artId : uuidv4();
+        const creationDate = artParams.creationDate
+            ? artParams.creationDate
+            : new Date().toISOString();
         // Generate the file store art img url and pre-signed upload
         // url if necessary
         const { imgUrl, uploadUrl } = fsArtUrls(artParams.albumId, artId, artParams.imgUrl);
@@ -176,9 +179,7 @@ async function prepareArtsData(userId: string, artsParams: FromSchema<typeof put
             artId,
             sequenceNum,
             userId,
-            creationDate: artParams.creationDate
-                ? artParams.creationDate
-                : new Date().toISOString(),
+            creationDate,
             title: artParams.title,
             description: artParams.description,
             imgUrl,
@@ -192,7 +193,8 @@ async function prepareArtsData(userId: string, artsParams: FromSchema<typeof put
  * upload url for an art image if necessary.
  * @param albumId The album ID.
  * @param artId The art ID.
- * @param imageUrl The current art image url if it exists.
+ * @param imageUrl The current art image url if it exists. In case of
+ * null value, a new image download url will be generated.
  * @returns An object containing the final download and upload
  * pre-signed urls.
  */
