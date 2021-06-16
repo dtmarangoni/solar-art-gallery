@@ -7,10 +7,9 @@ export default {
         properties: {
             albumId: { type: 'string', minLength: 36, maxLength: 36 },
             artId: { type: 'string', minLength: 36, maxLength: 36 },
-            creationDate: { type: 'string', minLength: 20, maxLength: 20 },
             title: { type: 'string', minLength: 1 },
             description: { type: 'string', minLength: 1 },
-            imgUrl: { type: ['string', 'null'] },
+            genUploadUrl: { type: ['boolean'], default: false },
         },
         required: ['albumId'],
         additionalProperties: false,

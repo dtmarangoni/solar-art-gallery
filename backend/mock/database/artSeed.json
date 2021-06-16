@@ -1,292 +1,82 @@
 [
     {
-        "albumId": "d8610cdd-78f3-4862-ac3c-6faf284a6fa5",
-        "artId": "91e91946-3ac3-4148-8ad5-0a4df8c8093a",
+        "albumId": "08c17db6-547f-4078-924f-7eaaaf3bb742",
+        "artId": "c394fdd4-e4f2-4deb-a962-fed5920ed791",
         "sequenceNum": 0,
         "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
-        "creationDate": "2020-10-05T22:58:08Z",
-        "title": "Possum, western pygmy",
-        "description": "Cercatetus concinnus",
-        "imgUrl": "file store img url"
+        "creationDate": "2020-06-18T23:08:25Z",
+        "title": "Mongoose, eastern dwarf",
+        "description": "Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.",
+        "imgUrl": "http://dummyimage.com/685x269.png/cc0000/ffffff"
     },
     {
-        "albumId": "d8610cdd-78f3-4862-ac3c-6faf284a6fa5",
-        "artId": "6ad8e439-db40-4d80-94dd-10ecc610b9fa",
+        "albumId": "08c17db6-547f-4078-924f-7eaaaf3bb742",
+        "artId": "fb1fb651-d966-4566-a41b-5702bb586b53",
         "sequenceNum": 1,
         "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
-        "creationDate": "2021-01-28T18:53:40Z",
-        "title": "Crane, black-crowned",
-        "description": "Balearica pavonina",
-        "imgUrl": "file store img url"
+        "creationDate": "2020-09-03T21:54:33Z",
+        "title": "Otter, african clawless",
+        "description": "Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.",
+        "imgUrl": "http://dummyimage.com/891x865.png/cc0000/ffffff"
     },
     {
-        "albumId": "d8610cdd-78f3-4862-ac3c-6faf284a6fa5",
-        "artId": "300bb4e5-bd88-4a0a-9a1d-9fbce17d9191",
+        "albumId": "08c17db6-547f-4078-924f-7eaaaf3bb742",
+        "artId": "e6ca6269-ca92-4916-8bf2-3c70364929bb",
         "sequenceNum": 2,
         "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
-        "creationDate": "2020-07-16T06:24:38Z",
-        "title": "Armadillo, common long-nosed",
-        "description": "Dasypus novemcinctus",
-        "imgUrl": "file store img url"
+        "creationDate": "2020-11-20T09:38:59Z",
+        "title": "Pie, rufous tree",
+        "description": "Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.",
+        "imgUrl": "http://dummyimage.com/1022x219.png/5fa2dd/ffffff"
     },
     {
-        "albumId": "d8610cdd-78f3-4862-ac3c-6faf284a6fa5",
-        "artId": "e8b328f0-a1e6-4b45-860d-86617eb6554e",
-        "sequenceNum": 3,
-        "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
-        "creationDate": "2020-06-11T15:35:33Z",
-        "title": "Goliath heron",
-        "description": "Ardea golieth",
-        "imgUrl": "file store img url"
+        "albumId": "1efc348c-b3ad-4f03-a2ff-423f77444a30",
+        "artId": "31199171-348e-4667-982c-9b4c39d34398",
+        "sequenceNum": 0,
+        "userId": "c8663d5d-0472-4b1e-861f-cc9c2795e43a",
+        "creationDate": "2021-04-15T20:05:01Z",
+        "title": "Magellanic penguin",
+        "description": "Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.",
+        "imgUrl": "http://dummyimage.com/680x318.png/ff4444/ffffff"
     },
     {
-        "albumId": "d8610cdd-78f3-4862-ac3c-6faf284a6fa5",
-        "artId": "54617b50-a813-4e99-8f81-62cdc922214c",
-        "sequenceNum": 4,
-        "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
-        "creationDate": "2020-11-24T08:39:16Z",
-        "title": "Hyena, striped",
-        "description": "Hyaena hyaena",
-        "imgUrl": "file store img url"
+        "albumId": "1efc348c-b3ad-4f03-a2ff-423f77444a30",
+        "artId": "c57417bd-a107-4e34-8057-4b42477a1259",
+        "sequenceNum": 1,
+        "userId": "c8663d5d-0472-4b1e-861f-cc9c2795e43a",
+        "creationDate": "2021-02-01T05:15:23Z",
+        "title": "Indian giant squirrel",
+        "description": "In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.",
+        "imgUrl": "http://dummyimage.com/455x555.png/cc0000/ffffff"
     },
     {
-        "albumId": "d8610cdd-78f3-4862-ac3c-6faf284a6fa5",
-        "artId": "d81dc13e-6c0b-4e9c-a153-f127f554822b",
-        "sequenceNum": 5,
-        "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
-        "creationDate": "2021-05-04T22:55:39Z",
-        "title": "African skink",
-        "description": "Mabuya spilogaster",
-        "imgUrl": "file store img url"
-    },
-    {
-        "albumId": "d8610cdd-78f3-4862-ac3c-6faf284a6fa5",
-        "artId": "19b2c45e-ac72-4c8b-96fa-75ade525453d",
-        "sequenceNum": 6,
-        "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
-        "creationDate": "2021-01-08T23:14:20Z",
-        "title": "Toddy cat",
-        "description": "Paradoxurus hermaphroditus",
-        "imgUrl": "file store img url"
-    },
-    {
-        "albumId": "7ba92892-6181-4f17-bb20-485a1e0e4fc9",
-        "artId": "0fbb8b9d-9f45-45c1-9e7e-5e55e2a8ead7",
+        "albumId": "e6323b1c-038d-43de-a459-4fc78e9c296e",
+        "artId": "23e6348b-6e3f-47cd-82ac-5c3532a150c3",
         "sequenceNum": 0,
         "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
-        "creationDate": "2020-12-19T03:07:18Z",
-        "title": "Gull, kelp",
-        "description": "Larus dominicanus",
-        "imgUrl": "file store img url"
+        "creationDate": "2020-11-11T13:16:15Z",
+        "title": "Common seal",
+        "description": "Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.",
+        "imgUrl": "http://dummyimage.com/106x554.png/ff4444/ffffff"
     },
     {
-        "albumId": "7ba92892-6181-4f17-bb20-485a1e0e4fc9",
-        "artId": "0c97e3b4-1940-44dc-98ff-39186f611d80",
+        "albumId": "e6323b1c-038d-43de-a459-4fc78e9c296e",
+        "artId": "2984686e-d023-4e81-a2d8-687a02fd23b5",
         "sequenceNum": 1,
         "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
-        "creationDate": "2020-09-27T21:17:30Z",
-        "title": "Sparrow, rufous-collared",
-        "description": "Zonotrichia capensis",
-        "imgUrl": "file store img url"
+        "creationDate": "2020-08-10T01:48:08Z",
+        "title": "Crow, house",
+        "description": "Curabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla. Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam.",
+        "imgUrl": "http://dummyimage.com/903x854.png/ff4444/ffffff"
     },
     {
-        "albumId": "7ba92892-6181-4f17-bb20-485a1e0e4fc9",
-        "artId": "f1013617-9c2f-4b65-b176-ff6fa6809b3d",
-        "sequenceNum": 2,
-        "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
-        "creationDate": "2021-01-01T05:50:28Z",
-        "title": "Stork, marabou",
-        "description": "Leptoptilos crumeniferus",
-        "imgUrl": "file store img url"
-    },
-    {
-        "albumId": "7ba92892-6181-4f17-bb20-485a1e0e4fc9",
-        "artId": "cd8fc33a-aeb9-4922-b701-34e35590e59f",
-        "sequenceNum": 3,
-        "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
-        "creationDate": "2020-06-18T17:25:14Z",
-        "title": "Egret, snowy",
-        "description": "Egretta thula",
-        "imgUrl": "file store img url"
-    },
-    {
-        "albumId": "7ba92892-6181-4f17-bb20-485a1e0e4fc9",
-        "artId": "f0f2aecb-b388-4924-9251-7d5d0863af30",
-        "sequenceNum": 4,
-        "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
-        "creationDate": "2021-02-19T20:50:58Z",
-        "title": "Common eland",
-        "description": "Taurotagus oryx",
-        "imgUrl": "file store img url"
-    },
-    {
-        "albumId": "7ba92892-6181-4f17-bb20-485a1e0e4fc9",
-        "artId": "6f7aa488-53d3-4c33-a200-40164fd10e19",
-        "sequenceNum": 5,
-        "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
-        "creationDate": "2020-06-16T07:24:26Z",
-        "title": "Common long-nosed armadillo",
-        "description": "Dasypus novemcinctus",
-        "imgUrl": "file store img url"
-    },
-    {
-        "albumId": "66ecec1d-6c54-4412-a470-62631e17a69b",
-        "artId": "994d79aa-a07b-4565-80fa-c3a31ca4eb6b",
+        "albumId": "fbefab56-42e1-40af-9145-fbc34cc65f2f",
+        "artId": "40f948ad-5d06-496b-8c49-aeeffeeeed63",
         "sequenceNum": 0,
-        "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
-        "creationDate": "2020-06-26T05:24:24Z",
-        "title": "Skua, long-tailed",
-        "description": "Stercorarius longicausus",
-        "imgUrl": "file store img url"
-    },
-    {
-        "albumId": "66ecec1d-6c54-4412-a470-62631e17a69b",
-        "artId": "7a0b2558-727d-477e-9538-88fa292221e5",
-        "sequenceNum": 1,
-        "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
-        "creationDate": "2020-08-09T12:58:57Z",
-        "title": "Penguin, little blue",
-        "description": "Eudyptula minor",
-        "imgUrl": "file store img url"
-    },
-    {
-        "albumId": "02bffe98-8aac-4ade-99a0-d64e1d4c5809",
-        "artId": "1ef85112-d5fc-44f6-b04f-f53cbddbefdb",
-        "sequenceNum": 0,
-        "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
-        "creationDate": "2020-10-10T06:18:16Z",
-        "title": "Beaver, european",
-        "description": "Castor fiber",
-        "imgUrl": "file store img url"
-    },
-    {
-        "albumId": "02bffe98-8aac-4ade-99a0-d64e1d4c5809",
-        "artId": "2ef22bac-7d5f-4ed5-9e83-2dcdde35be62",
-        "sequenceNum": 1,
-        "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
-        "creationDate": "2021-01-30T15:13:46Z",
-        "title": "Malay squirrel (unidentified)",
-        "description": "unavailable",
-        "imgUrl": "file store img url"
-    },
-    {
-        "albumId": "02bffe98-8aac-4ade-99a0-d64e1d4c5809",
-        "artId": "5c1c2817-12d2-4c2f-8d36-183bd48bbe43",
-        "sequenceNum": 2,
-        "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
-        "creationDate": "2020-12-13T15:05:50Z",
-        "title": "Creeper, black-tailed tree",
-        "description": "Climacteris melanura",
-        "imgUrl": "file store img url"
-    },
-    {
-        "albumId": "02bffe98-8aac-4ade-99a0-d64e1d4c5809",
-        "artId": "0e5769b2-eb48-496a-ad76-cc4dba6104ee",
-        "sequenceNum": 3,
-        "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
-        "creationDate": "2020-12-18T07:14:18Z",
-        "title": "Tern, white-winged",
-        "description": "Chlidonias leucopterus",
-        "imgUrl": "file store img url"
-    },
-    {
-        "albumId": "02bffe98-8aac-4ade-99a0-d64e1d4c5809",
-        "artId": "8c878dbc-4642-4239-bf66-a0a4918232b8",
-        "sequenceNum": 4,
-        "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
-        "creationDate": "2021-05-01T03:57:42Z",
-        "title": "Sungazer, yellow-brown",
-        "description": "Cordylus giganteus",
-        "imgUrl": "file store img url"
-    },
-    {
-        "albumId": "02bffe98-8aac-4ade-99a0-d64e1d4c5809",
-        "artId": "98942f0e-dee6-4959-b55f-5dcb4566d1c2",
-        "sequenceNum": 5,
-        "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
-        "creationDate": "2021-05-07T20:15:55Z",
-        "title": "Eagle, long-crested hawk",
-        "description": "Lophoaetus occipitalis",
-        "imgUrl": "file store img url"
-    },
-    {
-        "albumId": "02bffe98-8aac-4ade-99a0-d64e1d4c5809",
-        "artId": "f1ba8efa-1f90-43d8-b066-f387094f5034",
-        "sequenceNum": 6,
-        "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
-        "creationDate": "2021-02-06T20:26:54Z",
-        "title": "Olive baboon",
-        "description": "Papio cynocephalus",
-        "imgUrl": "file store img url"
-    },
-    {
-        "albumId": "02bffe98-8aac-4ade-99a0-d64e1d4c5809",
-        "artId": "fc68f70e-c24d-47b4-a61d-3f3d69ed0199",
-        "sequenceNum": 7,
-        "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
-        "creationDate": "2021-01-18T22:27:45Z",
-        "title": "Stick insect",
-        "description": "Leprocaulinus vipera",
-        "imgUrl": "file store img url"
-    },
-    {
-        "albumId": "02bffe98-8aac-4ade-99a0-d64e1d4c5809",
-        "artId": "30818cb3-0482-40db-b35a-4ed80975398c",
-        "sequenceNum": 8,
-        "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
-        "creationDate": "2020-11-09T09:12:01Z",
-        "title": "Two-banded monitor",
-        "description": "Varanus salvator",
-        "imgUrl": "file store img url"
-    },
-    {
-        "albumId": "94f0514a-9091-4d64-ac8d-e90b1796890a",
-        "artId": "753be503-00c5-49cc-bf80-4ede69c22415",
-        "sequenceNum": 0,
-        "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
-        "creationDate": "2021-02-27T19:42:34Z",
-        "title": "Black-winged stilt",
-        "description": "Himantopus himantopus",
-        "imgUrl": "file store img url"
-    },
-    {
-        "albumId": "94f0514a-9091-4d64-ac8d-e90b1796890a",
-        "artId": "02de8195-ac57-4aac-afbe-978617daaa39",
-        "sequenceNum": 1,
-        "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
-        "creationDate": "2020-11-19T09:28:00Z",
-        "title": "Eagle, pallas's fish",
-        "description": "Haliaeetus leucoryphus",
-        "imgUrl": "file store img url"
-    },
-    {
-        "albumId": "94f0514a-9091-4d64-ac8d-e90b1796890a",
-        "artId": "301971ad-8dba-4790-83d2-2f54e8cd35ba",
-        "sequenceNum": 2,
-        "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
-        "creationDate": "2020-06-17T04:41:15Z",
-        "title": "Cockatoo, slender-billed",
-        "description": "Cacatua tenuirostris",
-        "imgUrl": "file store img url"
-    },
-    {
-        "albumId": "94f0514a-9091-4d64-ac8d-e90b1796890a",
-        "artId": "7acdc7d7-55fd-46ff-ac72-58340f1c42f3",
-        "sequenceNum": 3,
-        "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
-        "creationDate": "2021-01-11T01:12:55Z",
-        "title": "Malagasy ground boa",
-        "description": "Acrantophis madagascariensis",
-        "imgUrl": "file store img url"
-    },
-    {
-        "albumId": "94f0514a-9091-4d64-ac8d-e90b1796890a",
-        "artId": "436fb481-8bb6-45e4-b310-9f0ce940e146",
-        "sequenceNum": 4,
-        "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
-        "creationDate": "2020-12-24T01:55:52Z",
-        "title": "Russian dragonfly",
-        "description": "Libellula quadrimaculata",
-        "imgUrl": "file store img url"
+        "userId": "4d38799d-3be6-4000-9bce-1ab09036c017",
+        "creationDate": "2020-08-09T07:33:48Z",
+        "title": "Fox, pampa gray",
+        "description": "Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.",
+        "imgUrl": "http://dummyimage.com/178x183.png/cc0000/ffffff"
     }
 ]

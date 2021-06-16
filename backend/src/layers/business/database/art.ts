@@ -7,6 +7,7 @@ import { validatePaginationParams } from '@utils/dynamoDB';
 import { rmUserIdFromArr } from '@utils/general';
 import { ArtAccess } from '../../ports/AWS/DynamoDB/artAccess';
 import { AlbumVisibility } from '../../../models/database/Album';
+import { Art } from '../../../models/database/Art';
 import { queryAlbum, albumOwnership } from './album';
 import {
     getPublicAlbumArtsSchema,
@@ -46,12 +47,9 @@ export async function getPublicAlbumArts(
     // Get all arts of an album from DB
     const result = await artAccess.getAlbumArts(artsParams.albumId, searchLimit, searchStartKey);
 
-    // Remove the user ID from arts items and generate the download
-    // pre-signed url for arts images
-    const arts = rmUserIdFromArr(result.items).map((item: any) => ({
-        ...item,
-        imgUrl: getDownloadSignedUrl(getFsArtsFolder(item.albumId), item.artId),
-    }));
+    // Remove user ID from items and generate a download pre-signed url
+    const arts = prepArtsRespData(result.items);
+
     return { items: arts, lastEvaluatedKey: result.lastEvaluatedKey };
 }
 
@@ -82,14 +80,21 @@ export async function getUserAlbumArts(
     // Get all user arts of an album from DB
     const result = await artAccess.getAlbumArts(artsParams.albumId, searchLimit, searchStartKey);
 
-    // Remove the user ID from arts items and generate the download
-    // pre-signed url for arts images
-    const arts = rmUserIdFromArr(result.items).map((item: any) => ({
-        ...item,
-        imgUrl: getDownloadSignedUrl(getFsArtsFolder(item.albumId), item.artId),
-    }));
-    // Return the arts items of an album
+    // Remove user ID from items and generate a download pre-signed url
+    const arts = prepArtsRespData(result.items);
+
     return { items: arts, lastEvaluatedKey: result.lastEvaluatedKey };
+}
+
+/**
+ * Get an art item from Art database table.
+ * @param albumId The album ID containing the art item.
+ * @param artId The art ID.
+ * @returns The art item in case it exists or undefined otherwise.
+ */
+export async function getArt(albumId: string, artId: string) {
+    const art = await artAccess.getArt(albumId, artId);
+    return art;
 }
 
 /**
@@ -106,7 +111,7 @@ export async function putArts(userId: string, artsParams: FromSchema<typeof putA
     await albumOwnership(userId, sameAlbum(artsParams.map((artParams) => artParams.albumId)));
 
     // Get the arts items data prepared for DB and file store
-    const arts = await prepareArtsData(userId, artsParams);
+    const arts = await prepArtsData(userId, artsParams);
 
     // Add and/or update the arts items in DB
     // Do not send to DB the pre-signed url field
@@ -157,35 +162,77 @@ function sameAlbum(albumIds: string[]) {
 }
 
 /**
- * Prepare the arts items data to be added to DB and file store.
+ * Prepared the arts items data to response removing the user ID and
+ * generating the pre-signed download url.
+ * @param items The arts items.
+ * @returns The prepared arts data without the user ID and with the
+ * pre-signed urls.
+ */
+function prepArtsRespData(items: Art[]) {
+    return rmUserIdFromArr(items).map((item) => ({
+        ...item,
+        imgUrl: getDownloadSignedUrl(getFsArtsFolder(item.albumId), item.artId),
+    }));
+}
+
+/**
+ * Prepare the arts items data to be added and/or updated in DB and
+ * file store.
  * @param userId The art owner user id.
  * @param artsParams The required parameters to add and/or update
  * multiple arts items in database.
  * @returns The prepared arts items data.
  */
-async function prepareArtsData(userId: string, artsParams: FromSchema<typeof putArtsSchema>) {
-    return artsParams.map((artParams, sequenceNum) => {
-        // Generate an art Id and creationDate only for new items
-        const artId = artParams.artId ? artParams.artId : uuidv4();
-        const creationDate = artParams.creationDate
-            ? artParams.creationDate
-            : new Date().toISOString();
-        // Generate the file store art img url and pre-signed upload
-        // url if necessary
-        const { imgUrl, uploadUrl } = fsArtUrls(artParams.albumId, artId, artParams.imgUrl);
-
-        return {
-            albumId: artParams.albumId,
-            artId,
-            sequenceNum,
-            userId,
-            creationDate,
-            title: artParams.title,
-            description: artParams.description,
-            imgUrl,
-            uploadUrl,
-        };
+async function prepArtsData(userId: string, artsParams: FromSchema<typeof putArtsSchema>) {
+    const artsData = artsParams.map(async (params, sequenceNum) => {
+        if (!params.artId) {
+            // Generate the art data for new items
+            return newArtItemData(
+                userId,
+                { albumId: params.albumId, title: params.title, description: params.description },
+                sequenceNum
+            );
+        } else {
+            // Existing items, thus retrieve it from DB
+            const art = await getArt(params.albumId, params.artId);
+            // Generate the pre-signed urls
+            const { imgUrl, uploadUrl } = fsArtUrls(params.albumId, art.artId, params.genUploadUrl);
+            // Remove the genUploadUrl flag before return the art data
+            const { genUploadUrl, ...newParams } = params;
+            return { ...art, ...newParams, sequenceNum, imgUrl, uploadUrl };
+        }
     });
+
+    // Return the result when all promises from map function resolves
+    return Promise.all(artsData);
+}
+
+/**
+ * Prepare the art data for new art items.
+ * @param userId The art owner user id.
+ * @param artsParams The required parameters to add the art item in
+ * database.
+ * @param sequenceNum The art item sequence number inside the album
+ * gallery.
+ * @returns The art data for new art items.
+ */
+function newArtItemData(
+    userId: string,
+    artParams: { albumId: string; title: string; description: string },
+    sequenceNum: number
+) {
+    // Title and description are mandatory
+    if (!artParams.title || !artParams.description) {
+        throw new createHttpError.BadRequest(
+            'Title and description are mandatory for new art items.'
+        );
+    }
+    // Generate the art ID, creation date and the pre-signed urls
+    const artId = uuidv4();
+    const { imgUrl, uploadUrl } = fsArtUrls(artParams.albumId, artId, true);
+    const creationDate = new Date().toISOString();
+
+    return { ...artParams, artId, sequenceNum, userId, creationDate, imgUrl, uploadUrl };
 }
 
 /**
@@ -193,15 +240,18 @@ async function prepareArtsData(userId: string, artsParams: FromSchema<typeof put
  * upload url for an art image if necessary.
  * @param albumId The album ID.
  * @param artId The art ID.
- * @param imageUrl The current art image url if it exists. In case of
- * null value, a new image download url will be generated.
+ * @param genUploadUrl The optional flag indicating that a pre-signed
+ * upload url should be generated for an art image.
  * @returns An object containing the final download and upload
  * pre-signed urls.
  */
-function fsArtUrls(albumId: string, artId: string, imageUrl?: string) {
-    // Generate the file store art img url and pre-signed upload url if
-    // necessary
-    const imgUrl = imageUrl ? imageUrl : getDownloadSignedUrl(getFsArtsFolder(albumId), artId);
-    const uploadUrl = imageUrl ? undefined : getUploadSignedUrl(getFsArtsFolder(albumId), artId);
-    return { imgUrl, uploadUrl };
+function fsArtUrls(albumId: string, artId: string, genUploadUrl?: boolean) {
+    if (genUploadUrl) {
+        return {
+            imgUrl: getDownloadSignedUrl(getFsArtsFolder(albumId), artId),
+            uploadUrl: getUploadSignedUrl(getFsArtsFolder(albumId), artId),
+        };
+    }
+
+    return { imgUrl: undefined, uploadUrl: undefined };
 }

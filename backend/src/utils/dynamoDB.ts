@@ -1,5 +1,6 @@
 import 'source-map-support/register';
 import { Key } from 'aws-sdk/clients/dynamodb';
+import { StreamRecord } from 'aws-lambda';
 import * as createHttpError from 'http-errors';
 
 /**
@@ -60,4 +61,19 @@ export function validatePaginationParams(limit?: string, exclusiveStartKey?: str
         searchLimit: validateLimitParam(limit),
         searchStartKey: decodeNextKey(exclusiveStartKey),
     };
+}
+
+/**
+ * Automatically detects according to DynamoDB stream record ID key if
+ * it belongs to an album or art item.
+ * @param recordKey The DynamoDB stream record key.
+ */
+export function detectRecordType(recordKey: StreamRecord['Keys']) {
+    if (recordKey.hasOwnProperty('albumId') && recordKey.hasOwnProperty('artId')) {
+        // Art item have both albumId and artId
+        return 'art';
+    } else if (recordKey.hasOwnProperty('albumId') && !recordKey.hasOwnProperty('artId')) {
+        // Album item has only albumId
+        return 'album';
+    }
 }

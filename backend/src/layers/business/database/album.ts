@@ -28,12 +28,8 @@ export async function getPublicAlbums(limit?: string, exclusiveStartKey?: string
     // Get all public albums items from DB
     const result = await albumAccess.getPublicAlbums(searchLimit, searchStartKey);
 
-    // Remove the user ID from album items and generate the download
-    // pre-signed url for album covers images
-    const albums = rmUserIdFromArr(result.items).map((item) => ({
-        ...item,
-        coverUrl: getDownloadSignedUrl(getFsAlbumFolder(item.albumId), item.albumId),
-    }));
+    // Remove user ID from items and generate a download pre-signed url
+    const albums = prepAlbumsRespData(result.items);
 
     return { items: albums, lastEvaluatedKey: result.lastEvaluatedKey };
 }
@@ -54,12 +50,8 @@ export async function getUserAlbums(userId: string, limit?: string, exclusiveSta
     // Get all user albums items from DB
     const result = await albumAccess.getUserAlbums(userId, searchLimit, searchStartKey);
 
-    // Remove the user ID from album items and generate the download
-    // pre-signed url for album covers images
-    const albums = rmUserIdFromArr(result.items).map((item) => ({
-        ...item,
-        coverUrl: getDownloadSignedUrl(getFsAlbumFolder(item.albumId), item.albumId),
-    }));
+    // Remove user ID from items and generate a download pre-signed url
+    const albums = prepAlbumsRespData(result.items);
 
     return { items: albums, lastEvaluatedKey: result.lastEvaluatedKey };
 }
@@ -89,7 +81,7 @@ export async function addAlbum(userId: string, albumParams: FromSchema<typeof ad
     // Generate the album ID
     const albumId = uuidv4();
     // Generate the file store cover img url and pre-signed upload url
-    const { coverUrl, uploadUrl } = fsAlbumUrls(albumId);
+    const { coverUrl, uploadUrl } = fsAlbumUrls(albumId, true);
 
     // Create the new album item
     const album: Album = {
@@ -104,8 +96,7 @@ export async function addAlbum(userId: string, albumParams: FromSchema<typeof ad
     // Add the album item to DB
     await albumAccess.addAlbum(album);
 
-    // Return the album item as confirmation of a success operation
-    // removing the user ID
+    // Remove user ID and return the album as success confirmation
     return { ...rmUserId(album), uploadUrl };
 }
 
@@ -121,17 +112,17 @@ export async function editAlbum(userId: string, albumParams: FromSchema<typeof e
     // editing. This function will throw an error if not OK
     const album = await albumOwnership(userId, albumParams.albumId);
 
-    // Generate the file store cover img url and pre-signed upload url
-    // if necessary
-    const { coverUrl, uploadUrl } = fsAlbumUrls(album.albumId, albumParams.coverUrl);
+    // Generate the pre-signed urls if necessary
+    const { coverUrl, uploadUrl } = fsAlbumUrls(album.albumId, albumParams.genUploadUrl);
 
+    // Remove the genUploadUrl flag before return the art data
+    const { genUploadUrl, ...newParams } = albumParams;
     // Edit the album properties
-    const editedAlbum: Album = { ...album, ...albumParams, coverUrl };
+    const editedAlbum: Album = { ...album, ...newParams, coverUrl };
     // Edit the album item in DB
     await albumAccess.editAlbum(editedAlbum);
 
-    // Return the album item as confirmation of a success operation
-    // removing the user ID
+    // Remove user ID and return the album as success confirmation
     return { ...rmUserId(editedAlbum), uploadUrl };
 }
 
@@ -178,18 +169,32 @@ export async function albumOwnership(userId: string, albumId: string) {
  * Generate the file store pre-signed download and the pre-signed
  * upload url for an album cover image if necessary.
  * @param albumId The album ID.
- * @param albumCoverUrl The current album cover url if it exists.
+ * @param genUploadUrl The optional flag indicating that a pre-signed
+ * upload url should be generated for an album cover image.
  * @returns An object containing the final download and upload
  * pre-signed urls.
  */
-function fsAlbumUrls(albumId: string, albumCoverUrl?: string) {
-    // Generate the file store cover img url and pre-signed upload url
-    // if necessary
-    const coverUrl = albumCoverUrl
-        ? albumCoverUrl
-        : getDownloadSignedUrl(getFsAlbumFolder(albumId), albumId);
-    const uploadUrl = albumCoverUrl
-        ? undefined
-        : getUploadSignedUrl(getFsAlbumFolder(albumId), albumId);
-    return { coverUrl, uploadUrl };
+function fsAlbumUrls(albumId: string, genUploadUrl?: boolean) {
+    if (genUploadUrl) {
+        return {
+            coverUrl: getDownloadSignedUrl(getFsAlbumFolder(albumId), albumId),
+            uploadUrl: getUploadSignedUrl(getFsAlbumFolder(albumId), albumId),
+        };
+    }
+
+    return { coverUrl: undefined, uploadUrl: undefined };
+}
+
+/**
+ * Prepared the albums items data to response removing the user ID and
+ * generating the pre-signed download url.
+ * @param items The albums items.
+ * @returns The prepared albums data without the user ID and with the
+ * pre-signed urls.
+ */
+function prepAlbumsRespData(items: Album[]) {
+    return rmUserIdFromArr(items).map((item) => ({
+        ...item,
+        coverUrl: getDownloadSignedUrl(getFsAlbumFolder(item.albumId), item.albumId),
+    }));
 }

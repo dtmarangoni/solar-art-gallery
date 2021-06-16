@@ -11,6 +11,7 @@ import {
     putArts,
     deleteArts,
 } from '@lambda/http';
+import { deleteS3Objects } from '@lambda/dynamoDB';
 import { authorizer } from '@lambda/auth';
 
 const serverlessConfiguration: AWS = {
@@ -100,6 +101,7 @@ const serverlessConfiguration: AWS = {
         getUserAlbumArts,
         putArts,
         deleteArts,
+        deleteS3Objects,
     },
     resources: {
         Resources: {

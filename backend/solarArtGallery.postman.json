@@ -1,0 +1,1324 @@
+{
+	"info": {
+		"_postman_id": "0708d374-fea0-4268-b589-e61003fa1378",
+		"name": "Solar Art Gallery",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Localhost",
+			"item": [
+				{
+					"name": "Album",
+					"item": [
+						{
+							"name": "getPublicAlbums",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has items property, its not empty and items contain the correct properties', () => {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property('items');\r",
+											"    pm.expect(jsonData.items).to.be.an('array');\r",
+											"    pm.expect(jsonData.items).to.not.be.empty;\r",
+											"    pm.expect(jsonData.items[0]).to.have.all.keys('albumId', 'creationDate', 'visibility', 'title', 'description', 'coverUrl');\r",
+											"    pm.expect(jsonData.items[0]).to.not.have.property('userId');\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{serverlessOfflineHost}}/dev/album/public",
+									"host": [
+										"{{serverlessOfflineHost}}"
+									],
+									"path": [
+										"dev",
+										"album",
+										"public"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": null,
+											"description": "The optional maximum number of returned items per call.",
+											"disabled": true
+										},
+										{
+											"key": "nextKey",
+											"value": null,
+											"description": "The optional database album item key to start the query from.",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getUserAlbums",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has items property, its not empty and items contain the correct properties', () => {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property('items');\r",
+											"    pm.expect(jsonData.items).to.be.an('array');\r",
+											"    pm.expect(jsonData.items).to.not.be.empty;\r",
+											"    pm.expect(jsonData.items[0]).to.have.all.keys('albumId', 'creationDate', 'visibility', 'title', 'description', 'coverUrl');\r",
+											"    pm.expect(jsonData.items[0]).to.not.have.property('userId');\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{serverlessOfflineHost}}/dev/album/my",
+									"host": [
+										"{{serverlessOfflineHost}}"
+									],
+									"path": [
+										"dev",
+										"album",
+										"my"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": null,
+											"description": "The optional maximum number of returned items per call.",
+											"disabled": true
+										},
+										{
+											"key": "nextKey",
+											"value": null,
+											"description": "The optional database album item key to start the query from.",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "addAlbum",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 201', () => {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has item property, its not empty and item contain the correct properties', () => {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property('item');\r",
+											"    pm.expect(jsonData.item).to.be.an('object');\r",
+											"    pm.expect(jsonData.item).to.have.all.keys('albumId', 'creationDate', 'visibility', 'title', 'description', 'coverUrl', 'uploadUrl');\r",
+											"    pm.expect(jsonData.item).to.not.have.property('userId');\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"visibility\": \"public\",\r\n    \"title\": \"Album 1\",\r\n    \"description\": \"My first album\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverlessOfflineHost}}/dev/album/my",
+									"host": [
+										"{{serverlessOfflineHost}}"
+									],
+									"path": [
+										"dev",
+										"album",
+										"my"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "editAlbum",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has item property, its not empty and item contain the correct properties', () => {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property('item');\r",
+											"    pm.expect(jsonData.item).to.be.an('object');\r",
+											"    pm.expect(jsonData.item).to.have.all.keys('albumId', 'creationDate', 'visibility', 'title', 'description', 'coverUrl', 'uploadUrl');\r",
+											"    pm.expect(jsonData.item).to.not.have.keys('userId', 'genUploadUrl');\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"albumId\": \"08c17db6-547f-4078-924f-7eaaaf3bb742\",\r\n    \"visibility\": \"private\",\r\n    \"title\": \"Album 2\",\r\n    \"description\": \"My album\",\r\n    \"genUploadUrl\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverlessOfflineHost}}/dev/album/my",
+									"host": [
+										"{{serverlessOfflineHost}}"
+									],
+									"path": [
+										"dev",
+										"album",
+										"my"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteAlbum",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has item property, its not empty and item contain the correct properties', () => {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.all.keys('item', 'message');\r",
+											"    pm.expect(jsonData.item).to.be.an('object');\r",
+											"    pm.expect(jsonData.item).to.have.all.keys('albumId');\r",
+											"    pm.expect(jsonData.message).to.eql('Album deleted.');\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"albumId\": \"08c17db6-547f-4078-924f-7eaaaf3bb742\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverlessOfflineHost}}/dev/album/my",
+									"host": [
+										"{{serverlessOfflineHost}}"
+									],
+									"path": [
+										"dev",
+										"album",
+										"my"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Art",
+					"item": [
+						{
+							"name": "getPublicAlbumArts",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has items property, its not empty and items contain the correct properties', () => {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property('items');\r",
+											"    pm.expect(jsonData.items).to.be.an('array');\r",
+											"    pm.expect(jsonData.items).to.not.be.empty;\r",
+											"    pm.expect(jsonData.items[0]).to.have.all.keys('albumId', 'artId', 'sequenceNum', 'creationDate', 'title', 'description', 'imgUrl');\r",
+											"    pm.expect(jsonData.items[0]).to.not.have.property('userId');\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"albumId\": \"fbefab56-42e1-40af-9145-fbc34cc65f2f\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverlessOfflineHost}}/dev/art/public",
+									"host": [
+										"{{serverlessOfflineHost}}"
+									],
+									"path": [
+										"dev",
+										"art",
+										"public"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "5",
+											"description": "The optional maximum number of returned items per call.",
+											"disabled": true
+										},
+										{
+											"key": "nextKey",
+											"value": "%7B%22sequenceNum%22%3A1%2C%22albumId%22%3A%22d8610cdd-78f3-4862-ac3c-6faf284a6fa5%22%2C%22artId%22%3A%22781dda9c-41d9-406f-9e5f-8b6fabd709df%22%7D",
+											"description": "The optional database album item key to start the query from.",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getUserAlbumArts",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has items property, its not empty and items contain the correct properties', () => {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property('items');\r",
+											"    pm.expect(jsonData.items).to.be.an('array');\r",
+											"    pm.expect(jsonData.items).to.not.be.empty;\r",
+											"    pm.expect(jsonData.items[0]).to.have.all.keys('albumId', 'artId', 'sequenceNum', 'creationDate', 'title', 'description', 'imgUrl');\r",
+											"    pm.expect(jsonData.items[0]).to.not.have.property('userId');\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"albumId\": \"e6323b1c-038d-43de-a459-4fc78e9c296e\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverlessOfflineHost}}/dev/art/my",
+									"host": [
+										"{{serverlessOfflineHost}}"
+									],
+									"path": [
+										"dev",
+										"art",
+										"my"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": null,
+											"description": "The optional maximum number of returned items per call.",
+											"disabled": true
+										},
+										{
+											"key": "nextKey",
+											"value": null,
+											"description": "The optional database album item key to start the query from.",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "putArts",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 201', () => {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has items property, its not empty and items contain the correct properties', () => {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property('items');\r",
+											"    pm.expect(jsonData.items).to.be.an('array');\r",
+											"    pm.expect(jsonData.items).to.not.be.empty;\r",
+											"    pm.expect(jsonData.items[0]).to.have.all.keys('albumId', 'artId', 'sequenceNum', 'creationDate', 'title', 'description', 'imgUrl', 'uploadUrl');\r",
+											"    pm.expect(jsonData.items[0]).to.not.have.property('userId');\r",
+											"    pm.expect(jsonData.items[1]).to.not.have.keys('userId', 'genUploadUrl', 'imgUrl', 'uploadUrl');\r",
+											"    pm.expect(jsonData.items[2]).to.have.all.keys('albumId', 'artId', 'sequenceNum', 'creationDate', 'title', 'description', 'imgUrl', 'uploadUrl');\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n    {\r\n        \"albumId\": \"e6323b1c-038d-43de-a459-4fc78e9c296e\",\r\n        \"title\": \"Black phanter\",\r\n        \"description\": \"Himantopus himantopus\"\r\n    },\r\n    {\r\n        \"artId\": \"23e6348b-6e3f-47cd-82ac-5c3532a150c3\",\r\n        \"albumId\": \"e6323b1c-038d-43de-a459-4fc78e9c296e\",\r\n        \"title\": \"Common\"\r\n    },\r\n    {\r\n        \"artId\": \"2984686e-d023-4e81-a2d8-687a02fd23b5\",\r\n        \"albumId\": \"e6323b1c-038d-43de-a459-4fc78e9c296e\",\r\n        \"genUploadUrl\": true\r\n    }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverlessOfflineHost}}/dev/art/my",
+									"host": [
+										"{{serverlessOfflineHost}}"
+									],
+									"path": [
+										"dev",
+										"art",
+										"my"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": null,
+											"description": "The optional maximum number of returned items per call.",
+											"disabled": true
+										},
+										{
+											"key": "nextKey",
+											"value": null,
+											"description": "The optional database album item key to start the query from.",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteArts",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has item property, its not empty and item contain the correct properties', () => {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.all.keys('items', 'message');\r",
+											"    pm.expect(jsonData.items).to.be.an('array');\r",
+											"    pm.expect(jsonData.items).to.not.be.empty;\r",
+											"    pm.expect(jsonData.items[0]).to.have.all.keys('albumId', 'artId');\r",
+											"    pm.expect(jsonData.message).to.eql('Arts deleted.');\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n    {\r\n        \"artId\": \"23e6348b-6e3f-47cd-82ac-5c3532a150c3\",\r\n        \"albumId\": \"e6323b1c-038d-43de-a459-4fc78e9c296e\"\r\n    },\r\n    {\r\n        \"artId\": \"2984686e-d023-4e81-a2d8-687a02fd23b5\",\r\n        \"albumId\": \"e6323b1c-038d-43de-a459-4fc78e9c296e\"\r\n    }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverlessOfflineHost}}/dev/art/my",
+									"host": [
+										"{{serverlessOfflineHost}}"
+									],
+									"path": [
+										"dev",
+										"art",
+										"my"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": null,
+											"description": "The optional maximum number of returned items per call.",
+											"disabled": true
+										},
+										{
+											"key": "nextKey",
+											"value": null,
+											"description": "The optional database album item key to start the query from.",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "AWS",
+			"item": [
+				{
+					"name": "Album",
+					"item": [
+						{
+							"name": "getPublicAlbums",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has items property, its not empty and items contain the correct properties', () => {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property('items');\r",
+											"    pm.expect(jsonData.items).to.be.an('array');\r",
+											"    pm.expect(jsonData.items).to.not.be.empty;\r",
+											"    pm.expect(jsonData.items[0]).to.have.all.keys('albumId', 'creationDate', 'visibility', 'title', 'description', 'coverUrl');\r",
+											"    pm.expect(jsonData.items[0]).to.not.have.property('userId');\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/album/public",
+									"protocol": "https",
+									"host": [
+										"{{apiId}}",
+										"execute-api",
+										"{{region}}",
+										"amazonaws",
+										"com"
+									],
+									"path": [
+										"dev",
+										"album",
+										"public"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": null,
+											"description": "The optional maximum number of returned items per call.",
+											"disabled": true
+										},
+										{
+											"key": "nextKey",
+											"value": null,
+											"description": "The optional database album item key to start the query from.",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getUserAlbums",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has items property, its not empty and items contain the correct properties', () => {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property('items');\r",
+											"    pm.expect(jsonData.items).to.be.an('array');\r",
+											"    pm.expect(jsonData.items).to.not.be.empty;\r",
+											"    pm.expect(jsonData.items[0]).to.have.all.keys('albumId', 'creationDate', 'visibility', 'title', 'description', 'coverUrl');\r",
+											"    pm.expect(jsonData.items[0]).to.not.have.property('userId');\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/album/my",
+									"protocol": "https",
+									"host": [
+										"{{apiId}}",
+										"execute-api",
+										"{{region}}",
+										"amazonaws",
+										"com"
+									],
+									"path": [
+										"dev",
+										"album",
+										"my"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": null,
+											"description": "The optional maximum number of returned items per call.",
+											"disabled": true
+										},
+										{
+											"key": "nextKey",
+											"value": null,
+											"description": "The optional database album item key to start the query from.",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "addAlbum",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 201', () => {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has item property, its not empty and item contain the correct properties', () => {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property('item');\r",
+											"    pm.expect(jsonData.item).to.be.an('object');\r",
+											"    pm.expect(jsonData.item).to.have.all.keys('albumId', 'creationDate', 'visibility', 'title', 'description', 'coverUrl', 'uploadUrl');\r",
+											"    pm.expect(jsonData.item).to.not.have.property('userId');\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"visibility\": \"public\",\r\n    \"title\": \"Album 1\",\r\n    \"description\": \"My first album\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/album/my",
+									"protocol": "https",
+									"host": [
+										"{{apiId}}",
+										"execute-api",
+										"{{region}}",
+										"amazonaws",
+										"com"
+									],
+									"path": [
+										"dev",
+										"album",
+										"my"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "editAlbum",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has item property, its not empty and item contain the correct properties', () => {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property('item');\r",
+											"    pm.expect(jsonData.item).to.be.an('object');\r",
+											"    pm.expect(jsonData.item).to.have.all.keys('albumId', 'creationDate', 'visibility', 'title', 'description', 'coverUrl', 'uploadUrl');\r",
+											"    pm.expect(jsonData.item).to.not.have.keys('userId', 'genUploadUrl');\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"albumId\": \"08c17db6-547f-4078-924f-7eaaaf3bb742\",\r\n    \"visibility\": \"private\",\r\n    \"title\": \"Album 2\",\r\n    \"description\": \"My album\",\r\n    \"genUploadUrl\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/album/my",
+									"protocol": "https",
+									"host": [
+										"{{apiId}}",
+										"execute-api",
+										"{{region}}",
+										"amazonaws",
+										"com"
+									],
+									"path": [
+										"dev",
+										"album",
+										"my"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteAlbum",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has item property, its not empty and item contain the correct properties', () => {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.all.keys('item', 'message');\r",
+											"    pm.expect(jsonData.item).to.be.an('object');\r",
+											"    pm.expect(jsonData.item).to.have.all.keys('albumId');\r",
+											"    pm.expect(jsonData.message).to.eql('Album deleted.');\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"albumId\": \"08c17db6-547f-4078-924f-7eaaaf3bb742\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/album/my",
+									"protocol": "https",
+									"host": [
+										"{{apiId}}",
+										"execute-api",
+										"{{region}}",
+										"amazonaws",
+										"com"
+									],
+									"path": [
+										"dev",
+										"album",
+										"my"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Art Copy",
+					"item": [
+						{
+							"name": "getPublicAlbumArts",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has items property, its not empty and items contain the correct properties', () => {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property('items');\r",
+											"    pm.expect(jsonData.items).to.be.an('array');\r",
+											"    pm.expect(jsonData.items).to.not.be.empty;\r",
+											"    pm.expect(jsonData.items[0]).to.have.all.keys('albumId', 'artId', 'sequenceNum', 'creationDate', 'title', 'description', 'imgUrl');\r",
+											"    pm.expect(jsonData.items[0]).to.not.have.property('userId');\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"albumId\": \"fbefab56-42e1-40af-9145-fbc34cc65f2f\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/art/public",
+									"protocol": "https",
+									"host": [
+										"{{apiId}}",
+										"execute-api",
+										"{{region}}",
+										"amazonaws",
+										"com"
+									],
+									"path": [
+										"dev",
+										"art",
+										"public"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "5",
+											"description": "The optional maximum number of returned items per call.",
+											"disabled": true
+										},
+										{
+											"key": "nextKey",
+											"value": "%7B%22sequenceNum%22%3A1%2C%22albumId%22%3A%22d8610cdd-78f3-4862-ac3c-6faf284a6fa5%22%2C%22artId%22%3A%22781dda9c-41d9-406f-9e5f-8b6fabd709df%22%7D",
+											"description": "The optional database album item key to start the query from.",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getUserAlbumArts",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has items property, its not empty and items contain the correct properties', () => {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property('items');\r",
+											"    pm.expect(jsonData.items).to.be.an('array');\r",
+											"    pm.expect(jsonData.items).to.not.be.empty;\r",
+											"    pm.expect(jsonData.items[0]).to.have.all.keys('albumId', 'artId', 'sequenceNum', 'creationDate', 'title', 'description', 'imgUrl');\r",
+											"    pm.expect(jsonData.items[0]).to.not.have.property('userId');\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"albumId\": \"e6323b1c-038d-43de-a459-4fc78e9c296e\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/art/my",
+									"protocol": "https",
+									"host": [
+										"{{apiId}}",
+										"execute-api",
+										"{{region}}",
+										"amazonaws",
+										"com"
+									],
+									"path": [
+										"dev",
+										"art",
+										"my"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": null,
+											"description": "The optional maximum number of returned items per call.",
+											"disabled": true
+										},
+										{
+											"key": "nextKey",
+											"value": null,
+											"description": "The optional database album item key to start the query from.",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "putArts",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 201', () => {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has items property, its not empty and items contain the correct properties', () => {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property('items');\r",
+											"    pm.expect(jsonData.items).to.be.an('array');\r",
+											"    pm.expect(jsonData.items).to.not.be.empty;\r",
+											"    pm.expect(jsonData.items[0]).to.have.all.keys('albumId', 'artId', 'sequenceNum', 'creationDate', 'title', 'description', 'imgUrl', 'uploadUrl');\r",
+											"    pm.expect(jsonData.items[0]).to.not.have.property('userId');\r",
+											"    pm.expect(jsonData.items[1]).to.not.have.keys('userId', 'genUploadUrl', 'imgUrl', 'uploadUrl');\r",
+											"    pm.expect(jsonData.items[2]).to.have.all.keys('albumId', 'artId', 'sequenceNum', 'creationDate', 'title', 'description', 'imgUrl', 'uploadUrl');\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n    {\r\n        \"albumId\": \"e6323b1c-038d-43de-a459-4fc78e9c296e\",\r\n        \"title\": \"Black phanter\",\r\n        \"description\": \"Himantopus himantopus\"\r\n    },\r\n    {\r\n        \"artId\": \"23e6348b-6e3f-47cd-82ac-5c3532a150c3\",\r\n        \"albumId\": \"e6323b1c-038d-43de-a459-4fc78e9c296e\",\r\n        \"title\": \"Common\"\r\n    },\r\n    {\r\n        \"artId\": \"2984686e-d023-4e81-a2d8-687a02fd23b5\",\r\n        \"albumId\": \"e6323b1c-038d-43de-a459-4fc78e9c296e\",\r\n        \"genUploadUrl\": true\r\n    }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/art/my",
+									"protocol": "https",
+									"host": [
+										"{{apiId}}",
+										"execute-api",
+										"{{region}}",
+										"amazonaws",
+										"com"
+									],
+									"path": [
+										"dev",
+										"art",
+										"my"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": null,
+											"description": "The optional maximum number of returned items per call.",
+											"disabled": true
+										},
+										{
+											"key": "nextKey",
+											"value": null,
+											"description": "The optional database album item key to start the query from.",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteArts",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has item property, its not empty and item contain the correct properties', () => {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.all.keys('items', 'message');\r",
+											"    pm.expect(jsonData.items).to.be.an('array');\r",
+											"    pm.expect(jsonData.items).to.not.be.empty;\r",
+											"    pm.expect(jsonData.items[0]).to.have.all.keys('albumId', 'artId');\r",
+											"    pm.expect(jsonData.message).to.eql('Arts deleted.');\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n    {\r\n        \"artId\": \"23e6348b-6e3f-47cd-82ac-5c3532a150c3\",\r\n        \"albumId\": \"e6323b1c-038d-43de-a459-4fc78e9c296e\"\r\n    },\r\n    {\r\n        \"artId\": \"2984686e-d023-4e81-a2d8-687a02fd23b5\",\r\n        \"albumId\": \"e6323b1c-038d-43de-a459-4fc78e9c296e\"\r\n    }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/art/my",
+									"protocol": "https",
+									"host": [
+										"{{apiId}}",
+										"execute-api",
+										"{{region}}",
+										"amazonaws",
+										"com"
+									],
+									"path": [
+										"dev",
+										"art",
+										"my"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": null,
+											"description": "The optional maximum number of returned items per call.",
+											"disabled": true
+										},
+										{
+											"key": "nextKey",
+											"value": null,
+											"description": "The optional database album item key to start the query from.",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Get Auth0 Access Token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"client_id\":\"5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr\",\r\n    \"client_secret\":\"uKOJViCPTYmOPO1kLDGfv65ATQwfH4R5GnJ9HqkIyskc_7A0PEsPRJM1aVEzY0QK\",\r\n    \"audience\":\"solar-art-gallery\",\r\n    \"grant_type\":\"client_credentials\"\r\n}"
+				},
+				"url": {
+					"raw": "https://dtm.us.auth0.com/oauth/token",
+					"protocol": "https",
+					"host": [
+						"dtm",
+						"us",
+						"auth0",
+						"com"
+					],
+					"path": [
+						"oauth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "serverlessOfflineHost",
+			"value": "http://localhost:4000"
+		},
+		{
+			"key": "authToken",
+			"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Im5wTExmNEpRSnZjdlViRFFSakJTRiJ9.eyJpc3MiOiJodHRwczovL2R0bS51cy5hdXRoMC5jb20vIiwic3ViIjoiNVhGejZ6dEFGQmV2STJFVnNkdzNlWFlKU1BVclR3Q3JAY2xpZW50cyIsImF1ZCI6InNvbGFyLWFydC1nYWxsZXJ5IiwiaWF0IjoxNjIyMDQxMDYxLCJleHAiOjE2MjQ2MzMwNjEsImF6cCI6IjVYRno2enRBRkJldkkyRVZzZHczZVhZSlNQVXJUd0NyIiwiZ3R5IjoiY2xpZW50LWNyZWRlbnRpYWxzIn0.wHWDDfPA4rqBkvbeDjkSopQ03pcPcn5QaFX-uNK2apxub8WdOjicMoZ1hV8eO3Gl1nUQVLZb5Djc0eGBRLdjWZem3IJvbnU1pvNUmwwIKTrL1fPeifmdCyrKFlFFXfEnTpCxNpYGzIDgogLnlnsoaCfox507RnasEesGZcFGYY6UJn0Io7tk-dBNOuPgUdCRXReqd5-zRGpZFduVZRcPJ5kskKaLSHrIwu444PFn0WOubT4IbREIUNWvs5SZwpxf__oeoqp1Mtt4eHvunLcb_Z-fWhpabfIbWfAszqEx-dmme3SeW5FBdKbvKyr2Wa7YnkEi_VeBEbMaoyfiTMQRjg"
+		},
+		{
+			"key": "apiId",
+			"value": "2lxzc0fwd3"
+		},
+		{
+			"key": "region",
+			"value": "sa-east-1"
+		}
+	]
+}

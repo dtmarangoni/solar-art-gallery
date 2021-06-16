@@ -12,7 +12,7 @@ import { loggerMiddleware } from '@utils/middleware/logger.middleware';
  * @param handler The lambda function handler.
  * @returns The middyfied lambda function.
  */
-export const publicMiddyfy = (handler) => {
+export const publicMiddyfy = (handler: any) => {
     return middy(handler)
         .use(middyJsonBodyParser())
         .use(cors({ credentials: true }))
@@ -25,12 +25,22 @@ export const publicMiddyfy = (handler) => {
  * @param handler The lambda function handler.
  * @returns The middyfied lambda function.
  */
-export const privateMiddyfy = (handler) => {
+export const privateMiddyfy = (handler: any) => {
     return middy(handler)
         .use(middyJsonBodyParser())
         .use(getUserID())
         .use(cors({ credentials: true }))
         .use(loggerMiddleware());
+};
+
+/**
+ * Apply middlewares before and/or after lambda functions for internal
+ * AWS ecosystem communication.
+ * @param handler The lambda function handler.
+ * @returns The middyfied lambda function.
+ */
+export const internalMiddyfy = (handler: any) => {
+    return middy(handler).use(middyJsonBodyParser()).use(loggerMiddleware(false, false, true));
 };
 
 /**

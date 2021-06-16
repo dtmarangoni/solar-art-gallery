@@ -82,6 +82,18 @@ export class FileStoreAccess {
     }
 
     /**
+     * Lists all objects inside a path in S3 file store.
+     * @param folderPath The full folder path where the objects resides
+     * in the file store.
+     * @returns The S3 List Objects V2 Output.
+     */
+    async listObjects(folderPath?: string) {
+        return await this.s3Client
+            .listObjectsV2({ Bucket: this.s3Bucket, Prefix: folderPath })
+            .promise();
+    }
+
+    /**
      * Deletes an object from S3 file store.
      * @param folderPath The full folder path where the object resides
      * in the file store.
@@ -96,11 +108,11 @@ export class FileStoreAccess {
 
     /**
      * Delete multiple objects from S3 file store.
-     * @param objects The objects array containing the full folder path
-     * where each object resides in file store and each object key name.
+     * @param objects The objects array containing the file store
+     * folder path and the key name for each object to be deleted.
      * @returns The S3 file store Delete Objects Output.
      */
-    async deleteObjects(objects: { folderPath: string; keyName: string }[]) {
+    async deleteObjectsByKeys(objects: { folderPath: string; keyName: string }[]) {
         return await this.s3Client
             .deleteObjects({
                 Bucket: this.s3Bucket,
@@ -109,6 +121,21 @@ export class FileStoreAccess {
                         Key: `${object.folderPath}/${object.keyName}`,
                     })),
                 },
+            })
+            .promise();
+    }
+
+    /**
+     * Delete multiple objects from S3 file store.
+     * @param objectsPaths The array containing the file store full
+     * folder path for each object to be deleted.
+     * @returns The S3 file store Delete Objects Output.
+     */
+    async deleteObjectsByPath(objectsPaths: string[]) {
+        return await this.s3Client
+            .deleteObjects({
+                Bucket: this.s3Bucket,
+                Delete: { Objects: objectsPaths.map((objPath) => ({ Key: `${objPath}` })) },
             })
             .promise();
     }

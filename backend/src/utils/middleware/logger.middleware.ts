@@ -18,18 +18,29 @@ const logger = createLogger();
 /**
  * Middy logger middleware to register all requests, responses and
  * error from lambda functions calls.
+ * @param logBefore True to enable and false to disable the logger in
+ * before phase from middleware chain. Default is enabled.
+ * @param logAfter True to enable and false to disable the logger in
+ * after phase from middleware chain. Default is enabled.
+ * @param logOnError True to enable and false to disable the logger in
+ * case of errors in middleware chain. Default is enabled.
+ * @returns The logger middleware customized for before, after and
+ * onError in middleware chain.
  */
-export const loggerMiddleware = () => {
-    // logger.child({ defaultMeta: { name:  },})
-    return { before, after, onError };
+export const loggerMiddleware = (logBefore = true, logAfter = true, logOnError = true) => {
+    return {
+        before: logBefore ? beforeLogger : undefined,
+        after: logAfter ? afterLogger : undefined,
+        onError: logOnError ? onErrorLogger : undefined,
+    };
 };
 
 /**
- * Before phase function from middleware chain.
+ * Before phase logger function for middleware chain.
  * @param event A reference to the current context and allows access
  * and modification of the current request event.
  */
-async function before(event: any) {
+async function beforeLogger(event: any) {
     // Log the request before lambda execution
     logger.info(`${MiddlewarePhases.before} ${event.context.functionName}`, {
         functionName: event.context.functionName,
@@ -41,11 +52,11 @@ async function before(event: any) {
 }
 
 /**
- * After phase function from middleware chain.
+ * After phase logger function for middleware chain.
  * @param event A reference to the current context and allows access
  * and modification of the current response.
  */
-async function after(event: any) {
+async function afterLogger(event: any) {
     // Log the request response after lambda execution
     logger.info(`${MiddlewarePhases.after} ${event.context.functionName}`, {
         functionName: event.context.functionName,
@@ -57,11 +68,12 @@ async function after(event: any) {
 }
 
 /**
- * Error function that is executed in case of errors.
+ * Error logger function that is executed in case of errors in the
+ * middleware chain.
  * @param event A reference to the current context and allows access
  * and modification of an error.
  */
-async function onError(event: any) {
+async function onErrorLogger(event: any) {
     // Set the HTTP status code of not already
     const statusCode = event.error.statusCode ? event.error.statusCode : 500;
     // Set the error message if not already
@@ -78,7 +90,7 @@ async function onError(event: any) {
             functionName: event.context.functionName,
             requestId: event.context.awsRequestId,
             timestamp: new Date().toISOString(),
-            phase: 'error',
+            phase: MiddlewarePhases.error,
             error: { statusCode, message, stack: event.error.stack },
             request: event,
         }

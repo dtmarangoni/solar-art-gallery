@@ -70,6 +70,19 @@ export class ArtAccess {
     }
 
     /**
+     * Get an art item from Art DynamoDB table.
+     * @param albumId The album ID containing the art item.
+     * @param artId The art ID.
+     * @returns The art item.
+     */
+    async getArt(albumId: string, artId: string) {
+        const result = await this.dynamoDB
+            .get({ TableName: this.artTable, Key: { albumId, artId } })
+            .promise();
+        return result.Item as Art;
+    }
+
+    /**
      * Add and/or update multiple arts to an album in Art DynamoDB
      * table.
      * @param items The arts items.
