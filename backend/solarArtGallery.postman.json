@@ -28,6 +28,7 @@
 											"    pm.expect(jsonData.items).to.be.an('array');\r",
 											"    pm.expect(jsonData.items).to.not.be.empty;\r",
 											"    pm.expect(jsonData.items[0]).to.have.all.keys('albumId', 'creationDate', 'visibility', 'title', 'description', 'coverUrl');\r",
+											"    pm.expect(jsonData.items, (item) => pm.expect(item.visibility).to.equal('public'));\r",
 											"    pm.expect(jsonData.items[0]).to.not.have.property('userId');\r",
 											"});"
 										],
@@ -508,20 +509,6 @@
 										"dev",
 										"art",
 										"my"
-									],
-									"query": [
-										{
-											"key": "limit",
-											"value": null,
-											"description": "The optional maximum number of returned items per call.",
-											"disabled": true
-										},
-										{
-											"key": "nextKey",
-											"value": null,
-											"description": "The optional database album item key to start the query from.",
-											"disabled": true
-										}
 									]
 								}
 							},
@@ -538,7 +525,7 @@
 											"    pm.response.to.have.status(200);\r",
 											"});\r",
 											"\r",
-											"pm.test('Response has item property, its not empty and item contain the correct properties', () => {\r",
+											"pm.test('Response has items property, its not empty and item contain the correct properties', () => {\r",
 											"    const jsonData = pm.response.json();\r",
 											"    pm.expect(jsonData).to.have.all.keys('items', 'message');\r",
 											"    pm.expect(jsonData.items).to.be.an('array');\r",
@@ -582,20 +569,6 @@
 										"dev",
 										"art",
 										"my"
-									],
-									"query": [
-										{
-											"key": "limit",
-											"value": null,
-											"description": "The optional maximum number of returned items per call.",
-											"disabled": true
-										},
-										{
-											"key": "nextKey",
-											"value": null,
-											"description": "The optional database album item key to start the query from.",
-											"disabled": true
-										}
 									]
 								}
 							},
@@ -628,6 +601,7 @@
 											"    pm.expect(jsonData.items).to.be.an('array');\r",
 											"    pm.expect(jsonData.items).to.not.be.empty;\r",
 											"    pm.expect(jsonData.items[0]).to.have.all.keys('albumId', 'creationDate', 'visibility', 'title', 'description', 'coverUrl');\r",
+											"    pm.expect(jsonData.items, (item) => pm.expect(item.visibility).to.equal('public'));\r",
 											"    pm.expect(jsonData.items[0]).to.not.have.property('userId');\r",
 											"});"
 										],
@@ -936,7 +910,7 @@
 					]
 				},
 				{
-					"name": "Art Copy",
+					"name": "Art",
 					"item": [
 						{
 							"name": "getPublicAlbumArts",
@@ -1148,20 +1122,6 @@
 										"dev",
 										"art",
 										"my"
-									],
-									"query": [
-										{
-											"key": "limit",
-											"value": null,
-											"description": "The optional maximum number of returned items per call.",
-											"disabled": true
-										},
-										{
-											"key": "nextKey",
-											"value": null,
-											"description": "The optional database album item key to start the query from.",
-											"disabled": true
-										}
 									]
 								}
 							},
@@ -1178,7 +1138,7 @@
 											"    pm.response.to.have.status(200);\r",
 											"});\r",
 											"\r",
-											"pm.test('Response has item property, its not empty and item contain the correct properties', () => {\r",
+											"pm.test('Response has items property, its not empty and item contain the correct properties', () => {\r",
 											"    const jsonData = pm.response.json();\r",
 											"    pm.expect(jsonData).to.have.all.keys('items', 'message');\r",
 											"    pm.expect(jsonData.items).to.be.an('array');\r",
@@ -1227,24 +1187,2602 @@
 										"dev",
 										"art",
 										"my"
-									],
-									"query": [
-										{
-											"key": "limit",
-											"value": null,
-											"description": "The optional maximum number of returned items per call.",
-											"disabled": true
-										},
-										{
-											"key": "nextKey",
-											"value": null,
-											"description": "The optional database album item key to start the query from.",
-											"disabled": true
-										}
 									]
 								}
 							},
 							"response": []
+						}
+					]
+				},
+				{
+					"name": "Fail Tests",
+					"item": [
+						{
+							"name": "Album",
+							"item": [
+								{
+									"name": "getPublicAlbums - fail 1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 400', () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Pagination shouldn't be negative\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal('The pagination limit should be a positive number.');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/album/public?limit=-2&nextKey=",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"album",
+												"public"
+											],
+											"query": [
+												{
+													"key": "limit",
+													"value": "-2",
+													"description": "The optional maximum number of returned items per call."
+												},
+												{
+													"key": "nextKey",
+													"value": "",
+													"description": "The optional database album item key to start the query from."
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "getUserAlbums - fail 1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 400', () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Pagination search start key should be a string\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal('The provided starting key is invalid');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/album/my?nextKey=0",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"album",
+												"my"
+											],
+											"query": [
+												{
+													"key": "limit",
+													"value": "-1",
+													"description": "The optional maximum number of returned items per call.",
+													"disabled": true
+												},
+												{
+													"key": "nextKey",
+													"value": "0",
+													"description": "The optional database album item key to start the query from."
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "getUserAlbums - fail 2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 401', () => {\r",
+													"    pm.response.to.have.status(401);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Missing Auth header\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal('Unauthorized');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/album/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"album",
+												"my"
+											],
+											"query": [
+												{
+													"key": "limit",
+													"value": "-1",
+													"description": "The optional maximum number of returned items per call.",
+													"disabled": true
+												},
+												{
+													"key": "nextKey",
+													"value": "0",
+													"description": "The optional database album item key to start the query from.",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "getUserAlbums - fail 3",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 401', () => {\r",
+													"    pm.response.to.have.status(401);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Missing Auth token\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal('Unauthorized');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer"
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/album/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"album",
+												"my"
+											],
+											"query": [
+												{
+													"key": "limit",
+													"value": "-1",
+													"description": "The optional maximum number of returned items per call.",
+													"disabled": true
+												},
+												{
+													"key": "nextKey",
+													"value": "0",
+													"description": "The optional database album item key to start the query from.",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "getUserAlbums - fail 4",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 403', () => {\r",
+													"    pm.response.to.have.status(403);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Malformed token\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal('User is not authorized to access this resource with an explicit deny');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": " {{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/album/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"album",
+												"my"
+											],
+											"query": [
+												{
+													"key": "limit",
+													"value": "-1",
+													"description": "The optional maximum number of returned items per call.",
+													"disabled": true
+												},
+												{
+													"key": "nextKey",
+													"value": "0",
+													"description": "The optional database album item key to start the query from.",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "getUserAlbums - fail 5",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 403', () => {\r",
+													"    pm.response.to.have.status(403);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Invalid token\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal('User is not authorized to access this resource with an explicit deny');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Im5wTExmNEpRSnZjdlViRFFSakJTRiJ9.eyJpc3MiOiJodHRwczovL2R0bS51cy5hdXRoMC5jb20vIiwic3ViIjoiNVhGejZ6dEFGQmV2STJFVnNkdzNlWFlKU1BVclR3Q3JAY2xpZW50cyIsImF1ZCI6InNvbGFyLWFydC1nYWxsZXJ5IiwiaWF0IjoxNjIyMDQxMDYxLCJleHAiOjE2MjQ2MzMwNjEsImF6cCI6IjVYRno2enRBRkJldkkyRVZzZHczZVhZSlNQVXJUd0NyIiwiZ3R5IjoiY2xpZW50LWNyZWRlbnRpYWxzIn0.wHWDDfPA4rqBkvbeDjkSopQ03pcPcn5QaFX-uNK2apxub8WdOjicMoZ1hV8eO3Gl1nUQVLZb5Djc0eGBRLdjWZem3IJvbnU1pvNUmwwIKTrL1fPeifmdCyrKFlFFXfEnTpCxNpYGzIDgogLnlnsoaCfox507RnasEesGZcFGYY6UJn0Io7tk-dBNOuPgUdCRXReqd5-zRGpZFduVZRcPJ5kskKaLSHrIwu444PFn0WOubT4IbREIUNWvs5SZwpxf__oeoqp1Mtt4eHvunLcb_Z-fWhpabfIbWfAszqEx-dmme3SeW5FBdKbvKyr2Wa7YnkEi_VeBEbMaoyfiTTTRjg",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/album/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"album",
+												"my"
+											],
+											"query": [
+												{
+													"key": "limit",
+													"value": "-1",
+													"description": "The optional maximum number of returned items per call.",
+													"disabled": true
+												},
+												{
+													"key": "nextKey",
+													"value": "0",
+													"description": "The optional database album item key to start the query from.",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "addAlbum - fail 1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 400', () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Invalid request body\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal('Invalid request body');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"title\": \"Album 1\",\r\n    \"description\": \"My first album\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/album/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"album",
+												"my"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "addAlbum - fail 2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 400', () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Invalid request body\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal('Invalid request body');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"visibility\": \"public\",\r\n    \"description\": \"My first album\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/album/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"album",
+												"my"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "addAlbum - fail 3",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 400', () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Invalid request body\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal('Invalid request body');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"visibility\": \"public\",\r\n    \"title\": \"Album 1\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/album/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"album",
+												"my"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "addAlbum - fail 4",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 400', () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Invalid request body\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal('Invalid request body');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"visibility\": \"public\",\r\n    \"title\": \"Album 1\",\r\n    \"description\": \"My first album\",\r\n    \"name\": \"daniel\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/album/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"album",
+												"my"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "addAlbum - fail 5",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 400', () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Invalid request body\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal('Invalid request body');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"visibility\": \"\",\r\n    \"title\": 2,\r\n    \"description\": \"My first album\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/album/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"album",
+												"my"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "editAlbum - fail 1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 400', () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Invalid request body\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal('Invalid request body');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"visibility\": \"private\",\r\n    \"title\": \"Album 2\",\r\n    \"description\": \"My album\",\r\n    \"genUploadUrl\": true\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/album/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"album",
+												"my"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "editAlbum - fail 2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 400', () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Invalid request body\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal('Invalid request body');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"albumId\": \"08c17db6-547f-4078-924f-7eaaaf3bb72\",\r\n    \"visibility\": \"public\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/album/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"album",
+												"my"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "editAlbum - fail 3",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 400', () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Invalid request body\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal('Invalid request body');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"albumId\": \"08c17db6-547f-4078-924f-7eaaaf3bb742\",\r\n    \"visibility\": \"\",\r\n    \"title\": \"Album 2\",\r\n    \"description\": 123\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/album/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"album",
+												"my"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "editAlbum - fail 4",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 404', () => {\r",
+													"    pm.response.to.have.status(404);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Editing an inexisting album\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal(\"This album item doesn't exists.\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"albumId\": \"08c17db6-547f-4078-924f-7eaaaf3bb732\",\r\n    \"title\": \"Album 2\",\r\n    \"description\": \"My album\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/album/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"album",
+												"my"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "editAlbum - fail 5",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 403', () => {\r",
+													"    pm.response.to.have.status(403);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Editing an album from another user\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal('Unauthorized.');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"albumId\": \"fbefab56-42e1-40af-9145-fbc34cc65f2f\",\r\n    \"title\": \"Album 2\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/album/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"album",
+												"my"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "deleteAlbum - fail 1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 400', () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Invalid request body\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal('Invalid request body');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/album/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"album",
+												"my"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "deleteAlbum - fail 2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 400', () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Invalid request body\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal('Invalid request body');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"albumId\": \"08c17db6-547f-4078-924f-7eaaaf3bb72\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/album/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"album",
+												"my"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "deleteAlbum - fail 3",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 404', () => {\r",
+													"    pm.response.to.have.status(404);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Deleting an inexisting album\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal(\"This album item doesn't exists.\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"albumId\": \"08c17db6-547f-4078-924f-7eaadf3bb742\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/album/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"album",
+												"my"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "deleteAlbum - fail 4",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 403', () => {\r",
+													"    pm.response.to.have.status(403);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Deleting an album from another user\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal('Unauthorized.');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"albumId\": \"fbefab56-42e1-40af-9145-fbc34cc65f2f\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/album/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"album",
+												"my"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Art",
+							"item": [
+								{
+									"name": "getPublicAlbumArts - fail 1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 400', () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Invalid request body\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal('Invalid request body');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"albumId\": \"\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/art/public",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"art",
+												"public"
+											],
+											"query": [
+												{
+													"key": "limit",
+													"value": "3",
+													"description": "The optional maximum number of returned items per call.",
+													"disabled": true
+												},
+												{
+													"key": "nextKey",
+													"value": "%7B%22sequenceNum%22%3A1%2C%22albumId%22%3A%22d8610cdd-78f3-4862-ac3c-6faf284a6fa5%22%2C%22artId%22%3A%22781dda9c-41d9-406f-9e5f-8b6fabd709df%22%7D",
+													"description": "The optional database album item key to start the query from.",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "getPublicAlbumArts - fail 2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 404', () => {\r",
+													"    pm.response.to.have.status(404);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Getting arts from an inexisting album\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal(\"This album item doesn't exists.\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"albumId\": \"fbefab56-42e1-40af-9145-fbc34dc65f2f\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/art/public",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"art",
+												"public"
+											],
+											"query": [
+												{
+													"key": "limit",
+													"value": "5",
+													"description": "The optional maximum number of returned items per call.",
+													"disabled": true
+												},
+												{
+													"key": "nextKey",
+													"value": "%7B%22sequenceNum%22%3A1%2C%22albumId%22%3A%22d8610cdd-78f3-4862-ac3c-6faf284a6fa5%22%2C%22artId%22%3A%22781dda9c-41d9-406f-9e5f-8b6fabd709df%22%7D",
+													"description": "The optional database album item key to start the query from.",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "getPublicAlbumArts - fail 3",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 403', () => {\r",
+													"    pm.response.to.have.status(403);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Getting arts from a private album\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal('Unauthorized.');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"albumId\": \"e6323b1c-038d-43de-a459-4fc78e9c296e\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/art/public",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"art",
+												"public"
+											],
+											"query": [
+												{
+													"key": "limit",
+													"value": "5",
+													"description": "The optional maximum number of returned items per call.",
+													"disabled": true
+												},
+												{
+													"key": "nextKey",
+													"value": "%7B%22sequenceNum%22%3A1%2C%22albumId%22%3A%22d8610cdd-78f3-4862-ac3c-6faf284a6fa5%22%2C%22artId%22%3A%22781dda9c-41d9-406f-9e5f-8b6fabd709df%22%7D",
+													"description": "The optional database album item key to start the query from.",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "getUserAlbumArts - fail 1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 400', () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Invalid request body\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal('Invalid request body');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"albumId\": \"e6323b1c-038d-43de-a459-4f78e9c296e\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/art/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"art",
+												"my"
+											],
+											"query": [
+												{
+													"key": "limit",
+													"value": null,
+													"description": "The optional maximum number of returned items per call.",
+													"disabled": true
+												},
+												{
+													"key": "nextKey",
+													"value": null,
+													"description": "The optional database album item key to start the query from.",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "getUserAlbumArts - fail 2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 404', () => {\r",
+													"    pm.response.to.have.status(404);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Getting arts from an inexisting album\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal(\"This album item doesn't exists.\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"albumId\": \"e6323b1c-038d-43de-a459-4fd78e9c296e\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/art/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"art",
+												"my"
+											],
+											"query": [
+												{
+													"key": "limit",
+													"value": null,
+													"description": "The optional maximum number of returned items per call.",
+													"disabled": true
+												},
+												{
+													"key": "nextKey",
+													"value": null,
+													"description": "The optional database album item key to start the query from.",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "getUserAlbumArts - fail 3",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 403', () => {\r",
+													"    pm.response.to.have.status(403);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Getting arts from another user's album\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal('Unauthorized.');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"albumId\": \"fbefab56-42e1-40af-9145-fbc34cc65f2f\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/art/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"art",
+												"my"
+											],
+											"query": [
+												{
+													"key": "limit",
+													"value": null,
+													"description": "The optional maximum number of returned items per call.",
+													"disabled": true
+												},
+												{
+													"key": "nextKey",
+													"value": null,
+													"description": "The optional database album item key to start the query from.",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "putArts - fail 1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 400', () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Invalid request body\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal('Invalid request body');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "[]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/art/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"art",
+												"my"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "putArts - fail 2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 400', () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Invalid request body\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal('Invalid request body');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "[\r\n    {\r\n        \"title\": \"Black phanter\",\r\n        \"description\": \"Himantopus himantopus\"\r\n    }\r\n]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/art/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"art",
+												"my"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "putArts - fail 3",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 403', () => {\r",
+													"    pm.response.to.have.status(403);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Adding or updating arts in another user's album\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal('Unauthorized.');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "[\r\n    {\r\n        \"albumId\": \"fbefab56-42e1-40af-9145-fbc34cc65f2f\",\r\n        \"title\": \"Black phanter\",\r\n        \"description\": \"Himantopus himantopus\"\r\n    }\r\n]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/art/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"art",
+												"my"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "putArts - fail 4",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 400', () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Adding or updating arts from different albums at the same time\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal(\"The arts items don't belong to the same album\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "[\r\n    {\r\n        \"albumId\": \"23e6348b-6e3f-47cd-82ac-5c3532a150c3\",\r\n        \"title\": \"Black phanter\",\r\n        \"description\": \"Himantopus himantopus\"\r\n    },\r\n    {\r\n        \"artId\": \"23e6348b-6e3f-47cd-82ac-5c3532a150c3\",\r\n        \"albumId\": \"6984fbc5-28e8-4558-963c-fa152244e9d5\",\r\n        \"title\": \"Common\"\r\n    },\r\n    {\r\n        \"artId\": \"2984686e-d023-4e81-a2d8-687a02fd23b5\",\r\n        \"albumId\": \"23e6348b-6e3f-47cd-82ac-5c3532a150c3\",\r\n        \"genUploadUrl\": true\r\n    }\r\n]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/art/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"art",
+												"my"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "putArts - fail 5",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 400', () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Title and description are mandatory for new art items.\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal('Title and description are mandatory for new art items.');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "[\r\n    {\r\n        \"albumId\": \"e6323b1c-038d-43de-a459-4fc78e9c296e\",\r\n        \"title\": \"Black phanter\"\r\n    }\r\n]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/art/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"art",
+												"my"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "putArts - fail 6",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 404', () => {\r",
+													"    pm.response.to.have.status(404);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Adding or updating an inexisting art\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal(\"This art item doesn't exists.\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "[\r\n    {\r\n        \"artId\": \"d2613e41-97fd-4bb3-b787-0gg30a6be9f3\",\r\n        \"albumId\": \"e6323b1c-038d-43de-a459-4fc78e9c296e\",\r\n        \"title\": \"White phanter\"\r\n    }\r\n]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/art/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"art",
+												"my"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "putArts - fail 7",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 400', () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Invalid request body\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal('Invalid request body');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "[\r\n    {\r\n        \"artId\": \"23e6348b-6e3f-47cd-82ac-5c3532a150c3\",\r\n        \"albumId\": \"e6323b1c-038d-43de-a459-4fc78e9c296e\",\r\n        \"title\": \"\"\r\n    }\r\n]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/art/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"art",
+												"my"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "putArts - fail 8",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 400', () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Invalid request body\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal('Invalid request body');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "[\r\n    {\r\n        \"artId\": \"23e6348b-6e3f-47cd-82ac-5c3532a150c3\",\r\n        \"albumId\": \"e6323b1c-038d-43de-a459-4fc78e9c296e\",\r\n        \"genUploadUrl\": null\r\n    }\r\n]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/art/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"art",
+												"my"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "deleteArts - fail 1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 400', () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Invalid request body\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal('Invalid request body');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "[]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/art/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"art",
+												"my"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "deleteArts - fail 2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 400', () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Invalid request body\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal('Invalid request body');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "[\r\n    {\r\n        \"albumId\": \"e6323b1c-038d-43de-a459-4fc78e9c296e\"\r\n    }\r\n]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/art/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"art",
+												"my"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "deleteArts - fail 3",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 400', () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Invalid request body\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal('Invalid request body');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "[\r\n    {\r\n        \"artId\": \"23e6348b-6e3f-47cd-82ac-5c3532a150c3\"\r\n    }\r\n]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/art/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"art",
+												"my"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "deleteArts - fail 4",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 404', () => {\r",
+													"    pm.response.to.have.status(404);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Deleting art from an inexisting album\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal(\"This album item doesn't exists.\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "[\r\n    {\r\n        \"artId\": \"23e6348b-6e3f-47cd-82ac-5c3532a150c3\",\r\n        \"albumId\": \"08c17db6-547f-4078-924f-7eaadf3bb742\"\r\n    }\r\n]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/art/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"art",
+												"my"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "deleteArts - fail 5",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 404', () => {\r",
+													"    pm.response.to.have.status(404);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Deleting an inexisting art\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal(\"This art item doesn't exists.\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "[\r\n    {\r\n        \"artId\": \"23e6348b-6e3f-47cd-82ac-7d3532a150c3\",\r\n        \"albumId\": \"e6323b1c-038d-43de-a459-4fc78e9c296e\"\r\n    }\r\n]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/art/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"art",
+												"my"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "deleteArts - fail 6",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Status code is 403', () => {\r",
+													"    pm.response.to.have.status(403);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Deleting arts from another user's album\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"    pm.expect(jsonData.message).to.be.an('string');\r",
+													"    pm.expect(jsonData.message).to.equal('Unauthorized.');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "[\r\n    {\r\n        \"artId\": \"40f948ad-5d06-496b-8c49-aeeffeeeed63\",\r\n        \"albumId\": \"fbefab56-42e1-40af-9145-fbc34cc65f2f\"\r\n    }\r\n]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/dev/art/my",
+											"protocol": "https",
+											"host": [
+												"{{apiId}}",
+												"execute-api",
+												"{{region}}",
+												"amazonaws",
+												"com"
+											],
+											"path": [
+												"dev",
+												"art",
+												"my"
+											]
+										}
+									},
+									"response": []
+								}
+							]
 						}
 					]
 				}
@@ -1314,7 +3852,7 @@
 		},
 		{
 			"key": "apiId",
-			"value": "2lxzc0fwd3"
+			"value": "g5uvxoz5kg"
 		},
 		{
 			"key": "region",

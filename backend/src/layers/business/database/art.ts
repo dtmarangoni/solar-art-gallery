@@ -15,7 +15,7 @@ import {
     putArtsSchema,
     deleteArtsSchema,
 } from '@lambda/http/index';
-import { getDownloadSignedUrl, getFsArtsFolder, getUploadSignedUrl } from '../fileStore';
+import { getDownloadSignedUrl, getFsArtsFolder, getUploadSignedUrl } from '../fileStore/fileStore';
 
 // The Art Access port
 const artAccess = new ArtAccess();
@@ -90,10 +90,13 @@ export async function getUserAlbumArts(
  * Get an art item from Art database table.
  * @param albumId The album ID containing the art item.
  * @param artId The art ID.
- * @returns The art item in case it exists or undefined otherwise.
+ * @returns The art item in case it exists or throw an error otherwise.
  */
 export async function getArt(albumId: string, artId: string) {
     const art = await artAccess.getArt(albumId, artId);
+    // Check if the art has been found
+    if (!art) throw new createHttpError.NotFound("This art item doesn't exists.");
+    // Return the art in case it exists
     return art;
 }
 
@@ -138,13 +141,14 @@ export async function deleteArts(userId: string, artsParams: FromSchema<typeof d
     // Verify if the album exists and the user ownership before
     // proceeding. This function will throw an error if not OK
     await albumOwnership(userId, sameAlbum(artsParams.map((artParams) => artParams.albumId)));
+    // Verify if the arts exists in DB. It will throw an error if an
+    // item isn't in DB
+    for (const artParams of artsParams) await getArt(artParams.albumId, artParams.artId);
 
     // Delete the arts items from DB
     await artAccess.deleteArts(artsParams);
     // Return the deleted arts IDs as confirmation of a success operation
     return artsParams;
-
-    // TODO Remove arts images from file store
 }
 
 /**
@@ -193,13 +197,8 @@ async function prepArtsData(userId: string, artsParams: FromSchema<typeof putArt
                 sequenceNum
             );
         } else {
-            // Existing items, thus retrieve it from DB
-            const art = await getArt(params.albumId, params.artId);
-            // Generate the pre-signed urls
-            const { imgUrl, uploadUrl } = fsArtUrls(params.albumId, art.artId, params.genUploadUrl);
-            // Remove the genUploadUrl flag before return the art data
-            const { genUploadUrl, ...newParams } = params;
-            return { ...art, ...newParams, sequenceNum, imgUrl, uploadUrl };
+            // Generate art data for exiting items
+            return await existingArtItemData(params, sequenceNum);
         }
     });
 
@@ -233,6 +232,34 @@ function newArtItemData(
     const creationDate = new Date().toISOString();
 
     return { ...artParams, artId, sequenceNum, userId, creationDate, imgUrl, uploadUrl };
+}
+
+/**
+ * Prepare the art data for editing art items.
+ * @param artParams The required parameters to edit the art item in
+ * database.
+ * @param sequenceNum The art item sequence number inside the album
+ * gallery.
+ * @returns The art data for editing art items.
+ */
+async function existingArtItemData(
+    artParams: {
+        artId?: string;
+        title?: string;
+        description?: string;
+        genUploadUrl?: boolean;
+        albumId: string;
+    },
+    sequenceNum: number
+) {
+    // Retrieve the art item from DB. This function will throw an error
+    // if art doesn't exists in DB
+    const art = await getArt(artParams.albumId, artParams.artId);
+    // Generate the pre-signed urls
+    const { imgUrl, uploadUrl } = fsArtUrls(artParams.albumId, art.artId, artParams.genUploadUrl);
+    // Remove the genUploadUrl flag before return the art data
+    const { genUploadUrl, ...newParams } = artParams;
+    return { ...art, ...newParams, sequenceNum, imgUrl, uploadUrl };
 }
 
 /**

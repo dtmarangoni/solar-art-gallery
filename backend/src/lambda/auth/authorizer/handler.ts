@@ -3,7 +3,7 @@ import { APIGatewayTokenAuthorizerHandler, APIGatewayTokenAuthorizerEvent } from
 
 import { createLogger } from '@utils/logger';
 import { generateIAMPolicy } from '@utils/apiGateway';
-import { validateAuthToken } from '../../../layers/business/authorizer';
+import { validateAuthToken } from '../../../layers/business/authorizer/authorizer';
 import { MiddlewarePhases } from '@utils/middleware/logger.middleware';
 
 // Winston logger

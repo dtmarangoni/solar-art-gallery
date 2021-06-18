@@ -7,7 +7,7 @@ import { Album, AlbumVisibility } from '../../../../models/database/Album';
 
 export class AlbumAccess {
     /**
-     * Constructs a AlbumAccess instance.
+     * Constructs an AlbumAccess instance.
      * @param dynamoDB AWS DynamoDB instance.
      * @param albumTable Album table name.
      * @param albumVisibilityGSI Album table visibility global
@@ -119,22 +119,11 @@ export class AlbumAccess {
     }
 
     /**
-     * Add an album item in Album DynamoDB table.
+     * Add or edit an album item in Album DynamoDB table.
      * @param item The album item.
-     * @returns The added album item.
+     * @returns The added or edited album item.
      */
-    async addAlbum(item: Album) {
-        await this.dynamoDB.put({ TableName: this.albumTable, Item: item }).promise();
-        // Return the album item as confirmation of a success operation
-        return item;
-    }
-
-    /**
-     * Edit an album item in Album DynamoDB table.
-     * @param item The album item with the new properties.
-     * @returns The edited album item.
-     */
-    async editAlbum(item: Album) {
+    async putAlbum(item: Album) {
         await this.dynamoDB.put({ TableName: this.albumTable, Item: item }).promise();
         // Return the album item as confirmation of a success operation
         return item;

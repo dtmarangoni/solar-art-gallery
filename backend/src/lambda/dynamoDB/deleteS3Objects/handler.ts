@@ -4,7 +4,7 @@ import { DynamoDBStreamHandler, DynamoDBStreamEvent } from 'aws-lambda';
 import { createLogger } from '@utils/logger';
 import { MiddlewarePhases } from '@utils/middleware/logger.middleware';
 import { internalMiddyfy } from '@utils/lambda';
-import { deleteRecordObj } from '../../../layers/business/fileStore';
+import { deleteRecordObj } from '../../../layers/business/fileStore/fileStore';
 
 // Winston logger
 const logger = createLogger();

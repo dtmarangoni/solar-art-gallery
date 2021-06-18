@@ -10,7 +10,7 @@
     },
     {
         "albumId": "e6323b1c-038d-43de-a459-4fc78e9c296e",
-        "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
+        "userId": "auth0|60cb43de612d820070a6cd14",
         "creationDate": "2020-11-29T00:10:51Z",
         "visibility": "private",
         "title": "Menzies' Metaneckera Moss",
@@ -19,7 +19,7 @@
     },
     {
         "albumId": "08c17db6-547f-4078-924f-7eaaaf3bb742",
-        "userId": "5XFz6ztAFBevI2EVsdw3eXYJSPUrTwCr@clients",
+        "userId": "auth0|60cb43de612d820070a6cd14",
         "creationDate": "2021-01-27T03:03:42Z",
         "visibility": "public",
         "title": "Mock Vervain",

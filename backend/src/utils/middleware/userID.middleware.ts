@@ -11,12 +11,10 @@ export const getUserID = () => {
             // Decode the JWT token
             const authToken = getAuthToken(request.event.headers?.Authorization);
             const decodedToken = decodeToken(authToken);
-            // Get the token cryptographic key id
-            const cryptoKId = decodedToken.header.kid;
             // Get the user ID
             const userId = decodedToken.payload.sub;
-            // Copy the cryptographic key and user id properties to context
-            Object.assign(request.context, { userId, cryptoKId });
+            // Copy the user id to request context
+            Object.assign(request.context, { userId });
         },
     };
 };

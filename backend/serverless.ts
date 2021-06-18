@@ -10,6 +10,7 @@ import {
     getUserAlbumArts,
     putArts,
     deleteArts,
+    putUser,
 } from '@lambda/http';
 import { deleteS3Objects } from '@lambda/dynamoDB';
 import { authorizer } from '@lambda/auth';
@@ -45,6 +46,7 @@ const serverlessConfiguration: AWS = {
             ALBUM_ALBUM_ID_GSI: 'AlbumAlbumIdGSI-${self:provider.stage}',
             ART_TABLE: 'Art-${self:provider.stage}',
             ART_ALBUM_ID_LSI: 'ArtAlbumIdLSI-${self:provider.stage}',
+            USER_TABLE: 'User-${self:provider.stage}',
             IMAGES_S3_BUCKET: 'solar-art-gallery-images-${self:provider.stage}',
             S3_SIGNED_URL_EXP: '900',
         },
@@ -102,6 +104,7 @@ const serverlessConfiguration: AWS = {
         putArts,
         deleteArts,
         deleteS3Objects,
+        putUser,
     },
     resources: {
         Resources: {
@@ -176,6 +179,15 @@ const serverlessConfiguration: AWS = {
                     ],
                     BillingMode: 'PAY_PER_REQUEST',
                     StreamSpecification: { StreamViewType: 'KEYS_ONLY' },
+                },
+            },
+            UserDynamoDBTable: {
+                Type: 'AWS::DynamoDB::Table',
+                Properties: {
+                    TableName: '${self:provider.environment.USER_TABLE}',
+                    AttributeDefinitions: [{ AttributeName: 'userId', AttributeType: 'S' }],
+                    KeySchema: [{ AttributeName: 'userId', KeyType: 'HASH' }],
+                    BillingMode: 'PAY_PER_REQUEST',
                 },
             },
             ImagesS3Bucket: {

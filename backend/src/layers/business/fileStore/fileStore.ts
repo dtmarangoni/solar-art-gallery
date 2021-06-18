@@ -1,8 +1,7 @@
 import 'source-map-support/register';
 import { StreamRecord } from 'aws-lambda';
-import * as createHttpError from 'http-errors';
 
-import { FileStoreAccess } from '../ports/AWS/S3/fileStoreAccess';
+import { FileStoreAccess } from '../../ports/AWS/S3/fileStoreAccess';
 import { detectRecordType } from '@utils/dynamoDB';
 
 // The file store access port

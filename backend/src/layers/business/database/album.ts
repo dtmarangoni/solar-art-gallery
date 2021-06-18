@@ -8,7 +8,7 @@ import { rmUserId, rmUserIdFromArr } from '@utils/general';
 import { Album } from '../../../models/database/Album';
 import { AlbumAccess } from '../../ports/AWS/DynamoDB/albumAccess';
 import { addAlbumSchema, editAlbumSchema, deleteAlbumSchema } from '@lambda/http';
-import { getDownloadSignedUrl, getFsAlbumFolder, getUploadSignedUrl } from '../fileStore';
+import { getDownloadSignedUrl, getFsAlbumFolder, getUploadSignedUrl } from '../fileStore/fileStore';
 
 // The Album Access port
 const albumAccess = new AlbumAccess();
@@ -94,7 +94,7 @@ export async function addAlbum(userId: string, albumParams: FromSchema<typeof ad
         coverUrl,
     };
     // Add the album item to DB
-    await albumAccess.addAlbum(album);
+    await albumAccess.putAlbum(album);
 
     // Remove user ID and return the album as success confirmation
     return { ...rmUserId(album), uploadUrl };
@@ -120,7 +120,7 @@ export async function editAlbum(userId: string, albumParams: FromSchema<typeof e
     // Edit the album properties
     const editedAlbum: Album = { ...album, ...newParams, coverUrl };
     // Edit the album item in DB
-    await albumAccess.editAlbum(editedAlbum);
+    await albumAccess.putAlbum(editedAlbum);
 
     // Remove user ID and return the album as success confirmation
     return { ...rmUserId(editedAlbum), uploadUrl };
@@ -145,8 +145,6 @@ export async function deleteAlbum(
     await albumAccess.deleteAlbum(userId, albumParams.albumId);
     // Return the album item as confirmation of a success operation
     return albumParams;
-
-    // TODO Remove album cover and all arts images from file store
 }
 
 /**

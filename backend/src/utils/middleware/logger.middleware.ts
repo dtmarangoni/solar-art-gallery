@@ -75,9 +75,9 @@ async function afterLogger(event: any) {
  */
 async function onErrorLogger(event: any) {
     // Set the HTTP status code of not already
-    const statusCode = event.error.statusCode ? event.error.statusCode : 500;
+    const statusCode = event.error?.statusCode ? event.error?.statusCode : 500;
     // Set the error message if not already
-    const message = event.error.message ? event.error.message : 'An unexpected error happened.';
+    const message = event.error?.message ? event.error?.message : 'An unexpected error happened.';
 
     // Set the request response
     event.response = formatJSONResponse(statusCode, { message });

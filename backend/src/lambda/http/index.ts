@@ -16,6 +16,11 @@ export { default as putArts } from '@lambda/http/art/putArts/index';
 export { default as deleteArts } from '@lambda/http/art/deleteArts/index';
 
 /**
+ * User Lambda functions
+ */
+export { default as putUser } from '@lambda/http/user/putUser/index';
+
+/**
  * JSON schema Lambda functions validators
  */
 export { default as addAlbumSchema } from './album/addAlbum/schema';
