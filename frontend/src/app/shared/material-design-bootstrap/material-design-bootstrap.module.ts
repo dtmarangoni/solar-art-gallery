@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 // import { MdbCarouselModule } from 'mdb-angular-ui-kit/carousel';
 // import { MdbCheckboxModule } from 'mdb-angular-ui-kit/checkbox';
-// import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
+import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
 // import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
 // import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 // import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
@@ -23,7 +23,7 @@ import { NgModule } from '@angular/core';
   imports: [
     // MdbCarouselModule,
     // MdbCheckboxModule,
-    // MdbCollapseModule,
+    MdbCollapseModule,
     // MdbDropdownModule,
     // MdbFormsModule,
     // MdbModalModule,
@@ -39,7 +39,7 @@ import { NgModule } from '@angular/core';
   exports: [
     // MdbCarouselModule,
     // MdbCheckboxModule,
-    // MdbCollapseModule,
+    MdbCollapseModule,
     // MdbDropdownModule,
     // MdbFormsModule,
     // MdbModalModule,
