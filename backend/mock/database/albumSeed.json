@@ -3,36 +3,45 @@
         "albumId": "1efc348c-b3ad-4f03-a2ff-423f77444a30",
         "userId": "c8663d5d-0472-4b1e-861f-cc9c2795e43a",
         "creationDate": "2020-08-10T19:50:02Z",
-        "visibility": "private",
-        "title": "Alpine Waterleaf",
+        "visibility": "public",
+        "title": "Portraits",
         "description": "Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.",
-        "coverUrl": "http://dummyimage.com/392x434.png/5fa2dd/ffffff"
+        "coverUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Vincent_van_Gogh_-_Portret_van_de_postbode_Joseph_Roulin.jpg/800px-Vincent_van_Gogh_-_Portret_van_de_postbode_Joseph_Roulin.jpg"
     },
     {
         "albumId": "e6323b1c-038d-43de-a459-4fc78e9c296e",
-        "userId": "auth0|60cb43de612d820070a6cd14",
+        "userId": "c8663d5d-0472-4b1e-861f-cc9c2795e43a",
         "creationDate": "2020-11-29T00:10:51Z",
-        "visibility": "private",
-        "title": "Menzies' Metaneckera Moss",
+        "visibility": "public",
+        "title": "Flowers",
         "description": "Sed ante. Vivamus tortor. Duis mattis egestas metus.",
-        "coverUrl": "http://dummyimage.com/893x829.png/5fa2dd/ffffff"
+        "coverUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Vincent_Willem_van_Gogh_128.jpg/800px-Vincent_Willem_van_Gogh_128.jpg"
+    },
+    {
+        "albumId": "f5553b1c-038d-43de-a459-4fc78e9c296e",
+        "userId": "c8663d5d-0472-4b1e-861f-cc9c2795e43a",
+        "creationDate": "2020-07-20T00:00:51Z",
+        "visibility": "public",
+        "title": "Wheatfields",
+        "description": "Sed ante. Vivamus tortor. Duis mattis egestas metus.",
+        "coverUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Vincent_van_Gogh_-_Wheatfield_with_crows_-_Google_Art_Project.jpg/1920px-Vincent_van_Gogh_-_Wheatfield_with_crows_-_Google_Art_Project.jpg"
     },
     {
         "albumId": "08c17db6-547f-4078-924f-7eaaaf3bb742",
-        "userId": "auth0|60cb43de612d820070a6cd14",
+        "userId": "4d38799d-3be6-4000-9bce-1ab09036c017",
         "creationDate": "2021-01-27T03:03:42Z",
         "visibility": "public",
-        "title": "Mock Vervain",
+        "title": "Urban Places",
         "description": "Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.",
-        "coverUrl": "http://dummyimage.com/1023x1023.png/cc0000/ffffff"
+        "coverUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Le_Pont_Neuf_-_Claude_Monet.jpg/1280px-Le_Pont_Neuf_-_Claude_Monet.jpg"
     },
     {
         "albumId": "fbefab56-42e1-40af-9145-fbc34cc65f2f",
         "userId": "4d38799d-3be6-4000-9bce-1ab09036c017",
         "creationDate": "2020-11-26T00:34:23Z",
         "visibility": "public",
-        "title": "Cock's Spur",
+        "title": "Nature Scenery",
         "description": "Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.",
-        "coverUrl": "http://dummyimage.com/612x564.png/cc0000/ffffff"
+        "coverUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Water-Lily_Pond_1900_Claude_Monet_Boston_MFA.jpg/1024px-Water-Lily_Pond_1900_Claude_Monet_Boston_MFA.jpg"
     }
 ]

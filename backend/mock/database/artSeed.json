@@ -1,41 +1,11 @@
 [
     {
-        "albumId": "08c17db6-547f-4078-924f-7eaaaf3bb742",
-        "artId": "c394fdd4-e4f2-4deb-a962-fed5920ed791",
-        "sequenceNum": 0,
-        "userId": "auth0|60cb43de612d820070a6cd14",
-        "creationDate": "2020-06-18T23:08:25Z",
-        "title": "Mongoose, eastern dwarf",
-        "description": "Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.",
-        "imgUrl": "http://dummyimage.com/685x269.png/cc0000/ffffff"
-    },
-    {
-        "albumId": "08c17db6-547f-4078-924f-7eaaaf3bb742",
-        "artId": "fb1fb651-d966-4566-a41b-5702bb586b53",
-        "sequenceNum": 1,
-        "userId": "auth0|60cb43de612d820070a6cd14",
-        "creationDate": "2020-09-03T21:54:33Z",
-        "title": "Otter, african clawless",
-        "description": "Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.",
-        "imgUrl": "http://dummyimage.com/891x865.png/cc0000/ffffff"
-    },
-    {
-        "albumId": "08c17db6-547f-4078-924f-7eaaaf3bb742",
-        "artId": "e6ca6269-ca92-4916-8bf2-3c70364929bb",
-        "sequenceNum": 2,
-        "userId": "auth0|60cb43de612d820070a6cd14",
-        "creationDate": "2020-11-20T09:38:59Z",
-        "title": "Pie, rufous tree",
-        "description": "Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.",
-        "imgUrl": "http://dummyimage.com/1022x219.png/5fa2dd/ffffff"
-    },
-    {
         "albumId": "1efc348c-b3ad-4f03-a2ff-423f77444a30",
         "artId": "31199171-348e-4667-982c-9b4c39d34398",
         "sequenceNum": 0,
         "userId": "c8663d5d-0472-4b1e-861f-cc9c2795e43a",
         "creationDate": "2021-04-15T20:05:01Z",
-        "title": "Magellanic penguin",
+        "title": "La Berceuse",
         "description": "Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.",
         "imgUrl": "http://dummyimage.com/680x318.png/ff4444/ffffff"
     },
@@ -45,37 +15,247 @@
         "sequenceNum": 1,
         "userId": "c8663d5d-0472-4b1e-861f-cc9c2795e43a",
         "creationDate": "2021-02-01T05:15:23Z",
-        "title": "Indian giant squirrel",
+        "title": "Eugène Boch",
+        "description": "In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.",
+        "imgUrl": "http://dummyimage.com/455x555.png/cc0000/ffffff"
+    },
+    {
+        "albumId": "1efc348c-b3ad-4f03-a2ff-423f77444a30",
+        "artId": "c57312bd-a107-4e34-8057-4b42477a1259",
+        "sequenceNum": 2,
+        "userId": "c8663d5d-0472-4b1e-861f-cc9c2795e43a",
+        "creationDate": "2021-02-01T00:15:23Z",
+        "title": "Van Gogh Mother",
+        "description": "In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.",
+        "imgUrl": "http://dummyimage.com/455x555.png/cc0000/ffffff"
+    },
+    {
+        "albumId": "1efc348c-b3ad-4f03-a2ff-423f77444a30",
+        "artId": "y66617ee-a107-4e34-8057-4b42477a1259",
+        "sequenceNum": 3,
+        "userId": "c8663d5d-0472-4b1e-861f-cc9c2795e43a",
+        "creationDate": "2021-02-01T05:15:23Z",
+        "title": "Joseph Roulin",
+        "description": "In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.",
+        "imgUrl": "http://dummyimage.com/455x555.png/cc0000/ffffff"
+    },
+    {
+        "albumId": "1efc348c-b3ad-4f03-a2ff-423f77444a30",
+        "artId": "a55bc7bd-a107-4e34-8057-4b42477a1259",
+        "sequenceNum": 4,
+        "userId": "c8663d5d-0472-4b1e-861f-cc9c2795e43a",
+        "creationDate": "2021-03-10T08:15:23Z",
+        "title": "Vincent Van Gogh Self Portrait",
+        "description": "In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.",
+        "imgUrl": "http://dummyimage.com/455x555.png/cc0000/ffffff"
+    },
+    {
+        "albumId": "1efc348c-b3ad-4f03-a2ff-423f77444a30",
+        "artId": "ffff17bd-a107-4e34-8057-4b42477a1259",
+        "sequenceNum": 5,
+        "userId": "c8663d5d-0472-4b1e-861f-cc9c2795e43a",
+        "creationDate": "2021-06-01T05:15:23Z",
+        "title": "Vincent Van Gogh Self Portrait",
+        "description": "In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.",
+        "imgUrl": "http://dummyimage.com/455x555.png/cc0000/ffffff"
+    },
+    {
+        "albumId": "1efc348c-b3ad-4f03-a2ff-423f77444a30",
+        "artId": "dks557bd-a107-4e34-8057-4b42477a1259",
+        "sequenceNum": 6,
+        "userId": "c8663d5d-0472-4b1e-861f-cc9c2795e43a",
+        "creationDate": "2021-07-08T15:15:23Z",
+        "title": "Vincent Van Gogh Self Portrait",
+        "description": "In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.",
+        "imgUrl": "http://dummyimage.com/455x555.png/cc0000/ffffff"
+    },
+    {
+        "albumId": "1efc348c-b3ad-4f03-a2ff-423f77444a30",
+        "artId": "mac107bd-a107-4e34-8057-4b42477a1259",
+        "sequenceNum": 7,
+        "userId": "c8663d5d-0472-4b1e-861f-cc9c2795e43a",
+        "creationDate": "2021-03-11T15:15:23Z",
+        "title": "Vincent Van Gogh Self Portrait",
         "description": "In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.",
         "imgUrl": "http://dummyimage.com/455x555.png/cc0000/ffffff"
     },
     {
         "albumId": "e6323b1c-038d-43de-a459-4fc78e9c296e",
-        "artId": "23e6348b-6e3f-47cd-82ac-5c3532a150c3",
+        "artId": "dpkg19bd-a107-4e34-8057-4b42477a1259",
         "sequenceNum": 0,
-        "userId": "auth0|60cb43de612d820070a6cd14",
-        "creationDate": "2020-11-11T13:16:15Z",
-        "title": "Common seal",
-        "description": "Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.",
-        "imgUrl": "http://dummyimage.com/106x554.png/ff4444/ffffff"
+        "userId": "c8663d5d-0472-4b1e-861f-cc9c2795e43a",
+        "creationDate": "2021-01-01T10:10:23Z",
+        "title": "Irises",
+        "description": "Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.",
+        "imgUrl": "http://dummyimage.com/455x555.png/cc0000/ffffff"
     },
     {
         "albumId": "e6323b1c-038d-43de-a459-4fc78e9c296e",
-        "artId": "2984686e-d023-4e81-a2d8-687a02fd23b5",
+        "artId": "502219bd-a107-4e34-8057-4b42477a1259",
         "sequenceNum": 1,
-        "userId": "auth0|60cb43de612d820070a6cd14",
-        "creationDate": "2020-08-10T01:48:08Z",
-        "title": "Crow, house",
-        "description": "Curabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla. Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam.",
-        "imgUrl": "http://dummyimage.com/903x854.png/ff4444/ffffff"
+        "userId": "c8663d5d-0472-4b1e-861f-cc9c2795e43a",
+        "creationDate": "2021-01-02T10:10:23Z",
+        "title": "Sunflowers",
+        "description": "Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.",
+        "imgUrl": "http://dummyimage.com/455x555.png/cc0000/ffffff"
+    },
+    {
+        "albumId": "e6323b1c-038d-43de-a459-4fc78e9c296e",
+        "artId": "cak229bd-a107-4e34-8057-4b42477a1259",
+        "sequenceNum": 2,
+        "userId": "c8663d5d-0472-4b1e-861f-cc9c2795e43a",
+        "creationDate": "2021-01-03T10:10:23Z",
+        "title": "Irises",
+        "description": "Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.",
+        "imgUrl": "http://dummyimage.com/455x555.png/cc0000/ffffff"
+    },
+    {
+        "albumId": "e6323b1c-038d-43de-a459-4fc78e9c296e",
+        "artId": "abcg22bd-a107-4e34-8057-4b42477a1259",
+        "sequenceNum": 3,
+        "userId": "c8663d5d-0472-4b1e-861f-cc9c2795e43a",
+        "creationDate": "2021-01-03T08:10:23Z",
+        "title": "Almond Blossom",
+        "description": "Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.",
+        "imgUrl": "http://dummyimage.com/455x555.png/cc0000/ffffff"
+    },
+    {
+        "albumId": "e6323b1c-038d-43de-a459-4fc78e9c296e",
+        "artId": "55kg39bf-a107-4e34-8057-4b42477a1259",
+        "sequenceNum": 4,
+        "userId": "c8663d5d-0472-4b1e-861f-cc9c2795e43a",
+        "creationDate": "2021-01-11T10:10:23Z",
+        "title": "Roses",
+        "description": "Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.",
+        "imgUrl": "http://dummyimage.com/455x555.png/cc0000/ffffff"
+    },
+    {
+        "albumId": "f5553b1c-038d-43de-a459-4fc78e9c296e",
+        "artId": "67cd30bf-a107-2134-8057-4b42477a1259",
+        "sequenceNum": 0,
+        "userId": "c8663d5d-0472-4b1e-861f-cc9c2795e43a",
+        "creationDate": "2021-04-11T10:10:23Z",
+        "title": "House at Auvers",
+        "description": "Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.",
+        "imgUrl": "http://dummyimage.com/455x555.png/cc0000/ffffff"
+    },
+    {
+        "albumId": "f5553b1c-038d-43de-a459-4fc78e9c296e",
+        "artId": "ykmg99bf-a107-4e34-8057-4b42477a1259",
+        "sequenceNum": 1,
+        "userId": "c8663d5d-0472-4b1e-861f-cc9c2795e43a",
+        "creationDate": "2021-04-01T10:10:23Z",
+        "title": "Landscape from Saint-Rémy",
+        "description": "Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.",
+        "imgUrl": "http://dummyimage.com/455x555.png/cc0000/ffffff"
+    },
+    {
+        "albumId": "f5553b1c-038d-43de-a459-4fc78e9c296e",
+        "artId": "balkc9bf-a107-4e34-8057-4b42477a1259",
+        "sequenceNum": 2,
+        "userId": "c8663d5d-0472-4b1e-861f-cc9c2795e43a",
+        "creationDate": "2021-01-04T11:10:23Z",
+        "title": "Dutch - Rain",
+        "description": "Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.",
+        "imgUrl": "http://dummyimage.com/455x555.png/cc0000/ffffff"
+    },
+    {
+        "albumId": "f5553b1c-038d-43de-a459-4fc78e9c296e",
+        "artId": "trag19bf-a107-4e34-8057-4b42477a1259",
+        "sequenceNum": 3,
+        "userId": "c8663d5d-0472-4b1e-861f-cc9c2795e43a",
+        "creationDate": "2021-01-04T09:00:23Z",
+        "title": "Wheatfield Under Thunderclouds",
+        "description": "Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.",
+        "imgUrl": "http://dummyimage.com/455x555.png/cc0000/ffffff"
+    },
+    {
+        "albumId": "f5553b1c-038d-43de-a459-4fc78e9c296e",
+        "artId": "728g39bf-a107-4e34-8057-4b42477a1259",
+        "sequenceNum": 4,
+        "userId": "c8663d5d-0472-4b1e-861f-cc9c2795e43a",
+        "creationDate": "2021-01-01T11:11:23Z",
+        "title": "Wheatfield With Crows",
+        "description": "Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.",
+        "imgUrl": "http://dummyimage.com/455x555.png/cc0000/ffffff"
+    },
+    {
+        "albumId": "08c17db6-547f-4078-924f-7eaaaf3bb742",
+        "artId": "rj7239tr-e107-4e34-8057-4b42477a1259",
+        "sequenceNum": 0,
+        "userId": "4d38799d-3be6-4000-9bce-1ab09036c017",
+        "creationDate": "2021-01-01T08:10:20Z",
+        "title": "Cathedral in Rouen",
+        "description": "Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.",
+        "imgUrl": "http://dummyimage.com/455x555.png/cc0000/ffffff"
+    },
+    {
+        "albumId": "08c17db6-547f-4078-924f-7eaaaf3bb742",
+        "artId": "yup23955-e107-4e34-8057-4b42477a1259",
+        "sequenceNum": 1,
+        "userId": "4d38799d-3be6-4000-9bce-1ab09036c017",
+        "creationDate": "2021-02-11T08:10:20Z",
+        "title": "Sunrise",
+        "description": "Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.",
+        "imgUrl": "http://dummyimage.com/455x555.png/cc0000/ffffff"
+    },
+    {
+        "albumId": "08c17db6-547f-4078-924f-7eaaaf3bb742",
+        "artId": "gg0039rr-e107-4e34-8057-4b42477a1259",
+        "sequenceNum": 2,
+        "userId": "4d38799d-3be6-4000-9bce-1ab09036c017",
+        "creationDate": "2021-03-16T08:10:20Z",
+        "title": "La Seine à Asnières",
+        "description": "Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.",
+        "imgUrl": "http://dummyimage.com/455x555.png/cc0000/ffffff"
+    },
+    {
+        "albumId": "08c17db6-547f-4078-924f-7eaaaf3bb742",
+        "artId": "dac239tr-e107-4e34-8259-4b42477a1259",
+        "sequenceNum": 3,
+        "userId": "4d38799d-3be6-4000-9bce-1ab09036c017",
+        "creationDate": "2021-05-21T08:10:20Z",
+        "title": "Eglise de Vétheuil",
+        "description": "Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.",
+        "imgUrl": "http://dummyimage.com/455x555.png/cc0000/ffffff"
     },
     {
         "albumId": "fbefab56-42e1-40af-9145-fbc34cc65f2f",
-        "artId": "40f948ad-5d06-496b-8c49-aeeffeeeed63",
+        "artId": "22f948ad-5d06-496b-8c49-aeehjeeeed61",
         "sequenceNum": 0,
         "userId": "4d38799d-3be6-4000-9bce-1ab09036c017",
         "creationDate": "2020-08-09T07:33:48Z",
-        "title": "Fox, pampa gray",
+        "title": "The Bridge in Monet's Garden",
+        "description": "Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.",
+        "imgUrl": "http://dummyimage.com/178x183.png/cc0000/ffffff"
+    },
+    {
+        "albumId": "fbefab56-42e1-40af-9145-fbc34cc65f2f",
+        "artId": "25cc48at-5d06-096b-8c49-aeeffeeeed63",
+        "sequenceNum": 1,
+        "userId": "4d38799d-3be6-4000-9bce-1ab09036c017",
+        "creationDate": "2020-08-11T07:33:48Z",
+        "title": "Regata em Argenteuil",
+        "description": "Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.",
+        "imgUrl": "http://dummyimage.com/178x183.png/cc0000/ffffff"
+    },
+    {
+        "albumId": "fbefab56-42e1-40af-9145-fbc34cc65f2f",
+        "artId": "11zf48r3-0006-096b-8c49-aeeffeeeed63",
+        "sequenceNum": 2,
+        "userId": "4d38799d-3be6-4000-9bce-1ab09036c017",
+        "creationDate": "2020-03-11T07:33:48Z",
+        "title": "Nenúfares",
+        "description": "Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.",
+        "imgUrl": "http://dummyimage.com/178x183.png/cc0000/ffffff"
+    },
+    {
+        "albumId": "fbefab56-42e1-40af-9145-fbc34cc65f2f",
+        "artId": "locc88at-1a06-196b-8c49-aefgfeeeed63",
+        "sequenceNum": 3,
+        "userId": "4d38799d-3be6-4000-9bce-1ab09036c017",
+        "creationDate": "2020-02-01T05:33:48Z",
+        "title": "Banhistas na Grenouillière",
         "description": "Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.",
         "imgUrl": "http://dummyimage.com/178x183.png/cc0000/ffffff"
     }

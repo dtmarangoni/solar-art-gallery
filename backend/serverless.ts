@@ -12,7 +12,7 @@ import {
     deleteArts,
     putUser,
 } from '@lambda/http';
-import { deleteS3Objects } from '@lambda/dynamoDB';
+import { deleteAlbumArts, deleteS3Objects } from '@lambda/dynamoDB';
 import { authorizer } from '@lambda/auth';
 
 const serverlessConfiguration: AWS = {
@@ -23,6 +23,7 @@ const serverlessConfiguration: AWS = {
         'serverless-iam-roles-per-function',
         'serverless-pseudo-parameters',
         'serverless-s3-remover',
+        'serverless-s3-sync',
         'serverless-dynamodb-seed',
         'serverless-offline',
         'serverless-dynamodb-local',
@@ -67,7 +68,17 @@ const serverlessConfiguration: AWS = {
                 table: '${self:provider.environment.ART_TABLE}',
                 sources: ['./mock/database/artSeed.json'],
             },
+            awsUserSeed: {
+                table: '${self:provider.environment.USER_TABLE}',
+                sources: ['./mock/database/userSeed.json'],
+            },
         },
+        s3Sync: [
+            {
+                bucketName: '${self:provider.environment.IMAGES_S3_BUCKET}',
+                localDir: './mock/filestore',
+            },
+        ],
         dynamodb: {
             stages: ['${self:provider.stage}'],
             start: { port: 5000, inMemory: true, migrate: true, seed: true },
@@ -103,6 +114,7 @@ const serverlessConfiguration: AWS = {
         getUserAlbumArts,
         putArts,
         deleteArts,
+        deleteAlbumArts,
         deleteS3Objects,
         putUser,
     },

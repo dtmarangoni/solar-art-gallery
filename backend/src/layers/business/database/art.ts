@@ -135,7 +135,7 @@ export async function putArts(userId: string, artsParams: FromSchema<typeof putA
  * @param userId The art owner user id.
  * @param artsParams The required parameters to delete the arts items
  * from database.
- * @returns The deleted arts items from database.
+ * @returns The deleted arts items IDs from database.
  */
 export async function deleteArts(userId: string, artsParams: FromSchema<typeof deleteArtsSchema>) {
     // Verify if the album exists and the user ownership before
@@ -149,6 +149,20 @@ export async function deleteArts(userId: string, artsParams: FromSchema<typeof d
     await artAccess.deleteArts(artsParams);
     // Return the deleted arts IDs as confirmation of a success operation
     return artsParams;
+}
+
+/**
+ * Deletes all album arts items from Arts database table.
+ * @param albumId The album item ID.
+ * @returns The deleted arts items IDs from database.
+ */
+export async function deleteAlbumArts(albumId: string) {
+    // Get all album arts from DB
+    const arts = await artAccess.getAlbumArts(albumId);
+    // Delete all album arts and return the arts IDs as confirmation
+    return await artAccess.deleteArts(
+        arts.items.map((item) => ({ albumId: item.albumId, artId: item.artId }))
+    );
 }
 
 /**
