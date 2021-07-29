@@ -1,0 +1,32 @@
+<header>
+  <div class="modal-header bg-dark">
+    <h5 class="modal-title text-light px-2">
+      {{ dummyArts[0].title }}
+    </h5>
+    <button
+      type="button"
+      class="btn-close btn-close-white"
+      color="indigo"
+      aria-label="Close"
+      (click)="modalRef.close()"
+    ></button>
+  </div>
+</header>
+
+<main>
+  <div
+    class="modal-body p-0 m-0 d-flex align-items-center justify-content-center"
+  >
+    <img
+      [src]="dummyArts[4].imgUrl"
+      [alt]="dummyArts[0].title"
+      class="img-fluid"
+    />
+  </div>
+</main>
+
+<footer>
+  <div class="modal-footer bg-dark">
+    <button type="button" class="btn" (click)="modalRef.close()">Close</button>
+  </div>
+</footer>

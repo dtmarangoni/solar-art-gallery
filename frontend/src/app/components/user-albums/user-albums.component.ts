@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
+import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
+import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 
 @Component({
-  selector: 'app-public-albums',
-  templateUrl: './public-albums.component.html',
-  styleUrls: ['./public-albums.component.scss'],
+  selector: 'app-user-albums',
+  templateUrl: './user-albums.component.html',
+  styleUrls: ['./user-albums.component.scss'],
 })
-export class PublicAlbumsComponent implements OnInit {
+export class UserAlbumsComponent implements OnInit {
+  // The confirm modal reference
+  private confirmModalRef!: MdbModalRef<ConfirmModalComponent>;
+
   dummyAlbums = [
     {
       coverUrl:
@@ -57,7 +62,20 @@ export class PublicAlbumsComponent implements OnInit {
     },
   ];
 
-  constructor() {}
+  /**
+   * Constructs the User Albums component.
+   * @param modalService The MDB angular modal service.
+   */
+  constructor(private modalService: MdbModalService) {}
 
   ngOnInit(): void {}
+
+  /**
+   * Opens the confirm modal and get its reference.
+   */
+  openConfirmModal() {
+    this.confirmModalRef = this.modalService.open(ConfirmModalComponent, {
+      modalClass: 'modal-dialog-centered',
+    });
+  }
 }

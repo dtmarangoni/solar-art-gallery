@@ -1,0 +1,23 @@
+header {
+  h2 {
+    letter-spacing: 0.3em;
+    margin-bottom: 2rem;
+  }
+}
+
+main {
+  mdb-carousel {
+    mdb-carousel-item {
+      min-height: 35rem;
+      max-height: 35rem;
+
+      img {
+        min-height: 30rem;
+        max-height: 30rem;
+        object-fit: contain;
+        padding-left: 8rem;
+        padding-right: 8rem;
+      }
+    }
+  }
+}

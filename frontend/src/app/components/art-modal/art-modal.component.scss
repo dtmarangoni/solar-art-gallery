@@ -1,0 +1,19 @@
+main {
+  .modal-body {
+    background-color: var(--black);
+  }
+}
+
+footer {
+  .modal-footer {
+    button {
+      background-color: var(--mdb-dark);
+      color: var(--white);
+    }
+
+    button:hover {
+      background-color: var(--mdb-dark-tint-1);
+      color: var(--mdb-dark-tint-9);
+    }
+  }
+}

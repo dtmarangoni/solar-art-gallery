@@ -1,0 +1,48 @@
+<header>
+  <h2 class="fw-light text-center text-uppercase">My Portfolio</h2>
+
+  <hr />
+
+  <div class="text-end">
+    <a class="btn btn-lg new-album-btn" href="" role="button">New Album</a>
+  </div>
+</header>
+
+<main>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 row-cols-xxl-4 g-5">
+    <div
+      class="col d-flex align-items-center justify-content-center"
+      *ngFor="let album of dummyAlbums; index as i"
+    >
+      <div class="card h-100 d-flex">
+        <img [src]="album.coverUrl" [alt]="album.title" class="card-img-top" />
+        <div class="card-body">
+          <h5 class="card-title">{{ album.title }}</h5>
+          <p class="card-text">{{ album.description }}</p>
+        </div>
+        <div
+          class="
+            card-footer
+            flex-grow-1
+            d-flex
+            align-items-center
+            justify-content-end
+            px-4
+            py-3
+          "
+        >
+          <a class="btn edit-btn btn-sm me-1" href="#!" role="button">
+            <i class="fas fa-pen-fancy"></i>
+          </a>
+          <a
+            class="btn btn-light btn-sm"
+            role="button"
+            (click)="openConfirmModal()"
+          >
+            <i class="far fa-trash-alt"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

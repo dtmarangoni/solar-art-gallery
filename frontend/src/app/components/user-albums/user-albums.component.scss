@@ -1,0 +1,36 @@
+header {
+  h2 {
+    letter-spacing: 0.5em;
+    margin-bottom: 2.5rem;
+  }
+
+  .new-album-btn {
+    margin-top: 1rem;
+    margin-bottom: 5rem;
+    margin-right: 3rem;
+
+    background-color: var(--mdb-dark-tint-1);
+    color: var(--white);
+  }
+}
+
+main {
+  .card {
+    width: min-content;
+
+    img {
+      min-width: 18rem;
+      max-width: 18rem;
+      min-height: 18rem;
+      max-height: 18rem;
+      object-fit: cover;
+    }
+
+    .card-footer {
+      .edit-btn {
+        background-color: var(--mdb-dark-tint-2);
+        color: var(--white);
+      }
+    }
+  }
+}

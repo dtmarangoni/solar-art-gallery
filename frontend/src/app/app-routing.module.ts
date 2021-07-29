@@ -7,6 +7,18 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/home/home.module').then((m) => m.HomeModule),
   },
+  {
+    path: 'album/:id',
+    loadChildren: () =>
+      import('./pages/album/album.module').then((m) => m.AlbumModule),
+  },
+  {
+    path: 'portfolio/albums',
+    loadChildren: () =>
+      import('./pages/user-portfolio/user-portfolio.module').then(
+        (m) => m.UserPortfolioModule
+      ),
+  },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
 ];
 

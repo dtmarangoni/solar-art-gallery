@@ -1,0 +1,22 @@
+<header>
+  <h2 class="fw-light text-center text-uppercase">Exhibition</h2>
+</header>
+
+<main>
+  <mdb-carousel [controls]="true" [interval]="0" [dark]="true">
+    <mdb-carousel-item *ngFor="let art of dummyArts; index as i">
+      <div class="card">
+        <img
+          [src]="art.imgUrl"
+          [alt]="art.title"
+          class="card-img-top"
+          (click)="openArtModal()"
+        />
+        <div class="card-body text-center">
+          <h5 class="card-title">{{ art.title }}</h5>
+          <p class="card-text">{{ art.description }}</p>
+        </div>
+      </div>
+    </mdb-carousel-item>
+  </mdb-carousel>
+</main>
