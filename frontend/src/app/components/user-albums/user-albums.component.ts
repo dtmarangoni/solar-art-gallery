@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
+
 import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
+import { EditModalComponent } from '../edit-modal/edit-modal.component';
 
 @Component({
   selector: 'app-user-albums',
@@ -10,6 +12,8 @@ import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component'
 export class UserAlbumsComponent implements OnInit {
   // The confirm modal reference
   private confirmModalRef!: MdbModalRef<ConfirmModalComponent>;
+  // The edit modal reference
+  private editModalRef!: MdbModalRef<EditModalComponent>;
 
   dummyAlbums = [
     {
@@ -75,6 +79,15 @@ export class UserAlbumsComponent implements OnInit {
    */
   openConfirmModal() {
     this.confirmModalRef = this.modalService.open(ConfirmModalComponent, {
+      modalClass: 'modal-dialog-centered',
+    });
+  }
+
+  /**
+   * Opens the edit modal and get its reference.
+   */
+  openEditModal() {
+    this.editModalRef = this.modalService.open(EditModalComponent, {
       modalClass: 'modal-dialog-centered',
     });
   }

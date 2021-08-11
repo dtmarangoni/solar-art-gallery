@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { MdbCarouselModule } from 'mdb-angular-ui-kit/carousel';
-// import { MdbCheckboxModule } from 'mdb-angular-ui-kit/checkbox';
+import { MdbCheckboxModule } from 'mdb-angular-ui-kit/checkbox';
 import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
 // import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
-// import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
+import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 // import { MdbPopoverModule } from 'mdb-angular-ui-kit/popover';
 // import { MdbRadioModule } from 'mdb-angular-ui-kit/radio';
@@ -12,7 +12,7 @@ import { MdbRippleModule } from 'mdb-angular-ui-kit/ripple';
 // import { MdbScrollspyModule } from 'mdb-angular-ui-kit/scrollspy';
 // import { MdbTabsModule } from 'mdb-angular-ui-kit/tabs';
 // import { MdbTooltipModule } from 'mdb-angular-ui-kit/tooltip';
-// import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
+import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
 
 /**
  * Uncomment the components as they are being used in the project
@@ -22,10 +22,10 @@ import { MdbRippleModule } from 'mdb-angular-ui-kit/ripple';
   declarations: [],
   imports: [
     MdbCarouselModule,
-    // MdbCheckboxModule,
+    MdbCheckboxModule,
     MdbCollapseModule,
     // MdbDropdownModule,
-    // MdbFormsModule,
+    MdbFormsModule,
     MdbModalModule,
     // MdbPopoverModule,
     // MdbRadioModule,
@@ -34,14 +34,14 @@ import { MdbRippleModule } from 'mdb-angular-ui-kit/ripple';
     // MdbScrollspyModule,
     // MdbTabsModule,
     // MdbTooltipModule,
-    // MdbValidationModule,
+    MdbValidationModule,
   ],
   exports: [
     MdbCarouselModule,
-    // MdbCheckboxModule,
+    MdbCheckboxModule,
     MdbCollapseModule,
     // MdbDropdownModule,
-    // MdbFormsModule,
+    MdbFormsModule,
     MdbModalModule,
     // MdbPopoverModule,
     // MdbRadioModule,
@@ -50,7 +50,7 @@ import { MdbRippleModule } from 'mdb-angular-ui-kit/ripple';
     // MdbScrollspyModule,
     // MdbTabsModule,
     // MdbTooltipModule,
-    // MdbValidationModule,
+    MdbValidationModule,
   ],
 })
 export class MaterialDesignBootstrapModule {}

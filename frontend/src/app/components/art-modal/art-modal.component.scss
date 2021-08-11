@@ -1,6 +1,6 @@
 main {
   .modal-body {
-    background-color: var(--black);
+    background-color: var(--mdb-black);
   }
 }
 
@@ -8,7 +8,7 @@ footer {
   .modal-footer {
     button {
       background-color: var(--mdb-dark);
-      color: var(--white);
+      color: var(--mdb-white);
     }
 
     button:hover {

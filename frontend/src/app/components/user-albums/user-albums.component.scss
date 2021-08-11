@@ -1,6 +1,6 @@
 header {
   h2 {
-    letter-spacing: 0.5em;
+    letter-spacing: 1.5rem;
     margin-bottom: 2.5rem;
   }
 
@@ -10,7 +10,7 @@ header {
     margin-right: 3rem;
 
     background-color: var(--mdb-dark-tint-1);
-    color: var(--white);
+    color: var(--mdb-white);
   }
 }
 
@@ -29,7 +29,7 @@ main {
     .card-footer {
       .edit-btn {
         background-color: var(--mdb-dark-tint-2);
-        color: var(--white);
+        color: var(--mdb-white);
       }
     }
   }
