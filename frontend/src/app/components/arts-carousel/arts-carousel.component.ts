@@ -1,82 +1,112 @@
-import { Component, OnInit } from '@angular/core';
-import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { MdbCarouselComponent } from 'mdb-angular-ui-kit/carousel';
 
 import { ArtModalComponent } from '../art-modal/art-modal.component';
+import { CarouselSlideService } from '../../services/carousel-slide.service';
+import { Art } from '../../../models/database/Art';
 
 @Component({
   selector: 'app-arts-carousel',
   templateUrl: './arts-carousel.component.html',
   styleUrls: ['./arts-carousel.component.scss'],
 })
-export class ArtsCarouselComponent implements OnInit {
-  // The art modal reference
-  private artModalRef!: MdbModalRef<ArtModalComponent>;
+export class ArtsCarouselComponent implements OnInit, OnDestroy {
+  // The Carousel Slide Service Subscription
+  private carSlideSrvSubs!: Subscription;
+  // The art carousel reference
+  @ViewChild('carousel') carousel!: MdbCarouselComponent;
 
   dummyArts = [
     {
+      sequenceNum: 0,
+      creationDate: '2021-01-01T08:10:20Z',
+      artId: 'rj7239tr-e107-4e34-8057-4b42477a1259',
+      description:
+        'Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.',
+      albumId: '08c17db6-547f-4078-924f-7eaaaf3bb742',
       imgUrl:
         'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Claude_Monet_033.jpg/800px-Claude_Monet_033.jpg',
-      visibility: 'public',
-      creationDate: '2021-01-27T03:03:42Z',
+      title: 'Cathedral in Rouen',
+    },
+    {
+      sequenceNum: 1,
+      creationDate: '2021-02-11T08:10:20Z',
+      artId: 'yup23955-e107-4e34-8057-4b42477a1259',
       description:
-        'Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.',
+        'Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.',
       albumId: '08c17db6-547f-4078-924f-7eaaaf3bb742',
-      title: 'Urban Places',
+      imgUrl:
+        'https://upload.wikimedia.org/wikipedia/commons/5/5c/Claude_Monet%2C_Impression%2C_soleil_levant%2C_1872.jpg',
+      title: 'Sunrise',
     },
     {
-      imgUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Vincent_Willem_van_Gogh_128.jpg/800px-Vincent_Willem_van_Gogh_128.jpg',
-      visibility: 'public',
-      creationDate: '2020-11-29T00:10:51Z',
-      description: 'Sed ante. Vivamus tortor. Duis mattis egestas metus.',
-      albumId: 'e6323b1c-038d-43de-a459-4fc78e9c296e',
-      title: 'Flowers',
-    },
-    {
-      imgUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Water-Lily_Pond_1900_Claude_Monet_Boston_MFA.jpg/1024px-Water-Lily_Pond_1900_Claude_Monet_Boston_MFA.jpg',
-      visibility: 'public',
-      creationDate: '2020-11-26T00:34:23Z',
+      sequenceNum: 2,
+      creationDate: '2021-03-16T08:10:20Z',
+      artId: 'gg0039rr-e107-4e34-8057-4b42477a1259',
       description:
-        'Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.',
-      albumId: 'fbefab56-42e1-40af-9145-fbc34cc65f2f',
-      title: 'Nature Scenery',
+        'Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.',
+      albumId: '08c17db6-547f-4078-924f-7eaaaf3bb742',
+      imgUrl:
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/La_Seine_%C3%A0_Asni%C3%A8re_-_Monet.jpg/1280px-La_Seine_%C3%A0_Asni%C3%A8re_-_Monet.jpg',
+      title: 'La Seine à Asnières',
     },
     {
-      imgUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Vincent_van_Gogh_-_Self-portrait_with_grey_felt_hat_-_Google_Art_Project.jpg/800px-Vincent_van_Gogh_-_Self-portrait_with_grey_felt_hat_-_Google_Art_Project.jpg',
-      visibility: 'public',
-      creationDate: '2020-08-10T19:50:02Z',
+      sequenceNum: 3,
+      creationDate: '2021-05-21T08:10:20Z',
+      artId: 'dac239tr-e107-4e34-8259-4b42477a1259',
       description:
-        'Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.',
-      albumId: '1efc348c-b3ad-4f03-a2ff-423f77444a30',
-      title: 'Portraits',
-    },
-    {
+        'Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.',
+      albumId: '08c17db6-547f-4078-924f-7eaaaf3bb742',
       imgUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Vincent_van_Gogh_-_Wheatfield_with_crows_-_Google_Art_Project.jpg/1920px-Vincent_van_Gogh_-_Wheatfield_with_crows_-_Google_Art_Project.jpg',
-      visibility: 'public',
-      creationDate: '2020-07-20T00:00:51Z',
-      description: 'Sed ante. Vivamus tortor. Duis mattis egestas metus.',
-      albumId: 'f5553b1c-038d-43de-a459-4fc78e9c296e',
-      title: 'Wheatfields',
+        'https://upload.wikimedia.org/wikipedia/commons/1/10/Eglise_de_V%C3%A9theuil.jpg',
+      title: 'Eglise de Vétheuil',
     },
   ];
 
   /**
    * Constructs the Arts Carousel component.
+   * @param carouselSlideService The carousel current slide service.
    * @param modalService The MDB angular modal service.
    */
-  constructor(private modalService: MdbModalService) {}
+  constructor(
+    private carouselSlideService: CarouselSlideService,
+    private modalService: MdbModalService
+  ) {}
 
-  ngOnInit(): void {}
+  /**
+   * Subscribe to user click slide changes from Carousel Slide Service.
+   */
+  ngOnInit(): void {
+    this.carSlideSrvSubs = this.carouselSlideService.slideChanged.subscribe(
+      (slideIndex) => this.setCarouselSlide(slideIndex)
+    );
+  }
+
+  /**
+   * Set the current carousel slide by its index.
+   * @param index The carousel slide index number.
+   */
+  setCarouselSlide(index: number): void {
+    this.carousel.to(index);
+  }
 
   /**
    * Opens the art modal and get its reference.
+   * @param art The art clicked item.
    */
-  openArtModal() {
-    this.artModalRef = this.modalService.open(ArtModalComponent, {
+  onOpenArtModal(art: Art) {
+    this.modalService.open(ArtModalComponent, {
       modalClass: 'art-modal-dialog',
+      data: { art },
     });
+  }
+
+  /**
+   * Avoid memory leaks unsubscribing from all registered services.
+   */
+  ngOnDestroy() {
+    this.carSlideSrvSubs.unsubscribe();
   }
 }

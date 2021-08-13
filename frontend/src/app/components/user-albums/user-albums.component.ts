@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
 
-import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
+import { AddModalComponent } from '../add-modal/add-modal.component';
 import { EditModalComponent } from '../edit-modal/edit-modal.component';
+import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
+import { Album } from '../../../models/database/Album';
+import { AddModalTypes, EditModalTypes } from '../../../models/ModalTypes';
 
 @Component({
   selector: 'app-user-albums',
@@ -10,16 +13,18 @@ import { EditModalComponent } from '../edit-modal/edit-modal.component';
   styleUrls: ['./user-albums.component.scss'],
 })
 export class UserAlbumsComponent implements OnInit {
-  // The confirm modal reference
-  private confirmModalRef!: MdbModalRef<ConfirmModalComponent>;
+  // The add modal reference
+  private addModalRef!: MdbModalRef<AddModalComponent>;
   // The edit modal reference
   private editModalRef!: MdbModalRef<EditModalComponent>;
+  // The delete confirm modal reference
+  private delConfirmModalRef!: MdbModalRef<ConfirmModalComponent>;
 
   dummyAlbums = [
     {
       coverUrl:
         'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Claude_Monet_033.jpg/800px-Claude_Monet_033.jpg',
-      visibility: 'public',
+      visibility: 'private',
       creationDate: '2021-01-27T03:03:42Z',
       description:
         'Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.',
@@ -75,20 +80,57 @@ export class UserAlbumsComponent implements OnInit {
   ngOnInit(): void {}
 
   /**
-   * Opens the confirm modal and get its reference.
+   * Opens the add modal and subscribe for on close event.
    */
-  openConfirmModal() {
-    this.confirmModalRef = this.modalService.open(ConfirmModalComponent, {
+  openAddModal() {
+    // Open the add modal
+    this.addModalRef = this.modalService.open(AddModalComponent, {
       modalClass: 'modal-dialog-centered',
+      data: { modalType: AddModalTypes.addAlbum },
+    });
+    // Subscribe for on close event
+    this.addModalRef.onClose.subscribe((album: Album) => {
+      if (album) {
+        console.log(album);
+      }
     });
   }
 
   /**
-   * Opens the edit modal and get its reference.
+   * Opens the edit modal and subscribe for on close event.
+   * @param albumIndex The album index number from albums array.
    */
-  openEditModal() {
+  openEditModal(albumIndex: number) {
+    // Open the edit modal
     this.editModalRef = this.modalService.open(EditModalComponent, {
       modalClass: 'modal-dialog-centered',
+      data: {
+        modalType: EditModalTypes.editAlbum,
+        albumOrArt: this.dummyAlbums[albumIndex],
+      },
+    });
+    // Subscribe for on close event
+    this.editModalRef.onClose.subscribe((album: Album) => {
+      if (album) {
+        console.log(album);
+      }
+    });
+  }
+
+  /**
+   * Opens the delete confirm modal and subscribe for on close event.
+   * @param albumId The ID of the album to be deleted.
+   */
+  openConfirmModal(albumId: string) {
+    // Open the delete confirm modal
+    this.delConfirmModalRef = this.modalService.open(ConfirmModalComponent, {
+      modalClass: 'modal-dialog-centered',
+    });
+    // Subscribe for on close event
+    this.delConfirmModalRef.onClose.subscribe((deleteConfirm: boolean) => {
+      if (deleteConfirm) {
+        console.log(`Delete albumId - ${albumId}`, deleteConfirm);
+      }
     });
   }
 }

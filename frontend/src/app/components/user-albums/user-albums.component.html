@@ -4,7 +4,9 @@
   <hr />
 
   <div class="text-end">
-    <a class="btn btn-lg new-album-btn" href="" role="button">New Album</a>
+    <a class="btn btn-lg new-album-btn" role="button" (click)="openAddModal()"
+      >New Album</a
+    >
   </div>
 </header>
 
@@ -34,14 +36,14 @@
           <a
             class="btn edit-btn btn-sm me-1"
             role="button"
-            (click)="openEditModal()"
+            (click)="openEditModal(i)"
           >
             <i class="fas fa-pen-fancy"></i>
           </a>
           <a
             class="btn btn-light btn-sm"
             role="button"
-            (click)="openConfirmModal()"
+            (click)="openConfirmModal(album.albumId)"
           >
             <i class="far fa-trash-alt"></i>
           </a>

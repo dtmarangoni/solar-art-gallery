@@ -15,7 +15,7 @@
       >
         <div class="card hover-overlay">
           <img [src]="art.imgUrl" [alt]="art.title" class="card-img" />
-          <a href="#!">
+          <a (click)="onArtClick(i)">
             <div class="card-a-href mask"></div>
           </a>
         </div>

@@ -19,7 +19,7 @@
         >
           <p class="card-text fw-light">{{ album.title }}</p>
         </div>
-        <a href="#!">
+        <a [routerLink]="['/album', album.albumId]">
           <div class="card-a-href mask"></div>
         </a>
       </div>

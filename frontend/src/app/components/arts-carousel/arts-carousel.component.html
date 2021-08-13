@@ -3,14 +3,14 @@
 </header>
 
 <main>
-  <mdb-carousel [controls]="true" [interval]="0" [dark]="true">
+  <mdb-carousel [controls]="true" [interval]="0" [dark]="true" #carousel>
     <mdb-carousel-item *ngFor="let art of dummyArts; index as i">
       <div class="card">
         <img
           [src]="art.imgUrl"
           [alt]="art.title"
           class="card-img-top"
-          (click)="openArtModal()"
+          (click)="onOpenArtModal(art)"
         />
         <div class="card-body text-center">
           <h5 class="card-title">{{ art.title }}</h5>

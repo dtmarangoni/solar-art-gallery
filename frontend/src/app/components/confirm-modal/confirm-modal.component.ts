@@ -14,4 +14,12 @@ export class ConfirmModalComponent implements OnInit {
   constructor(public modalRef: MdbModalRef<ConfirmModalComponent>) {}
 
   ngOnInit(): void {}
+
+  /**
+   * Send back the delete confirmation after user clicking in Yes
+   * button.
+   */
+  onYesConfirm() {
+    this.modalRef.close(true);
+  }
 }
