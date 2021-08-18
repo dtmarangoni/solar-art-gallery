@@ -3,8 +3,8 @@ import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { AddModalTypes } from '../../../models/ModalTypes';
-import { Album, AlbumVisibility } from '../../../models/database/Album';
-import { Art } from '../../../models/database/Art';
+import { AlbumVisibility } from '../../../models/database/Album';
+import { readFileAsBase64 } from '../../utils/app-utils';
 
 @Component({
   selector: 'app-add-modal',
@@ -101,7 +101,7 @@ export class AddModalComponent implements OnInit {
    * preview element.
    * @param event The HTMLInputElement event.
    */
-  onFileChange(event: Event) {
+  async onFileChange(event: Event) {
     const inputFileEvent = event.target as HTMLInputElement;
     if (inputFileEvent?.files && inputFileEvent?.files?.length) {
       // Path the image file form control from add form
@@ -109,18 +109,8 @@ export class AddModalComponent implements OnInit {
       // Mark the image file form control as dirty after changes
       this.imgFile?.markAsDirty();
       // Update the HTML image preview element from input file
-      this.updateImageFilePreview(inputFileEvent.files[0]);
+      this.imgPreview = await readFileAsBase64(inputFileEvent.files[0]);
     }
-  }
-
-  /**
-   * Update the HTML element image preview from a file.
-   * @param file The image file.
-   */
-  private updateImageFilePreview(file: File) {
-    const fileReader = new FileReader();
-    fileReader.onload = () => (this.imgPreview = fileReader.result as string);
-    fileReader.readAsDataURL(file);
   }
 
   /**

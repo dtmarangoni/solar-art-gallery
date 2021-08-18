@@ -2,16 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 
 @Component({
-  selector: 'app-confirm-modal',
-  templateUrl: './confirm-modal.component.html',
-  styleUrls: ['./confirm-modal.component.scss'],
+  selector: 'app-del-confirm-modal',
+  templateUrl: './del-confirm-modal.component.html',
+  styleUrls: ['./del-confirm-modal.component.scss'],
 })
-export class ConfirmModalComponent implements OnInit {
+export class DelConfirmModalComponent implements OnInit {
   /**
    * Constructs the Confirm modal component.
    * @param modalRef The MDB angular modal reference.
    */
-  constructor(public modalRef: MdbModalRef<ConfirmModalComponent>) {}
+  constructor(public modalRef: MdbModalRef<DelConfirmModalComponent>) {}
 
   ngOnInit(): void {}
 

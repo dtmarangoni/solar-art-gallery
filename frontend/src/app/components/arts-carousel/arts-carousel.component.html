@@ -1,20 +1,24 @@
 <header>
-  <h2 class="fw-light text-center text-uppercase">Exhibition</h2>
+  <h4 class="fw-light text-center text-uppercase">Artist Name - Album Title</h4>
 </header>
 
 <main>
   <mdb-carousel [controls]="true" [interval]="0" [dark]="true" #carousel>
     <mdb-carousel-item *ngFor="let art of dummyArts; index as i">
       <div class="card">
-        <img
-          [src]="art.imgUrl"
-          [alt]="art.title"
-          class="card-img-top"
-          (click)="onOpenArtModal(art)"
-        />
+        <div class="hover-overlay" mdbRipple rippleColor="light">
+          <img [src]="art.imgUrl" [alt]="art.title" class="card-img-top" />
+          <a (click)="onOpenViewModal(art)">
+            <div class="card-a-href mask"></div>
+          </a>
+        </div>
+
         <div class="card-body text-center">
           <h5 class="card-title">{{ art.title }}</h5>
           <p class="card-text">{{ art.description }}</p>
+          <p class="card-text">
+            <small class="text-muted">Artist Name</small>
+          </p>
         </div>
       </div>
     </mdb-carousel-item>

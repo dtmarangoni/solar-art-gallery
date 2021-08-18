@@ -3,9 +3,12 @@ import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
 
 import { AddModalComponent } from '../add-modal/add-modal.component';
 import { EditModalComponent } from '../edit-modal/edit-modal.component';
-import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
-import { Album } from '../../../models/database/Album';
-import { AddModalTypes, EditModalTypes } from '../../../models/ModalTypes';
+import { DelConfirmModalComponent } from '../del-confirm-modal/del-confirm-modal.component';
+import {
+  AddModalTypes,
+  EditModalTypes,
+  ModalAlbumData,
+} from '../../../models/ModalTypes';
 
 @Component({
   selector: 'app-user-albums',
@@ -18,7 +21,7 @@ export class UserAlbumsComponent implements OnInit {
   // The edit modal reference
   private editModalRef!: MdbModalRef<EditModalComponent>;
   // The delete confirm modal reference
-  private delConfirmModalRef!: MdbModalRef<ConfirmModalComponent>;
+  private delConfirmModalRef!: MdbModalRef<DelConfirmModalComponent>;
 
   dummyAlbums = [
     {
@@ -82,16 +85,16 @@ export class UserAlbumsComponent implements OnInit {
   /**
    * Opens the add modal and subscribe for on close event.
    */
-  openAddModal() {
+  onOpenAddModal() {
     // Open the add modal
     this.addModalRef = this.modalService.open(AddModalComponent, {
       modalClass: 'modal-dialog-centered',
       data: { modalType: AddModalTypes.addAlbum },
     });
     // Subscribe for on close event
-    this.addModalRef.onClose.subscribe((album: Album) => {
-      if (album) {
-        console.log(album);
+    this.addModalRef.onClose.subscribe((albumData: ModalAlbumData) => {
+      if (albumData) {
+        console.log(albumData);
       }
     });
   }
@@ -100,7 +103,7 @@ export class UserAlbumsComponent implements OnInit {
    * Opens the edit modal and subscribe for on close event.
    * @param albumIndex The album index number from albums array.
    */
-  openEditModal(albumIndex: number) {
+  onOpenEditModal(albumIndex: number) {
     // Open the edit modal
     this.editModalRef = this.modalService.open(EditModalComponent, {
       modalClass: 'modal-dialog-centered',
@@ -110,9 +113,9 @@ export class UserAlbumsComponent implements OnInit {
       },
     });
     // Subscribe for on close event
-    this.editModalRef.onClose.subscribe((album: Album) => {
-      if (album) {
-        console.log(album);
+    this.editModalRef.onClose.subscribe((albumData: ModalAlbumData) => {
+      if (albumData) {
+        console.log(albumData);
       }
     });
   }
@@ -121,9 +124,9 @@ export class UserAlbumsComponent implements OnInit {
    * Opens the delete confirm modal and subscribe for on close event.
    * @param albumId The ID of the album to be deleted.
    */
-  openConfirmModal(albumId: string) {
+  onOpenDelConfirmModal(albumId: string) {
     // Open the delete confirm modal
-    this.delConfirmModalRef = this.modalService.open(ConfirmModalComponent, {
+    this.delConfirmModalRef = this.modalService.open(DelConfirmModalComponent, {
       modalClass: 'modal-dialog-centered',
     });
     // Subscribe for on close event

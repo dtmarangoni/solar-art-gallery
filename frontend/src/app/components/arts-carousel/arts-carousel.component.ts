@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { MdbCarouselComponent } from 'mdb-angular-ui-kit/carousel';
 
-import { ArtModalComponent } from '../art-modal/art-modal.component';
+import { ViewModalComponent } from '../view-modal/view-modal.component';
 import { CarouselSlideService } from '../../services/carousel-slide.service';
 import { Art } from '../../../models/database/Art';
 
@@ -93,11 +93,11 @@ export class ArtsCarouselComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Opens the art modal and get its reference.
+   * Opens the view modal to visualize the art painting.
    * @param art The art clicked item.
    */
-  onOpenArtModal(art: Art) {
-    this.modalService.open(ArtModalComponent, {
+  onOpenViewModal(art: Art) {
+    this.modalService.open(ViewModalComponent, {
       modalClass: 'art-modal-dialog',
       data: { art },
     });

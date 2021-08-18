@@ -1,0 +1,60 @@
+header {
+  h2 {
+    letter-spacing: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .save-changes-btn {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    margin-left: 3rem;
+    margin-right: 3rem;
+
+    background-color: var(--mdb-dark-tint-1);
+    color: var(--mdb-white);
+  }
+
+  .new-art-btn {
+    margin-bottom: 2rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+}
+
+main {
+  .row {
+    max-width: 84rem;
+
+    .col {
+      .card {
+        width: min-content;
+
+        .card-header {
+          img {
+            min-width: 18rem;
+            max-width: 18rem;
+            min-height: 18rem;
+            max-height: 18rem;
+            object-fit: cover;
+          }
+
+          .card-a-href {
+            background-color: var(--hover-img);
+          }
+        }
+
+        .card-footer {
+          .drag-btn {
+            border: none;
+            color: var(--mdb-gray-dark);
+          }
+
+          .edit-btn {
+            background-color: var(--mdb-dark-tint-2);
+            color: var(--mdb-white);
+          }
+        }
+      }
+    }
+  }
+}

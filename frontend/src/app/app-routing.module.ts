@@ -13,6 +13,13 @@ const routes: Routes = [
       import('./pages/album/album.module').then((m) => m.AlbumModule),
   },
   {
+    path: 'portfolio/albums/:id',
+    loadChildren: () =>
+      import('./pages/user-album/user-album.module').then(
+        (m) => m.UserAlbumModule
+      ),
+  },
+  {
     path: 'portfolio/albums',
     loadChildren: () =>
       import('./pages/user-portfolio/user-portfolio.module').then(

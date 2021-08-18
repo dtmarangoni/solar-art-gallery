@@ -4,7 +4,7 @@
   <hr />
 
   <div class="text-end">
-    <a class="btn btn-lg new-album-btn" role="button" (click)="openAddModal()"
+    <a class="btn btn-lg new-album-btn" role="button" (click)="onOpenAddModal()"
       >New Album</a
     >
   </div>
@@ -17,7 +17,20 @@
       *ngFor="let album of dummyAlbums; index as i"
     >
       <div class="card h-100 d-flex">
-        <img [src]="album.coverUrl" [alt]="album.title" class="card-img-top" />
+        <div
+          class="card-header m-0 p-0 hover-overlay"
+          mdbRipple
+          rippleColor="light"
+        >
+          <img
+            [src]="album.coverUrl"
+            [alt]="album.title"
+            class="card-img-top"
+          />
+          <a [routerLink]="['/', 'portfolio', 'albums', album.albumId]">
+            <div class="card-a-href mask"></div>
+          </a>
+        </div>
         <div class="card-body">
           <h5 class="card-title">{{ album.title }}</h5>
           <p class="card-text">{{ album.description }}</p>
@@ -33,20 +46,20 @@
             py-3
           "
         >
-          <a
+          <button
+            type="button"
             class="btn edit-btn btn-sm me-1"
-            role="button"
-            (click)="openEditModal(i)"
+            (click)="onOpenEditModal(i)"
           >
             <i class="fas fa-pen-fancy"></i>
-          </a>
-          <a
+          </button>
+          <button
+            type="button"
             class="btn btn-light btn-sm"
-            role="button"
-            (click)="openConfirmModal(album.albumId)"
+            (click)="onOpenDelConfirmModal(album.albumId)"
           >
             <i class="far fa-trash-alt"></i>
-          </a>
+          </button>
         </div>
       </div>
     </div>

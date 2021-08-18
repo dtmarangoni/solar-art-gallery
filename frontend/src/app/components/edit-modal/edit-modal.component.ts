@@ -5,6 +5,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Album, AlbumVisibility } from '../../../models/database/Album';
 import { Art } from '../../../models/database/Art';
 import { EditModalTypes } from '../../../models/ModalTypes';
+import { readFileAsBase64 } from '../../utils/app-utils';
 
 @Component({
   selector: 'app-edit-modal',
@@ -117,7 +118,7 @@ export class EditModalComponent implements OnInit {
    * preview element.
    * @param event The HTMLInputElement event.
    */
-  onFileChange(event: Event) {
+  async onFileChange(event: Event) {
     const inputFileEvent = event.target as HTMLInputElement;
     if (inputFileEvent?.files && inputFileEvent?.files?.length) {
       // Path the image file form control from edit form
@@ -125,18 +126,8 @@ export class EditModalComponent implements OnInit {
       // Mark the image file form control as dirty after changes
       this.imgFile?.markAsDirty();
       // Update the HTML image preview element from input file
-      this.updateImageFilePreview(inputFileEvent.files[0]);
+      this.imgPreview = await readFileAsBase64(inputFileEvent.files[0]);
     }
-  }
-
-  /**
-   * Update the HTML element image preview from a file.
-   * @param file The image file.
-   */
-  private updateImageFilePreview(file: File) {
-    const fileReader = new FileReader();
-    fileReader.onload = () => (this.imgPreview = fileReader.result as string);
-    fileReader.readAsDataURL(file);
   }
 
   /**

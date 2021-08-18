@@ -4,19 +4,19 @@ import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { Art } from '../../../models/database/Art';
 
 @Component({
-  selector: 'app-art-modal',
-  templateUrl: './art-modal.component.html',
-  styleUrls: ['./art-modal.component.scss'],
+  selector: 'app-view-modal',
+  templateUrl: './view-modal.component.html',
+  styleUrls: ['./view-modal.component.scss'],
 })
-export class ArtModalComponent implements OnInit {
+export class ViewModalComponent implements OnInit {
   // The art item that will be passed to modal
   art!: Art;
 
   /**
-   * Constructs the Art modal component.
+   * Constructs the View modal component.
    * @param modalRef The MDB angular modal reference.
    */
-  constructor(public modalRef: MdbModalRef<ArtModalComponent>) {}
+  constructor(public modalRef: MdbModalRef<ViewModalComponent>) {}
 
   ngOnInit(): void {}
 }
