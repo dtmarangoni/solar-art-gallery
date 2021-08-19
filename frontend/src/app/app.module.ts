@@ -2,6 +2,9 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthModule, AuthHttpInterceptor } from '@auth0/auth0-angular';
+import { environment } from '../environments/environment';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,9 +29,15 @@ import { MaterialDesignBootstrapModule } from './shared/material-design-bootstra
     AppRoutingModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    AuthModule.forRoot({
+      ...environment.auth,
+      httpInterceptor: { allowedList: environment.apiHost.privateEndpoints },
+    }),
     MaterialDesignBootstrapModule,
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

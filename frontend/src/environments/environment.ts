@@ -1,9 +1,13 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
+import { apiHostConfig } from 'src/config/apiHost';
+import { auth0Config } from '../config/auth0-config';
 
 export const environment = {
-  production: false
+  production: false,
+  auth: { ...auth0Config, redirectUri: window.location.origin },
+  apiHost: apiHostConfig,
 };
 
 /*

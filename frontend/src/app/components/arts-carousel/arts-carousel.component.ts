@@ -13,10 +13,10 @@ import { Art } from '../../../models/database/Art';
   styleUrls: ['./arts-carousel.component.scss'],
 })
 export class ArtsCarouselComponent implements OnInit, OnDestroy {
-  // The Carousel Slide Service Subscription
+  // The Carousel Slide service subscription
   private carSlideSrvSubs!: Subscription;
   // The art carousel reference
-  @ViewChild('carousel') carousel!: MdbCarouselComponent;
+  @ViewChild('carousel') private carousel!: MdbCarouselComponent;
 
   dummyArts = [
     {

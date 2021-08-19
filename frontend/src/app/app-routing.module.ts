@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
+import { AuthGuard } from '@auth0/auth0-angular';
 
 const routes: Routes = [
   {
@@ -14,6 +15,7 @@ const routes: Routes = [
   },
   {
     path: 'portfolio/albums/:id',
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./pages/user-album/user-album.module').then(
         (m) => m.UserAlbumModule
@@ -21,6 +23,7 @@ const routes: Routes = [
   },
   {
     path: 'portfolio/albums',
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./pages/user-portfolio/user-portfolio.module').then(
         (m) => m.UserPortfolioModule
