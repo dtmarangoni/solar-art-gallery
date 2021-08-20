@@ -58,7 +58,7 @@ const serverlessConfiguration: AWS = {
         dotenvVars: '${file(dotenv.config.js)}',
         remover: { buckets: ['${self:provider.environment.IMAGES_S3_BUCKET}'] },
         'serverless-iam-roles-per-function': { defaultInherit: true },
-        'serverless-offline': { httpPort: 4000 },
+        'serverless-offline': { httpPort: 4000, lambdaPort: 4001, websocketPort: 4002 },
         seed: {
             awsAlbumSeed: {
                 table: '${self:provider.environment.ALBUM_TABLE}',

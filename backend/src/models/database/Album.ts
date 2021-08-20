@@ -3,6 +3,7 @@
  */
 export interface Album {
     userId: string;
+    ownerName: string;
     albumId: string;
     creationDate: string;
     visibility: AlbumVisibility;

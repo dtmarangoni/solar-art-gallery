@@ -8,8 +8,6 @@ import {
 import { formatJSONResponse, privateMiddyfy } from '@utils/lambda';
 import { createLogger } from '@utils/logger';
 import { MiddlewarePhases } from '@utils/middleware/logger.middleware';
-import { encodeNextKey } from '@utils/dynamoDB';
-import { getUserAlbums } from '../../../../layers/business/database/album';
 import { putUserInfo } from 'src/layers/business/database/user';
 
 // Winston logger

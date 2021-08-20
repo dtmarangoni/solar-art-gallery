@@ -2,6 +2,7 @@
     {
         "albumId": "1efc348c-b3ad-4f03-a2ff-423f77444a30",
         "userId": "c8663d5d-0472-4b1e-861f-cc9c2795e43a",
+        "userName": "Vincent van Gogh",
         "creationDate": "2020-08-10T19:50:02Z",
         "visibility": "public",
         "title": "Portraits",
@@ -11,6 +12,7 @@
     {
         "albumId": "e6323b1c-038d-43de-a459-4fc78e9c296e",
         "userId": "c8663d5d-0472-4b1e-861f-cc9c2795e43a",
+        "userName": "Vincent van Gogh",
         "creationDate": "2020-11-29T00:10:51Z",
         "visibility": "public",
         "title": "Flowers",
@@ -20,6 +22,7 @@
     {
         "albumId": "f5553b1c-038d-43de-a459-4fc78e9c296e",
         "userId": "c8663d5d-0472-4b1e-861f-cc9c2795e43a",
+        "userName": "Vincent van Gogh",
         "creationDate": "2020-07-20T00:00:51Z",
         "visibility": "public",
         "title": "Wheatfields",
@@ -29,6 +32,7 @@
     {
         "albumId": "08c17db6-547f-4078-924f-7eaaaf3bb742",
         "userId": "4d38799d-3be6-4000-9bce-1ab09036c017",
+        "userName": "Claude Monet",
         "creationDate": "2021-01-27T03:03:42Z",
         "visibility": "public",
         "title": "Urban Places",
@@ -38,6 +42,7 @@
     {
         "albumId": "fbefab56-42e1-40af-9145-fbc34cc65f2f",
         "userId": "4d38799d-3be6-4000-9bce-1ab09036c017",
+        "userName": "Claude Monet",
         "creationDate": "2020-11-26T00:34:23Z",
         "visibility": "public",
         "title": "Nature Scenery",

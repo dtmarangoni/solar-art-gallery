@@ -7,6 +7,7 @@ import { validatePaginationParams } from '@utils/dynamoDB';
 import { rmUserId, rmUserIdFromArr } from '@utils/general';
 import { Album } from '../../../models/database/Album';
 import { AlbumAccess } from '../../ports/AWS/DynamoDB/albumAccess';
+import { getUser } from './user';
 import { addAlbumSchema, editAlbumSchema, deleteAlbumSchema } from '@lambda/http';
 import { getDownloadSignedUrl, getFsAlbumFolder, getUploadSignedUrl } from '../fileStore/fileStore';
 
@@ -78,6 +79,8 @@ export async function queryAlbum(albumId: string) {
  * @returns The added album item.
  */
 export async function addAlbum(userId: string, albumParams: FromSchema<typeof addAlbumSchema>) {
+    // Get the user information
+    const user = await getUser(userId);
     // Generate the album ID
     const albumId = uuidv4();
     // Generate the file store cover img url and pre-signed upload url
@@ -86,6 +89,7 @@ export async function addAlbum(userId: string, albumParams: FromSchema<typeof ad
     // Create the new album item
     const album: Album = {
         userId,
+        ownerName: user.name,
         albumId,
         creationDate: new Date().toISOString(),
         visibility: albumParams.visibility,
