@@ -2,6 +2,7 @@
  * Interface representing an item from Album Database Table.
  */
 export interface Album {
+  ownerName: string;
   albumId: string;
   creationDate: string;
   visibility: AlbumVisibility;

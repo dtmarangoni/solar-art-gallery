@@ -3,7 +3,7 @@
 /**
  * The AWS host API ID.
  */
-const apiId = 'srg4dpg0u9';
+const apiId = 'dozf4gubi5';
 
 /**
  * The host AWS cloud region.
@@ -27,7 +27,7 @@ const endpoints = {
     deleteAlbum: `${address}/album/my`,
   },
   art: {
-    publicArts: `${address}/art/public`,
+    getPublicAlbumArts: `${address}/art/public`,
     getUserAlbumArts: `${address}/art/my`,
     putArts: `${address}/art/my`,
     deleteArts: `${address}/art/my`,

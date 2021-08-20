@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { CarouselSlideService } from '../../services/carousel-slide.service';
+import { CarouselSlideService } from '../../services/CarouselSlide/carousel-slide.service';
 
 @Component({
   selector: 'app-arts-sidebar',

@@ -4,7 +4,7 @@ import { MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { MdbCarouselComponent } from 'mdb-angular-ui-kit/carousel';
 
 import { ViewModalComponent } from '../view-modal/view-modal.component';
-import { CarouselSlideService } from '../../services/carousel-slide.service';
+import { CarouselSlideService } from '../../services/CarouselSlide/carousel-slide.service';
 import { Art } from '../../../models/database/Art';
 
 @Component({
