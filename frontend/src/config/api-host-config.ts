@@ -13,36 +13,48 @@ const region = 'sa-east-1';
 /**
  * The API host address
  */
-const address = `https://${apiId}.execute-api.${region}.amazonaws.com/dev`;
+const localAddress = `http://localhost:4000/dev`;
+const deployedAddress = `https://${apiId}.execute-api.${region}.amazonaws.com/dev`;
+
+/**
+ * Generates the API endpoints for local or AWS cloud deployment.
+ * @param hostAddress The API host address - local or AWS cloud.
+ * @returns The generated API endpoints for local or AWS cloud
+ * deployment.
+ */
+function getAPIEndpoints(hostAddress: string) {
+  return {
+    album: {
+      getPublicAlbums: `${hostAddress}/album/public`,
+      getUserAlbums: `${hostAddress}/album/my`,
+      addAlbum: `${hostAddress}/album/my`,
+      editAlbum: `${hostAddress}/album/my`,
+      deleteAlbum: `${hostAddress}/album/my`,
+    },
+    art: {
+      getPublicAlbumArts: `${hostAddress}/art/public`,
+      getUserAlbumArts: `${hostAddress}/art/my`,
+      putArts: `${hostAddress}/art/my`,
+      deleteArts: `${hostAddress}/art/my`,
+    },
+    user: { putUser: `${hostAddress}/user` },
+    privateEndpoints: [
+      `${hostAddress}/album/my`,
+      `${hostAddress}/art/my`,
+      `${hostAddress}/user`,
+    ],
+  };
+}
 
 /**
  * API host endpoints.
  */
 const endpoints = {
-  album: {
-    getPublicAlbums: `${address}/album/public`,
-    getUserAlbums: `${address}/album/my`,
-    addAlbum: `${address}/album/my`,
-    editAlbum: `${address}/album/my`,
-    deleteAlbum: `${address}/album/my`,
-  },
-  art: {
-    getPublicAlbumArts: `${address}/art/public`,
-    getUserAlbumArts: `${address}/art/my`,
-    putArts: `${address}/art/my`,
-    deleteArts: `${address}/art/my`,
-  },
-  user: { putUser: `${address}/user` },
+  dev: getAPIEndpoints(localAddress),
+  prod: getAPIEndpoints(deployedAddress),
 };
 
 /**
  * API host configurations.
  */
-export const apiHostConfig = {
-  endpoints,
-  privateEndpoints: [
-    `${address}/album/my`,
-    `${address}/art/my`,
-    `${address}/user`,
-  ],
-};
+export const apiHostConfig = { endpoints };

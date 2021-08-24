@@ -117,9 +117,11 @@ export async function editAlbum(userId: string, albumParams: FromSchema<typeof e
     const album = await albumOwnership(userId, albumParams.albumId);
 
     // Generate the pre-signed urls if necessary
-    const { coverUrl, uploadUrl } = fsAlbumUrls(album.albumId, albumParams.genUploadUrl);
+    let { coverUrl, uploadUrl } = fsAlbumUrls(album.albumId, albumParams.genUploadUrl);
+    // Keep the old coverUrl if a new one wasn't necessary
+    coverUrl = coverUrl ? coverUrl : album.coverUrl;
 
-    // Remove the genUploadUrl flag before return the art data
+    // Remove the genUploadUrl flag before returning the album data
     const { genUploadUrl, ...newParams } = albumParams;
     // Edit the album properties
     const editedAlbum: Album = { ...album, ...newParams, coverUrl };
