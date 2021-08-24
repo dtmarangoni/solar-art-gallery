@@ -1,0 +1,22 @@
+<header>
+  <div class="modal-header bg-dark">
+    <h5 class="modal-title text-light text-uppercase px-2">Error</h5>
+    <button
+      type="button"
+      class="btn-close btn-close-white"
+      aria-label="Close"
+      (click)="modalRef.close()"
+    ></button>
+  </div>
+</header>
+
+<main>
+  <div class="modal-body my-3 mx-5">
+    <p>{{ errorMessage }}</p>
+    <div class="d-flex align-items-center justify-content-center pt-2">
+      <button type="button" class="btn" (click)="modalRef.close(false)">
+        Ok
+      </button>
+    </div>
+  </div>
+</main>

@@ -1,0 +1,17 @@
+header {
+  h5 {
+    letter-spacing: 0.7rem;
+  }
+}
+
+main {
+  button {
+    background-color: var(--mdb-dark-tint-1);
+    color: var(--mdb-white);
+  }
+
+  button:hover {
+    background-color: var(--mdb-dark-tint-3);
+    color: var(--mdb-dark-tint-9);
+  }
+}
