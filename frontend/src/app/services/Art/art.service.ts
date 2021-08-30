@@ -110,7 +110,7 @@ export class ArtService {
       .subscribe((response) => {
         // All arts are always returned. Update the cached arts list
         this.cachedArts = response;
-        // Emit the new albums list
+        // Emit the new arts list
         this.arts.next(cloneDeep({ items: this.cachedArts }));
       });
   }

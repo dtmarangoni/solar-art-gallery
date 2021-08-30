@@ -16,7 +16,7 @@ interface PutOptionalDataResponse extends Art {
 }
 
 /**
- * The add or edit arts in an album request response.
+ * The add or edit arts to or from an album request response.
  */
 export interface PutArtsResponse {
   items: PutOptionalDataResponse[];

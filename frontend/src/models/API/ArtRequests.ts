@@ -6,7 +6,7 @@ export interface GetAlbumArtsParams {
 }
 
 /**
- * The add or edit arts in an album request params.
+ * The add or edit arts to or from an album request params.
  */
 export interface PutArtsParams {
   albumId: string;
