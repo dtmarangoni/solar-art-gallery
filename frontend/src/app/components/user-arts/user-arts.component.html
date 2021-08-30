@@ -78,7 +78,7 @@
               <button
                 type="button"
                 class="btn btn-outline-info btn-sm drag-btn"
-                [disabled]="i == 0 || artGroup.get('delete')?.value"
+                [disabled]="i === 0 || artGroup.get('delete')?.value"
                 (click)="shift(-1, i)"
               >
                 <i class="fas fa-angle-left fa-lg"></i>
@@ -87,7 +87,8 @@
                 type="button"
                 class="btn btn-outline-info btn-sm drag-btn"
                 [disabled]="
-                  i == artsFormArray.length - 1 || artGroup.get('delete')?.value
+                  i === artsFormArray.length - 1 ||
+                  artGroup.get('delete')?.value
                 "
                 (click)="shift(1, i)"
               >

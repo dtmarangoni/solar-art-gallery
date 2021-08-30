@@ -292,7 +292,7 @@ export class UserArtsComponent implements OnInit {
         this.artsToDelete.push(groupCtrl.value);
       } else {
         this.artsToDelete = this.artsToDelete.filter(
-          (art) => art.artId != groupCtrl.get('artId')?.value
+          (art) => art.artId !== groupCtrl.get('artId')?.value
         );
       }
     }

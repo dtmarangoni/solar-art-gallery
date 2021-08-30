@@ -22,7 +22,7 @@ export class EditModalComponent implements OnInit {
   // The edit form group
   editForm!: FormGroup;
   // The input file image preview element
-  imgPreview!: string;
+  imgPreview: string | undefined;
   // The visibility toggle switch element
   visibilityToggle!: boolean;
 
@@ -57,7 +57,7 @@ export class EditModalComponent implements OnInit {
     });
 
     // Visibility is only applicable for Albums
-    if (this.modalType == EditModalTypes.editAlbum) {
+    if (this.modalType === EditModalTypes.editAlbum) {
       this.editForm.addControl(
         'visibility',
         new FormControl((this.albumOrArt as Album).visibility, {
@@ -73,13 +73,13 @@ export class EditModalComponent implements OnInit {
   private initHTMLElements() {
     // Initialize the image preview element
     this.imgPreview =
-      this.modalType == EditModalTypes.editAlbum
+      this.modalType === EditModalTypes.editAlbum
         ? (this.albumOrArt as Album).coverUrl
         : (this.albumOrArt as Art).imgUrl;
     // Initialize the HTML visibility toggle switch element
-    if (this.modalType == EditModalTypes.editAlbum) {
+    if (this.modalType === EditModalTypes.editAlbum) {
       this.visibilityToggle =
-        (this.albumOrArt as Album).visibility == AlbumVisibility.public
+        (this.albumOrArt as Album).visibility === AlbumVisibility.public
           ? true
           : false;
     }

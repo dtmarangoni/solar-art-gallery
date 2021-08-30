@@ -8,5 +8,5 @@ export interface Art {
   creationDate: string;
   title: string;
   description: string;
-  imgUrl: string;
+  imgUrl?: string;
 }

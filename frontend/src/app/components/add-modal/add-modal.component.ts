@@ -50,7 +50,7 @@ export class AddModalComponent implements OnInit {
     });
 
     // Visibility is only applicable for Albums
-    if (this.modalType == AddModalTypes.addAlbum) {
+    if (this.modalType === AddModalTypes.addAlbum) {
       this.addForm.addControl(
         'visibility',
         new FormControl(AlbumVisibility.private, {

@@ -26,7 +26,7 @@
           <div class="card-body">
             <h4 class="mb-1 mx-3 fw-light text-uppercase text-center">
               {{
-                modalType == modalTypesEnum.editAlbum
+                modalType === modalTypesEnum.editAlbum
                   ? "Edit Album"
                   : "Edit Painting"
               }}
@@ -36,7 +36,7 @@
 
             <div
               class="form-check form-switch d-flex justify-content-end"
-              *ngIf="modalType == modalTypesEnum.editAlbum"
+              *ngIf="modalType === modalTypesEnum.editAlbum"
             >
               <input
                 mdbCheckbox

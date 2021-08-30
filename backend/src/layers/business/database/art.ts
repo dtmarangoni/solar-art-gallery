@@ -38,7 +38,7 @@ export async function getPublicAlbumArts(
     // Retrieve the album item from DB
     const album = await queryAlbum(artsParams.albumId);
     // Verify if the album visibility is public before continuing
-    if (album.visibility != AlbumVisibility.public)
+    if (album.visibility !== AlbumVisibility.public)
         throw new createHttpError.Forbidden('Unauthorized.');
 
     // Validate the query params
@@ -270,7 +270,7 @@ async function existingArtItemData(
     // if art doesn't exists in DB
     const art = await getArt(artParams.albumId, artParams.artId);
     // Generate the pre-signed urls
-    const { imgUrl, uploadUrl } = fsArtUrls(artParams.albumId, art.artId, artParams.genUploadUrl);
+    let { imgUrl, uploadUrl } = fsArtUrls(artParams.albumId, art.artId, artParams.genUploadUrl);
     // Remove the genUploadUrl flag before return the art data
     const { genUploadUrl, ...newParams } = artParams;
     return { ...art, ...newParams, sequenceNum, imgUrl, uploadUrl };

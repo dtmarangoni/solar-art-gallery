@@ -28,7 +28,7 @@ export function httpLogLevel(statusCode: number): string {
     if (statusCode >= 500) level = 'error';
     // Unauthorized and Forbidden are critical due to possible hacking
     // attempts
-    if (statusCode == 401 || statusCode == 403) level = 'critical';
+    if (statusCode === 401 || statusCode === 403) level = 'critical';
 
     return level;
 }

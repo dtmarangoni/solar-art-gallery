@@ -1,26 +1,23 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { of, Subject, throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Subject, of, throwError, Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import cloneDeep from 'lodash.clonedeep';
 
 import { environment } from '../../../environments/environment';
 import { Album } from '../../../models/database/Album';
+import { PaginationQueryParams } from '../../../models/API/Common';
 import {
   AddAlbumParams,
-  DeleteAlbumParams,
   EditAlbumParams,
-  GetPublicAlbumsParams,
-  GetUserAlbumsParams,
+  DeleteAlbumParams,
 } from '../../../models/API/AlbumRequests';
 import {
-  AddAlbumResponse,
+  GetAlbumsResponse,
+  AddEditAlbumResponse,
   DeleteAlbumResponse,
-  EditAlbumResponse,
-  GetPublicAlbumsResponse,
-  GetUserAlbumsResponse,
 } from '../../../models/API/AlbumResponses';
-import { uploadFileForm } from 'src/app/utils/app-utils';
+import { paginationQueryParams, uploadFileForm } from '../../utils/app-utils';
 
 @Injectable({
   providedIn: 'root',
@@ -41,14 +38,14 @@ export class AlbumService {
 
   /**
    * Fetch all public albums.
-   * @param queryParams The request params.
+   * @param queryParams The pagination query params.
    */
-  public fetchPublicAlbums(queryParams?: GetPublicAlbumsParams): void {
+  public fetchPublicAlbums(queryParams?: PaginationQueryParams) {
     // Request query params
-    const params = this.paginationQueryParams(queryParams);
+    const params = paginationQueryParams(queryParams);
     // Fetch the albums from API server
     this.http
-      .get<GetPublicAlbumsResponse>(this.endpoints.getPublicAlbums, {
+      .get<GetAlbumsResponse>(this.endpoints.getPublicAlbums, {
         params,
         responseType: 'json',
       })
@@ -62,14 +59,14 @@ export class AlbumService {
 
   /**
    * Fetch all user albums.
-   * @param queryParams The request params.
+   * @param queryParams The pagination query params.
    */
-  public fetchUserAlbums(queryParams?: GetUserAlbumsParams): void {
+  public fetchUserAlbums(queryParams?: PaginationQueryParams) {
     // Request query params
-    const params = this.paginationQueryParams(queryParams);
+    const params = paginationQueryParams(queryParams);
     // Fetch the albums from API server
     this.http
-      .get<GetUserAlbumsResponse>(this.endpoints.getUserAlbums, {
+      .get<GetAlbumsResponse>(this.endpoints.getUserAlbums, {
         params: params,
         responseType: 'json',
       })
@@ -84,29 +81,16 @@ export class AlbumService {
   /**
    * Add a new album to user portfolio.
    * @param albumData The new album data.
-   * @param coverImg The album cover image file.
    */
-  public addAlbum(albumData: AddAlbumParams, coverImg: File) {
+  public addAlbum(albumData: AddAlbumParams) {
+    // Split the album request data and album image file
+    const { coverImg, ...albumBodyData } = albumData;
+    // Add the new album to DB
     this.http
-      .post<AddAlbumResponse>(this.endpoints.addAlbum, albumData, {
+      .post<AddEditAlbumResponse>(this.endpoints.addAlbum, albumBodyData, {
         responseType: 'json',
       })
-      .pipe(
-        switchMap((response) => {
-          // Extract the new album data from response
-          const { uploadUrl, ...album } = response.item;
-          // Upload the album cover image
-          if (uploadUrl) {
-            return this.http
-              .put(uploadUrl, uploadFileForm(album.albumId, coverImg))
-              .pipe(switchMap(() => of(album)));
-          } else {
-            return throwError(
-              'An upload url is necessary to upload the album cover image.'
-            );
-          }
-        })
-      )
+      .pipe(switchMap((response) => this.uploadAlbumImg(response, coverImg)))
       .subscribe((response) => {
         // Add the new album to the albums list
         this.cachedAlbums.push(response);
@@ -118,35 +102,21 @@ export class AlbumService {
   /**
    * Edit an album from user portfolio.
    * @param albumData The album data to be edited.
-   * @param coverImg The new album cover image file if applicable.
    */
-  public editAlbum(albumData: EditAlbumParams, coverImg?: File) {
+  public editAlbum(albumData: EditAlbumParams) {
+    // Split the album request data and album image file
+    const { coverImg, ...albumBodyData } = albumData;
+    // Edit the album in DB
     this.http
-      .patch<EditAlbumResponse>(this.endpoints.editAlbum, albumData, {
+      .patch<AddEditAlbumResponse>(this.endpoints.editAlbum, albumBodyData, {
         responseType: 'json',
       })
-      .pipe(
-        switchMap((response) => {
-          // Extract the album data from response
-          const { uploadUrl, ...album } = response.item;
-          // Upload the new album cover image if necessary
-          if (uploadUrl) {
-            if (!coverImg)
-              return throwError('Missing the album cover image file.');
-
-            return this.http
-              .put(uploadUrl, uploadFileForm(album.albumId, coverImg))
-              .pipe(switchMap(() => of(album)));
-          } else {
-            return of(album);
-          }
-        })
-      )
+      .pipe(switchMap((response) => this.uploadAlbumImg(response, coverImg)))
       .subscribe((response) => {
         // Edit the album data in albums list
         this.cachedAlbums[
           this.cachedAlbums.findIndex(
-            (album) => album.albumId == response.albumId
+            (album) => album.albumId === response.albumId
           )
         ] = response;
         // Emit the new albums list
@@ -159,6 +129,7 @@ export class AlbumService {
    * @param albumData The album data to be deleted.
    */
   public deleteAlbum(albumData: DeleteAlbumParams) {
+    // Perform the delete request to API server
     this.http
       .request<DeleteAlbumResponse>('delete', this.endpoints.deleteAlbum, {
         body: albumData,
@@ -167,7 +138,7 @@ export class AlbumService {
       .subscribe((response) => {
         // Delete the album from albums list
         this.cachedAlbums = this.cachedAlbums.filter(
-          (album) => album.albumId != response.item.albumId
+          (album) => album.albumId !== response.item.albumId
         );
         // Emit the new albums list
         this.albums.next(cloneDeep({ items: this.cachedAlbums }));
@@ -190,30 +161,35 @@ export class AlbumService {
    */
   public getCachedAlbum(albumId: string) {
     return cloneDeep({
-      item: this.cachedAlbums.find((album) => album.albumId == albumId),
+      item: this.cachedAlbums.find((album) => album.albumId === albumId),
     });
   }
 
   /**
-   * Create the request pagination query params if necessary.
-   * @param queryParams The pagination query params.
-   * @returns The HTTP request pagination query params.
+   * If necessary, upload the album cover image after add or edit album
+   * operation.
+   * @param addEditResp The add or edit album request response.
+   * @param albumCoverImg The album cover image.
+   * @returns The album data observable from add or edit response after
+   * successful upload or an error observable in case of missing
+   * required data.
    */
-  private paginationQueryParams(queryParams?: GetPublicAlbumsParams) {
-    if (queryParams) {
-      let params = new HttpParams();
+  private uploadAlbumImg(
+    addEditResp: AddEditAlbumResponse,
+    albumCoverImg?: File
+  ): Observable<Album> | Observable<never> {
+    // Split the added album data and upload url from add/edit response
+    const { uploadUrl, ...album } = addEditResp.item;
+    // Upload the new album cover image if necessary
+    if (uploadUrl) {
+      if (!albumCoverImg)
+        return throwError('Missing the album cover image file.');
 
-      if (queryParams?.limit) {
-        params = params.set('limit', queryParams.limit.toString());
-      }
-      if (queryParams?.nextKey) {
-        params = params.set('nextKey', queryParams.nextKey);
-      }
-
-      return params;
+      return this.http
+        .put(uploadUrl, uploadFileForm(album.albumId, albumCoverImg))
+        .pipe(switchMap(() => of(album)));
+    } else {
+      return of(album);
     }
-
-    // If not provided, return undefined for HTTP query params.
-    return undefined;
   }
 }

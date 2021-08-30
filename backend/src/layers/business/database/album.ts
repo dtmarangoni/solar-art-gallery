@@ -81,6 +81,9 @@ export async function queryAlbum(albumId: string) {
 export async function addAlbum(userId: string, albumParams: FromSchema<typeof addAlbumSchema>) {
     // Get the user information
     const user = await getUser(userId);
+    // Do not continue if user isn't registered in DB
+    if (!user) throw new createHttpError.Forbidden('Unauthorized.');
+
     // Generate the album ID
     const albumId = uuidv4();
     // Generate the file store cover img url and pre-signed upload url
@@ -118,9 +121,6 @@ export async function editAlbum(userId: string, albumParams: FromSchema<typeof e
 
     // Generate the pre-signed urls if necessary
     let { coverUrl, uploadUrl } = fsAlbumUrls(album.albumId, albumParams.genUploadUrl);
-    // Keep the old coverUrl if a new one wasn't necessary
-    coverUrl = coverUrl ? coverUrl : album.coverUrl;
-
     // Remove the genUploadUrl flag before returning the album data
     const { genUploadUrl, ...newParams } = albumParams;
     // Edit the album properties
