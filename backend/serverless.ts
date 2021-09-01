@@ -2,7 +2,9 @@ import type { AWS } from '@serverless/typescript';
 
 import {
     getPublicAlbums,
+    getPublicAlbum,
     getUserAlbums,
+    getUserAlbum,
     addAlbum,
     editAlbum,
     deleteAlbum,
@@ -106,7 +108,9 @@ const serverlessConfiguration: AWS = {
     functions: {
         authorizer,
         getPublicAlbums,
+        getPublicAlbum,
         getUserAlbums,
+        getUserAlbum,
         addAlbum,
         editAlbum,
         deleteAlbum,

@@ -6,7 +6,7 @@ export default {
     events: [
         {
             http: {
-                method: 'put',
+                method: 'post',
                 path: '/album/my',
                 cors: true,
                 authorizer: {
@@ -20,21 +20,15 @@ export default {
     iamRoleStatements: [
         {
             Effect: 'Allow',
-            Action: ['dynamoDB:GetItem'],
-            Resource: [
-                'arn:aws:dynamodb:${self:provider.region}:#{AWS::AccountId}:table/${self:provider.environment.USER_TABLE}',
-            ],
-        },
-        {
-            Effect: 'Allow',
-            Action: ['dynamoDB:PutItem'],
+            Action: ['dynamoDB:Query'],
             Resource: [
                 'arn:aws:dynamodb:${self:provider.region}:#{AWS::AccountId}:table/${self:provider.environment.ALBUM_TABLE}',
+                'arn:aws:dynamodb:${self:provider.region}:#{AWS::AccountId}:table/${self:provider.environment.ALBUM_TABLE}/index/${self:provider.environment.ALBUM_ALBUM_ID_GSI}',
             ],
         },
         {
             Effect: 'Allow',
-            Action: ['s3:GetObject', 's3:PutObject'],
+            Action: ['s3:GetObject'],
             Resource: ['arn:aws:s3:::${self:provider.environment.IMAGES_S3_BUCKET}/*'],
         },
     ],

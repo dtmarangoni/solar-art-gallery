@@ -8,7 +8,7 @@ import { rmUserIdFromArr } from '@utils/general';
 import { ArtAccess } from '../../ports/AWS/DynamoDB/artAccess';
 import { AlbumVisibility } from '../../../models/database/Album';
 import { Art } from '../../../models/database/Art';
-import { queryAlbum, albumOwnership } from './album';
+import { queryAlbum, queryUserAlbum } from './album';
 import {
     getPublicAlbumArtsSchema,
     getUserAlbumArtsSchema,
@@ -72,7 +72,7 @@ export async function getUserAlbumArts(
 ) {
     // Verify if the album exists and the user ownership before
     // proceeding. This function will throw an error if not OK
-    await albumOwnership(userId, artsParams.albumId);
+    await queryUserAlbum(userId, artsParams.albumId);
 
     // Validate the query params
     let { searchLimit, searchStartKey } = validatePaginationParams(limit, exclusiveStartKey);
@@ -111,7 +111,7 @@ export async function getArt(albumId: string, artId: string) {
 export async function putArts(userId: string, artsParams: FromSchema<typeof putArtsSchema>) {
     // Verify if the album exists and the user ownership before
     // proceeding. This function will throw an error if not OK
-    await albumOwnership(userId, sameAlbum(artsParams.map((artParams) => artParams.albumId)));
+    await queryUserAlbum(userId, sameAlbum(artsParams.map((artParams) => artParams.albumId)));
 
     // Get the arts items data prepared for DB and file store
     const arts = await prepArtsData(userId, artsParams);
@@ -140,7 +140,7 @@ export async function putArts(userId: string, artsParams: FromSchema<typeof putA
 export async function deleteArts(userId: string, artsParams: FromSchema<typeof deleteArtsSchema>) {
     // Verify if the album exists and the user ownership before
     // proceeding. This function will throw an error if not OK
-    await albumOwnership(userId, sameAlbum(artsParams.map((artParams) => artParams.albumId)));
+    await queryUserAlbum(userId, sameAlbum(artsParams.map((artParams) => artParams.albumId)));
     // Verify if the arts exists in DB. It will throw an error if an
     // item isn't in DB
     for (const artParams of artsParams) await getArt(artParams.albumId, artParams.artId);

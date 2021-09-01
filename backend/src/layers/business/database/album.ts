@@ -5,10 +5,16 @@ import * as createHttpError from 'http-errors';
 
 import { validatePaginationParams } from '@utils/dynamoDB';
 import { rmUserId, rmUserIdFromArr } from '@utils/general';
-import { Album } from '../../../models/database/Album';
+import { Album, AlbumVisibility } from '../../../models/database/Album';
 import { AlbumAccess } from '../../ports/AWS/DynamoDB/albumAccess';
 import { getUser } from './user';
-import { addAlbumSchema, editAlbumSchema, deleteAlbumSchema } from '@lambda/http';
+import {
+    getPublicAlbumSchema,
+    getUserAlbumSchema,
+    addAlbumSchema,
+    editAlbumSchema,
+    deleteAlbumSchema,
+} from '@lambda/http';
 import { getDownloadSignedUrl, getFsAlbumFolder, getUploadSignedUrl } from '../fileStore/fileStore';
 
 // The Album Access port
@@ -36,6 +42,25 @@ export async function getPublicAlbums(limit?: string, exclusiveStartKey?: string
 }
 
 /**
+ * Get a public album item from Album database table.
+ * @param albumParams The required parameters to get the public album
+ * from database.
+ * @returns The public album item.
+ */
+export async function getPublicAlbum(albumParams: FromSchema<typeof getPublicAlbumSchema>) {
+    // Get the public album item from DB
+    const result = await queryAlbum(albumParams.albumId);
+    // If the album is private, throws an error
+    if (result.visibility === AlbumVisibility.private)
+        throw new createHttpError.Forbidden('Unauthorized.');
+
+    // Remove user ID from items and generate a download pre-signed url
+    const album = prepAlbumsRespData([result]);
+
+    return album[0];
+}
+
+/**
  * Get all user album items from Album database table with optional
  * pagination.
  * @param userId The albums owner user ID.
@@ -58,17 +83,23 @@ export async function getUserAlbums(userId: string, limit?: string, exclusiveSta
 }
 
 /**
- * Query for an album item in Album database table.
- * @param albumId The album item ID.
- * @returns The album item in case it exists or throw an error
- * otherwise.
+ * Gets an user album item from Album database table.
+ * @param userId The albums owner user ID.
+ * @param albumParams The required parameters to get the user album
+ * from database.
+ * @returns The user album item.
  */
-export async function queryAlbum(albumId: string) {
-    const album = await albumAccess.queryAlbum(albumId);
-    // Check if the album has been found
-    if (!album) throw new createHttpError.NotFound("This album item doesn't exists.");
-    // Return the album in case it exists
-    return album;
+export async function getUserAlbum(
+    userId: string,
+    albumParams: FromSchema<typeof getUserAlbumSchema>
+) {
+    // Gets the user album if it exists and check if the user is the
+    // album owner. This function will throw an error if not OK
+    const result = await queryUserAlbum(userId, albumParams.albumId);
+    // Remove user ID from items and generate a download pre-signed url
+    const album = prepAlbumsRespData([result]);
+
+    return album[0];
 }
 
 /**
@@ -117,7 +148,7 @@ export async function addAlbum(userId: string, albumParams: FromSchema<typeof ad
 export async function editAlbum(userId: string, albumParams: FromSchema<typeof editAlbumSchema>) {
     // Verify if the album exists and the user ownership before
     // editing. This function will throw an error if not OK
-    const album = await albumOwnership(userId, albumParams.albumId);
+    const album = await queryUserAlbum(userId, albumParams.albumId);
 
     // Generate the pre-signed urls if necessary
     let { coverUrl, uploadUrl } = fsAlbumUrls(album.albumId, albumParams.genUploadUrl);
@@ -145,7 +176,7 @@ export async function deleteAlbum(
 ) {
     // Verify if the album exists and the user ownership before
     // deleting. This function will throw an error if not OK
-    await albumOwnership(userId, albumParams.albumId);
+    await queryUserAlbum(userId, albumParams.albumId);
 
     // Delete the album item from DB
     await albumAccess.deleteAlbum(userId, albumParams.albumId);
@@ -154,14 +185,28 @@ export async function deleteAlbum(
 }
 
 /**
- * Check whether an album item exists in database table and if the user
- * is the album owner.
+ * Query for an album item in Album database table.
+ * @param albumId The album item ID.
+ * @returns The album item in case it exists or throw an error
+ * otherwise.
+ */
+export async function queryAlbum(albumId: string) {
+    const album = await albumAccess.queryAlbum(albumId);
+    // Check if the album has been found
+    if (!album) throw new createHttpError.NotFound("This album item doesn't exists.");
+    // Return the album in case it exists
+    return album;
+}
+
+/**
+ * Gets an album item from database table and checks if the user is the
+ * album owner.
  * @param userId The user ID.
  * @param albumId The album item ID.
- * @returns The album item if it exists and if the user is the its
- * owner or throw an error otherwise.
+ * @returns The album item if it exists and in case the user is the
+ * owner, or throw an error otherwise.
  */
-export async function albumOwnership(userId: string, albumId: string) {
+export async function queryUserAlbum(userId: string, albumId: string) {
     const album = await queryAlbum(albumId);
     // Verify if the user is the album owner
     if (userId !== album.userId) throw new createHttpError.Forbidden('Unauthorized.');
