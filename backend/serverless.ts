@@ -51,7 +51,7 @@ const serverlessConfiguration: AWS = {
             ART_ALBUM_ID_LSI: 'ArtAlbumIdLSI-${self:provider.stage}',
             USER_TABLE: 'User-${self:provider.stage}',
             IMAGES_S3_BUCKET: 'solar-art-gallery-images-${self:provider.stage}',
-            S3_SIGNED_URL_EXP: '900',
+            S3_SIGNED_URL_EXP: '3000',
         },
         lambdaHashingVersion: '20201221',
     },
@@ -103,7 +103,11 @@ const serverlessConfiguration: AWS = {
                 },
             },
         },
-        s3: { port: 6000 },
+        s3: {
+            port: 6000,
+            cors: './mock/s3-local-plugin/s3-local-cors.xml',
+            allowMismatchedSignatures: true,
+        },
     },
     functions: {
         authorizer,
@@ -213,9 +217,9 @@ const serverlessConfiguration: AWS = {
                     CorsConfiguration: {
                         CorsRules: [
                             {
-                                AllowedOrigins: ['*'],
+                                AllowedOrigins: ['http://localhost:4200'],
                                 AllowedHeaders: ['*'],
-                                AllowedMethods: ['GET', 'PUT', 'POST', 'DELETE', 'HEAD'],
+                                AllowedMethods: ['GET', 'PUT', 'DELETE'],
                                 MaxAge: 3000,
                             },
                         ],
