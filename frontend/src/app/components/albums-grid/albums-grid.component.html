@@ -1,28 +1,30 @@
-<header>
-  <h2 class="fw-light text-center text-uppercase">Portfolios</h2>
-</header>
+<div *ngIf="!(loadingState.isLoading | async)">
+  <header>
+    <h2 class="fw-light text-center text-uppercase">Portfolios</h2>
+  </header>
 
-<main>
-  <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-5">
-    <div
-      class="col d-flex justify-content-center"
-      *ngFor="let album of dummyAlbums; index as i"
-    >
+  <main>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-5">
       <div
-        class="card bg-dark text-white hover-overlay"
-        mdbRipple
-        rippleColor="light"
+        class="col d-flex justify-content-center"
+        *ngFor="let album of albums; index as i"
       >
-        <img [src]="album.coverUrl" [alt]="album.title" class="card-img" />
         <div
-          class="card-img-overlay d-flex justify-content-end align-items-end"
+          class="card bg-dark text-white hover-overlay"
+          mdbRipple
+          rippleColor="light"
         >
-          <p class="card-text fw-light">{{ album.title }}</p>
+          <img [src]="album.coverUrl" [alt]="album.title" class="card-img" />
+          <div
+            class="card-img-overlay d-flex justify-content-end align-items-end"
+          >
+            <p class="card-text fw-light">{{ album.title }}</p>
+          </div>
+          <a [routerLink]="['/', 'album', album.albumId]">
+            <div class="card-a-href mask"></div>
+          </a>
         </div>
-        <a [routerLink]="['/', 'album', album.albumId]">
-          <div class="card-a-href mask"></div>
-        </a>
       </div>
     </div>
-  </div>
-</main>
+  </main>
+</div>

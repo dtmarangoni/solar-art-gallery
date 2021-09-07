@@ -6,6 +6,10 @@ header {
 }
 
 main {
+  .no-arts {
+    min-height: 45vh;
+  }
+
   mdb-carousel {
     mdb-carousel-item {
       img {

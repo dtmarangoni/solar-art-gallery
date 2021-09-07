@@ -76,15 +76,3 @@ export function splitArrObjsProps(objArray: any[], ...properties: string[]) {
 
   return splitArrObjs;
 }
-
-/**
- * Creates a form for file uploads.
- * @param fileName The file name.
- * @param file The file to be uploaded.
- * @returns The upload file form.
- */
-export function uploadFileForm(fileName: string, file: File) {
-  const formData = new FormData();
-  formData.append(fileName, file, fileName);
-  return formData;
-}

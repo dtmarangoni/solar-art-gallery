@@ -3,7 +3,7 @@
 /**
  * The AWS host API ID.
  */
-const apiId = 'dozf4gubi5';
+const apiId = 'rnhm4a3zre';
 
 /**
  * The host AWS cloud region.
@@ -26,7 +26,9 @@ function getAPIEndpoints(hostAddress: string) {
   return {
     album: {
       getPublicAlbums: `${hostAddress}/album/public`,
+      getPublicAlbum: `${hostAddress}/album/public`,
       getUserAlbums: `${hostAddress}/album/my`,
+      getUserAlbum: `${hostAddress}/album/my`,
       addAlbum: `${hostAddress}/album/my`,
       editAlbum: `${hostAddress}/album/my`,
       deleteAlbum: `${hostAddress}/album/my`,

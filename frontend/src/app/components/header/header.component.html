@@ -30,7 +30,10 @@
             >Home</a
           >
         </li>
-        <li class="nav-item">
+        <li
+          class="nav-item"
+          *ngIf="!(auth.isLoading$ | async) && (auth.isAuthenticated$ | async)"
+        >
           <a class="nav-link" routerLink="/portfolio/albums">My Portfolio</a>
         </li>
       </ul>

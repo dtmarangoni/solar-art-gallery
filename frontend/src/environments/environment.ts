@@ -7,7 +7,7 @@ import { auth0Config } from '../config/auth0-config';
 export const environment = {
   production: false,
   auth: { ...auth0Config, redirectUri: window.location.origin },
-  apiHost: apiHostConfig.endpoints.prod,
+  apiHost: apiHostConfig.endpoints.dev,
 };
 
 /*

@@ -1,67 +1,45 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 
-import { CarouselSlideService } from '../../services/CarouselSlide/carousel-slide.service';
+import { LoadingStateService } from '../../services/loading-state/loading-state.service';
+import { ArtService } from '../../services/art/art.service';
+import { CarouselSlideService } from '../../services/carousel-slide/carousel-slide.service';
+import { Art } from '../../../models/database/Art';
 
 @Component({
   selector: 'app-arts-sidebar',
   templateUrl: './arts-sidebar.component.html',
   styleUrls: ['./arts-sidebar.component.scss'],
 })
-export class ArtsSidebarComponent implements OnInit {
-  dummyArts = [
-    {
-      sequenceNum: 0,
-      creationDate: '2021-01-01T08:10:20Z',
-      artId: 'rj7239tr-e107-4e34-8057-4b42477a1259',
-      description:
-        'Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.',
-      albumId: '08c17db6-547f-4078-924f-7eaaaf3bb742',
-      imgUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Claude_Monet_033.jpg/800px-Claude_Monet_033.jpg',
-      title: 'Cathedral in Rouen',
-    },
-    {
-      sequenceNum: 1,
-      creationDate: '2021-02-11T08:10:20Z',
-      artId: 'yup23955-e107-4e34-8057-4b42477a1259',
-      description:
-        'Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.',
-      albumId: '08c17db6-547f-4078-924f-7eaaaf3bb742',
-      imgUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/5/5c/Claude_Monet%2C_Impression%2C_soleil_levant%2C_1872.jpg',
-      title: 'Sunrise',
-    },
-    {
-      sequenceNum: 2,
-      creationDate: '2021-03-16T08:10:20Z',
-      artId: 'gg0039rr-e107-4e34-8057-4b42477a1259',
-      description:
-        'Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.',
-      albumId: '08c17db6-547f-4078-924f-7eaaaf3bb742',
-      imgUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/La_Seine_%C3%A0_Asni%C3%A8re_-_Monet.jpg/1280px-La_Seine_%C3%A0_Asni%C3%A8re_-_Monet.jpg',
-      title: 'La Seine à Asnières',
-    },
-    {
-      sequenceNum: 3,
-      creationDate: '2021-05-21T08:10:20Z',
-      artId: 'dac239tr-e107-4e34-8259-4b42477a1259',
-      description:
-        'Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.',
-      albumId: '08c17db6-547f-4078-924f-7eaaaf3bb742',
-      imgUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/1/10/Eglise_de_V%C3%A9theuil.jpg',
-      title: 'Eglise de Vétheuil',
-    },
-  ];
+export class ArtsSidebarComponent implements OnInit, OnDestroy {
+  // The arts emission subscription
+  private artsSubs!: Subscription;
+  // The fetched album arts
+  arts!: Art[];
 
   /**
    * Constructs the Arts Sidebar Component.
+   * @param loadingState: LoadingStateService,
+   * @param artService The API Art service.
    * @param carouselSlideService The carousel current slide service.
    */
-  constructor(private carouselSlideService: CarouselSlideService) {}
+  constructor(
+    public loadingState: LoadingStateService,
+    private artService: ArtService,
+    private carouselSlideService: CarouselSlideService
+  ) {}
 
-  ngOnInit(): void {}
+  /**
+   * Init services subscriptions.
+   */
+  ngOnInit(): void {
+    // Subscribe for arts list emissions
+    this.artsSubs = this.artService.arts.subscribe((response) => {
+      this.arts = response.items;
+      // Set the loading state as not loading
+      this.loadingState.setLoadingState(false);
+    });
+  }
 
   /**
    * Use the Carousel slide service to emit which list art index was
@@ -70,5 +48,12 @@ export class ArtsSidebarComponent implements OnInit {
    */
   onArtClick(artIndex: number) {
     this.carouselSlideService.setCurrentSlide(artIndex);
+  }
+
+  /**
+   * Avoid memory leaks unsubscribing from all registered services.
+   */
+  ngOnDestroy() {
+    this.artsSubs.unsubscribe();
   }
 }

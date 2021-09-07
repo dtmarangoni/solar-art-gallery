@@ -1,6 +1,13 @@
 import { AlbumVisibility } from '../database/Album';
 
 /**
+ * The get album request params.
+ */
+export interface GetAlbumParams {
+  albumId: string;
+}
+
+/**
  * The add new album request params.
  */
 export interface AddAlbumParams {

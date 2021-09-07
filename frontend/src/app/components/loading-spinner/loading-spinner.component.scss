@@ -1,3 +1,7 @@
-.h-size {
-  min-height: 65.7vh;
+.spinner-wrapper {
+  position: fixed;
+  overflow: hidden;
+  z-index: 20;
+  left: 50%;
+  top: 50%;
 }

@@ -9,6 +9,13 @@ export interface GetAlbumsResponse {
 }
 
 /**
+ * The get album request response.
+ */
+export interface GetAlbumResponse {
+  item: Album;
+}
+
+/**
  * The album optional response data for add or edit requests.
  */
 interface AddEditOptionalDataResponse extends Album {

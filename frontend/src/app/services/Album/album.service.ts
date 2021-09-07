@@ -11,17 +11,17 @@ import {
   AddAlbumParams,
   EditAlbumParams,
   DeleteAlbumParams,
+  GetAlbumParams,
 } from '../../../models/API/AlbumRequests';
 import {
   GetAlbumsResponse,
   AddEditAlbumResponse,
   DeleteAlbumResponse,
+  GetAlbumResponse,
 } from '../../../models/API/AlbumResponses';
-import { paginationQueryParams, uploadFileForm } from '../../utils/app-utils';
+import { paginationQueryParams } from '../../utils/app-utils';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class AlbumService {
   // Album API endpoints
   private endpoints = environment.apiHost.album;
@@ -58,6 +58,24 @@ export class AlbumService {
   }
 
   /**
+   * Fetches a public album.
+   * @param albumData The necessary album data to fetch operation.
+   */
+  public fetchPublicAlbum(albumData: GetAlbumParams) {
+    // Fetches the public album from API server
+    this.http
+      .post<GetAlbumResponse>(this.endpoints.getPublicAlbum, albumData, {
+        responseType: 'json',
+      })
+      .subscribe((response) => {
+        // Add or update the album in cached albums list
+        this.putAlbumInCache(response.item);
+        // Emit the updated albums list
+        this.albums.next(cloneDeep({ items: this.cachedAlbums }));
+      });
+  }
+
+  /**
    * Fetch all user albums.
    * @param queryParams The pagination query params.
    */
@@ -67,7 +85,7 @@ export class AlbumService {
     // Fetch the albums from API server
     this.http
       .get<GetAlbumsResponse>(this.endpoints.getUserAlbums, {
-        params: params,
+        params,
         responseType: 'json',
       })
       .subscribe((response) => {
@@ -75,6 +93,24 @@ export class AlbumService {
         this.cachedAlbums = response.items;
         // Emit the fetched albums
         this.albums.next(cloneDeep(response));
+      });
+  }
+
+  /**
+   * Fetches an user album.
+   * @param albumData The necessary album data to fetch operation.
+   */
+  public fetchUserAlbum(albumData: GetAlbumParams) {
+    // Fetches the user album from API server
+    this.http
+      .post<GetAlbumResponse>(this.endpoints.getUserAlbum, albumData, {
+        responseType: 'json',
+      })
+      .subscribe((response) => {
+        // Add or update the album in cached albums list
+        this.putAlbumInCache(response.item);
+        // Emit the updated albums list
+        this.albums.next(cloneDeep({ items: this.cachedAlbums }));
       });
   }
 
@@ -87,7 +123,7 @@ export class AlbumService {
     const { coverImg, ...albumBodyData } = albumData;
     // Add the new album to DB
     this.http
-      .post<AddEditAlbumResponse>(this.endpoints.addAlbum, albumBodyData, {
+      .put<AddEditAlbumResponse>(this.endpoints.addAlbum, albumBodyData, {
         responseType: 'json',
       })
       .pipe(switchMap((response) => this.uploadAlbumImg(response, coverImg)))
@@ -113,12 +149,17 @@ export class AlbumService {
       })
       .pipe(switchMap((response) => this.uploadAlbumImg(response, coverImg)))
       .subscribe((response) => {
+        // Find the edited album index
+        const albumIndex = this.cachedAlbums.findIndex(
+          (album) => album.albumId === response.albumId
+        );
         // Edit the album data in albums list
-        this.cachedAlbums[
-          this.cachedAlbums.findIndex(
-            (album) => album.albumId === response.albumId
-          )
-        ] = response;
+        this.cachedAlbums[albumIndex] = {
+          ...response,
+          coverUrl: response.coverUrl
+            ? response.coverUrl
+            : this.cachedAlbums[albumIndex].coverUrl,
+        };
         // Emit the new albums list
         this.albums.next(cloneDeep({ items: this.cachedAlbums }));
       });
@@ -166,6 +207,21 @@ export class AlbumService {
   }
 
   /**
+   * Add or update an album item in cached albums list.
+   * @param album The album item.
+   */
+  private putAlbumInCache(album: Album) {
+    // Find the album index if exists
+    const albumIndex = this.cachedAlbums.findIndex(
+      (cachedAlbum) => cachedAlbum.albumId === album.albumId
+    );
+    // If album not present in cached albums list, add it
+    if (albumIndex === -1) this.cachedAlbums.push(album);
+    // If album already present in cached albums list, update it
+    else this.cachedAlbums[albumIndex] = album;
+  }
+
+  /**
    * If necessary, upload the album cover image after add or edit album
    * operation.
    * @param addEditResp The add or edit album request response.
@@ -186,7 +242,9 @@ export class AlbumService {
         return throwError('Missing the album cover image file.');
 
       return this.http
-        .put(uploadUrl, uploadFileForm(album.albumId, albumCoverImg))
+        .put(uploadUrl, albumCoverImg, {
+          headers: { 'Content-Type': albumCoverImg.type },
+        })
         .pipe(switchMap(() => of(album)));
     } else {
       return of(album);

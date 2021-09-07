@@ -20,12 +20,9 @@ import {
 import {
   paginationQueryParams,
   splitArrObjsProps,
-  uploadFileForm,
 } from '../../utils/app-utils';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class ArtService {
   // Art API endpoints
   private endpoints = environment.apiHost.art;
@@ -80,7 +77,7 @@ export class ArtService {
     // Fetch the album arts from API server
     this.http
       .post<GetAlbumArtsResponse>(this.endpoints.getUserAlbumArts, albumData, {
-        params: params,
+        params,
         responseType: 'json',
       })
       .subscribe((response) => {
@@ -179,10 +176,9 @@ export class ArtService {
       return from(artsUpload).pipe(
         concatMap((artUpload) => {
           if (artUpload.artId && artUpload?.uploadUrl && artUpload.artImg)
-            return this.http.put(
-              artUpload.uploadUrl,
-              uploadFileForm(artUpload.artId, artUpload.artImg)
-            );
+            return this.http.put(artUpload.uploadUrl, artUpload.artImg, {
+              headers: { 'Content-Type': artUpload.artImg.type },
+            });
           else
             return throwError(
               'Missing art information or image file to proceed with the upload.'

@@ -1,25 +1,27 @@
-<header>
-  <div class="row">
-    <div class="col">
-      <h5 class="fw-light text-center text-uppercase">Paintings</h5>
+<div *ngIf="!(loadingState.isLoading | async)">
+  <header>
+    <div class="row">
+      <div class="col">
+        <h5 class="fw-light text-center text-uppercase">Paintings</h5>
+      </div>
     </div>
-  </div>
-</header>
+  </header>
 
-<main>
-  <div class="row">
-    <div class="row row-cols-1 row-cols-xxl-2 g-3 m-0">
-      <div
-        class="col d-flex justify-content-center"
-        *ngFor="let art of dummyArts; index as i"
-      >
-        <div class="card hover-overlay">
-          <img [src]="art.imgUrl" [alt]="art.title" class="card-img" />
-          <a (click)="onArtClick(i)">
-            <div class="card-a-href mask"></div>
-          </a>
+  <main>
+    <div class="row" *ngIf="arts.length > 0">
+      <div class="row row-cols-1 row-cols-xxl-2 g-3 m-0">
+        <div
+          class="col d-flex justify-content-center"
+          *ngFor="let art of arts; index as i"
+        >
+          <div class="card hover-overlay">
+            <img [src]="art.imgUrl" [alt]="art.title" class="card-img" />
+            <a (click)="onArtClick(i)">
+              <div class="card-a-href mask"></div>
+            </a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</main>
+  </main>
+</div>

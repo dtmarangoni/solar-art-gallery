@@ -1,10 +1,15 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { MdbCarouselComponent } from 'mdb-angular-ui-kit/carousel';
 
 import { ViewModalComponent } from '../view-modal/view-modal.component';
-import { CarouselSlideService } from '../../services/CarouselSlide/carousel-slide.service';
+import { LoadingStateService } from '../../services/loading-state/loading-state.service';
+import { AlbumService } from '../../services/album/album.service';
+import { ArtService } from '../../services/art/art.service';
+import { CarouselSlideService } from '../../services/carousel-slide/carousel-slide.service';
+import { Album } from '../../../models/database/Album';
 import { Art } from '../../../models/database/Art';
 
 @Component({
@@ -13,75 +18,71 @@ import { Art } from '../../../models/database/Art';
   styleUrls: ['./arts-carousel.component.scss'],
 })
 export class ArtsCarouselComponent implements OnInit, OnDestroy {
+  // The albums emission subscription
+  private albumsSubs!: Subscription;
+  // The arts emission subscription
+  private artsSubs!: Subscription;
   // The Carousel Slide service subscription
   private carSlideSrvSubs!: Subscription;
+  // The arts album
+  album!: Album;
+  // The fetched album arts
+  arts!: Art[];
   // The art carousel reference
   @ViewChild('carousel') private carousel!: MdbCarouselComponent;
 
-  dummyArts = [
-    {
-      sequenceNum: 0,
-      creationDate: '2021-01-01T08:10:20Z',
-      artId: 'rj7239tr-e107-4e34-8057-4b42477a1259',
-      description:
-        'Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.',
-      albumId: '08c17db6-547f-4078-924f-7eaaaf3bb742',
-      imgUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Claude_Monet_033.jpg/800px-Claude_Monet_033.jpg',
-      title: 'Cathedral in Rouen',
-    },
-    {
-      sequenceNum: 1,
-      creationDate: '2021-02-11T08:10:20Z',
-      artId: 'yup23955-e107-4e34-8057-4b42477a1259',
-      description:
-        'Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.',
-      albumId: '08c17db6-547f-4078-924f-7eaaaf3bb742',
-      imgUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/5/5c/Claude_Monet%2C_Impression%2C_soleil_levant%2C_1872.jpg',
-      title: 'Sunrise',
-    },
-    {
-      sequenceNum: 2,
-      creationDate: '2021-03-16T08:10:20Z',
-      artId: 'gg0039rr-e107-4e34-8057-4b42477a1259',
-      description:
-        'Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.',
-      albumId: '08c17db6-547f-4078-924f-7eaaaf3bb742',
-      imgUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/La_Seine_%C3%A0_Asni%C3%A8re_-_Monet.jpg/1280px-La_Seine_%C3%A0_Asni%C3%A8re_-_Monet.jpg',
-      title: 'La Seine à Asnières',
-    },
-    {
-      sequenceNum: 3,
-      creationDate: '2021-05-21T08:10:20Z',
-      artId: 'dac239tr-e107-4e34-8259-4b42477a1259',
-      description:
-        'Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.',
-      albumId: '08c17db6-547f-4078-924f-7eaaaf3bb742',
-      imgUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/1/10/Eglise_de_V%C3%A9theuil.jpg',
-      title: 'Eglise de Vétheuil',
-    },
-  ];
-
   /**
    * Constructs the Arts Carousel component.
-   * @param carouselSlideService The carousel current slide service.
+   * @param route The Angular Activated Route service.
    * @param modalService The MDB angular modal service.
+   * @param loadingState The Loading State service.
+   * @param albumService The API Album service.
+   * @param artService The API Art service.
+   * @param carouselSlideService The carousel current slide service.
    */
   constructor(
-    private carouselSlideService: CarouselSlideService,
-    private modalService: MdbModalService
+    private route: ActivatedRoute,
+    private modalService: MdbModalService,
+    public loadingState: LoadingStateService,
+    private albumService: AlbumService,
+    private artService: ArtService,
+    private carouselSlideService: CarouselSlideService
   ) {}
 
   /**
-   * Subscribe to user click slide changes from Carousel Slide Service.
+   * Init album data and services subscriptions.
    */
   ngOnInit(): void {
+    // Subscribe for arts list emissions
+    this.artsSubs = this.artService.arts.subscribe((response) => {
+      this.arts = response.items;
+      // Set the loading state as not loading
+      this.loadingState.setLoadingState(false);
+    });
+
+    // Subscribe to user click slide changes from Carousel Slide Service.
     this.carSlideSrvSubs = this.carouselSlideService.slideChanged.subscribe(
       (slideIndex) => this.setCarouselSlide(slideIndex)
     );
+
+    // Fetch the public album data from cache or albums list emissions.
+    this.fetchAlbumData();
+  }
+
+  /**
+   * Fetch the public album data from cache or albums list emissions.
+   */
+  private fetchAlbumData() {
+    const albumId = this.route.snapshot.paramMap.get('id')!;
+    // Get the album from cache
+    this.album = this.albumService.getCachedAlbum(albumId).item!;
+
+    // If not in cache, get the album from albums list emissions
+    if (!this.album) {
+      this.albumsSubs = this.albumService.albums.subscribe(() => {
+        this.album = this.albumService.getCachedAlbum(albumId).item!;
+      });
+    }
   }
 
   /**
@@ -108,5 +109,7 @@ export class ArtsCarouselComponent implements OnInit, OnDestroy {
    */
   ngOnDestroy() {
     this.carSlideSrvSubs.unsubscribe();
+    this.artsSubs.unsubscribe();
+    if (this.albumsSubs) this.albumsSubs.unsubscribe();
   }
 }
