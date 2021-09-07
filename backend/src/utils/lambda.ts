@@ -15,8 +15,8 @@ import { loggerMiddleware } from '@utils/middleware/logger.middleware';
 export const publicMiddyfy = (handler: any) => {
     return middy(handler)
         .use(middyJsonBodyParser())
-        .use(cors({ credentials: true }))
-        .use(loggerMiddleware());
+        .use(loggerMiddleware())
+        .use(cors({ credentials: true }));
 };
 
 /**
@@ -29,8 +29,8 @@ export const privateMiddyfy = (handler: any) => {
     return middy(handler)
         .use(middyJsonBodyParser())
         .use(getUserID())
-        .use(cors({ credentials: true }))
-        .use(loggerMiddleware());
+        .use(loggerMiddleware())
+        .use(cors({ credentials: true }));
 };
 
 /**
