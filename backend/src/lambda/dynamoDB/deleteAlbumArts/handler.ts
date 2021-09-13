@@ -19,18 +19,22 @@ const handler: DynamoDBStreamHandler = async (event: DynamoDBStreamEvent, contex
                 requestId: context.awsRequestId,
                 timestamp: new Date().toISOString(),
                 phase: MiddlewarePhases.during,
+                request: event,
             });
 
             // Delete the all album arts items from DB
             const deletedArts = await deleteAlbumArts(record.dynamodb.Keys.albumId.S);
 
             logger.info(`${MiddlewarePhases.during} ${context.functionName}`, {
-                action: 'All Album arts items deleted from DB',
+                action: deletedArts
+                    ? 'All Album arts items deleted from DB'
+                    : 'The album is already empty.',
                 items: { streamRecord: record.dynamodb.Keys, deletedArts },
                 functionName: context.functionName,
                 requestId: context.awsRequestId,
                 timestamp: new Date().toISOString(),
                 phase: MiddlewarePhases.during,
+                request: event,
             });
         }
     });

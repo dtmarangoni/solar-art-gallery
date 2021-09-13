@@ -108,12 +108,18 @@ export async function deleteObjectsByPath(objectsPaths: string[]) {
  * an album or art item was removed from database, thus remove the
  * correct object from file store.
  * @param recordKey The database stream record key.
+ * @returns The file store delete object output or undefined in case
+ * there's no object to delete.
  */
 export async function deleteRecordObj(recordKey: StreamRecord['Keys']) {
     const removedItem = detectRecordType(recordKey);
     if (removedItem === 'album') {
         // Get all objects inside an album
         const albumObjects = await listObjects(getFsAlbumFolder(recordKey.albumId.S));
+
+        // Return undefined if there's no object to delete
+        if (albumObjects.length === 0) return undefined;
+
         // Delete all objects - folders, album cover and arts images
         return await deleteObjectsByPath(albumObjects);
     } else if (removedItem === 'art') {

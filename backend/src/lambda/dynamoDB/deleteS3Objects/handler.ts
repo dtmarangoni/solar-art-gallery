@@ -14,7 +14,7 @@ const handler: DynamoDBStreamHandler = async (event: DynamoDBStreamEvent, contex
     event.Records.forEach(async (record) => {
         if (record.eventName === 'REMOVE') {
             logger.info(`${MiddlewarePhases.during} ${context.functionName}`, {
-                action: 'Deleting S3 Objects after DynamoDB remove event',
+                action: 'Deleting S3 Object after DynamoDB remove event',
                 functionName: context.functionName,
                 requestId: context.awsRequestId,
                 timestamp: new Date().toISOString(),
@@ -23,10 +23,12 @@ const handler: DynamoDBStreamHandler = async (event: DynamoDBStreamEvent, contex
             });
 
             // Delete the album or art object from file store
-            await deleteRecordObj(record.dynamodb.Keys);
+            const deletedObj = await deleteRecordObj(record.dynamodb.Keys);
 
             logger.info(`${MiddlewarePhases.during} ${context.functionName}`, {
-                action: 'S3 Objects deleted after DynamoDB remove event',
+                action: deletedObj
+                    ? 'S3 Object deleted after DynamoDB remove event'
+                    : "There's no object to delete",
                 items: record.dynamodb.Keys,
                 functionName: context.functionName,
                 requestId: context.awsRequestId,

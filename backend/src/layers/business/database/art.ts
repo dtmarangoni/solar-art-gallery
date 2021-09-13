@@ -154,11 +154,16 @@ export async function deleteArts(userId: string, artsParams: FromSchema<typeof d
 /**
  * Deletes all album arts items from Arts database table.
  * @param albumId The album item ID.
- * @returns The deleted arts items IDs from database.
+ * @returns The deleted arts items IDs from database or undefined if
+ * the album is already empty.
  */
 export async function deleteAlbumArts(albumId: string) {
     // Get all album arts from DB
     const arts = await artAccess.getAlbumArts(albumId);
+
+    // Return undefined if the album is already empty
+    if (arts.items.length === 0) return undefined;
+
     // Delete all album arts and return the arts IDs as confirmation
     return await artAccess.deleteArts(
         arts.items.map((item) => ({ albumId: item.albumId, artId: item.artId }))
