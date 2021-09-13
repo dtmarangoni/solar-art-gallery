@@ -15,6 +15,10 @@ header {
 }
 
 main {
+  .no-albums {
+    min-height: 20vh;
+  }
+
   .card {
     width: min-content;
 

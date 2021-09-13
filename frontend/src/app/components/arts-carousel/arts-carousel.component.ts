@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { MdbCarouselComponent } from 'mdb-angular-ui-kit/carousel';
@@ -33,7 +32,6 @@ export class ArtsCarouselComponent implements OnInit, OnDestroy {
 
   /**
    * Constructs the Arts Carousel component.
-   * @param route The Angular Activated Route service.
    * @param modalService The MDB angular modal service.
    * @param loadingState The Loading State service.
    * @param albumService The API Album service.
@@ -41,7 +39,6 @@ export class ArtsCarouselComponent implements OnInit, OnDestroy {
    * @param carouselSlideService The carousel current slide service.
    */
   constructor(
-    private route: ActivatedRoute,
     private modalService: MdbModalService,
     public loadingState: LoadingStateService,
     private albumService: AlbumService,
@@ -50,9 +47,15 @@ export class ArtsCarouselComponent implements OnInit, OnDestroy {
   ) {}
 
   /**
-   * Init album data and services subscriptions.
+   * Init services subscriptions.
    */
   ngOnInit(): void {
+    // Subscribe for albums list emissions
+    this.albumsSubs = this.albumService.albums.subscribe((response) => {
+      // Get the arts album
+      this.album = response.items[0];
+    });
+
     // Subscribe for arts list emissions
     this.artsSubs = this.artService.arts.subscribe((response) => {
       this.arts = response.items;
@@ -64,25 +67,6 @@ export class ArtsCarouselComponent implements OnInit, OnDestroy {
     this.carSlideSrvSubs = this.carouselSlideService.slideChanged.subscribe(
       (slideIndex) => this.setCarouselSlide(slideIndex)
     );
-
-    // Fetch the public album data from cache or albums list emissions.
-    this.fetchAlbumData();
-  }
-
-  /**
-   * Fetch the public album data from cache or albums list emissions.
-   */
-  private fetchAlbumData() {
-    const albumId = this.route.snapshot.paramMap.get('id')!;
-    // Get the album from cache
-    this.album = this.albumService.getCachedAlbum(albumId).item!;
-
-    // If not in cache, get the album from albums list emissions
-    if (!this.album) {
-      this.albumsSubs = this.albumService.albums.subscribe(() => {
-        this.album = this.albumService.getCachedAlbum(albumId).item!;
-      });
-    }
   }
 
   /**
@@ -110,6 +94,6 @@ export class ArtsCarouselComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.carSlideSrvSubs.unsubscribe();
     this.artsSubs.unsubscribe();
-    if (this.albumsSubs) this.albumsSubs.unsubscribe();
+    this.albumsSubs.unsubscribe();
   }
 }

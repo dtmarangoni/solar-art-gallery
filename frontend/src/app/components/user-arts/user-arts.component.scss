@@ -22,6 +22,14 @@ header {
 }
 
 main {
+  .no-album {
+    min-height: 50vh;
+  }
+
+  .no-arts {
+    min-height: 30vh;
+  }
+
   .row {
     max-width: 84rem;
 

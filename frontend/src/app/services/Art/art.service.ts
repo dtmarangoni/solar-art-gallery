@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject, of, throwError, from, Observable } from 'rxjs';
-import { concatMap, switchMap } from 'rxjs/operators';
+import { concatMap, last, switchMap, toArray } from 'rxjs/operators';
 import cloneDeep from 'lodash.clonedeep';
 
 import { environment } from '../../../environments/environment';
@@ -39,6 +39,7 @@ export class ArtService {
 
   /**
    * Fetch all arts from a public album.
+   * A new arts emission will occur subsequently.
    * @param albumData The album data to retrieve the arts from.
    * @param queryParams The pagination query params.
    */
@@ -65,10 +66,11 @@ export class ArtService {
 
   /**
    * Fetch all arts from an user album.
+   * A new arts emission will occur subsequently.
    * @param albumData The album data to retrieve the arts from.
    * @param queryParams The pagination query params.
    */
-  public fetchUserAlbums(
+  public fetchUserAlbumsArts(
     albumData: GetAlbumArtsParams,
     queryParams?: PaginationQueryParams
   ): void {
@@ -89,67 +91,126 @@ export class ArtService {
   }
 
   /**
-   * Add or edit arts to or from an user album.
+   * Add and or edit arts to or from an user album.
+   * A new arts emission will occur subsequently.
    * @param artsData The arts data to be added or edited.
-   * @param artImg The art image file if applicable.
    */
   public putArts(artsData: PutArtsParams[]) {
+    // Perform the add / edit API request
+    this.putArtsOperation(artsData).subscribe((response) => {
+      // All arts are always returned. Update the cached arts list
+      this.updateCachedArts(response);
+      // Emit the new arts list
+      this.arts.next(cloneDeep({ items: this.cachedArts }));
+    });
+  }
+
+  /**
+   * Delete arts from an user album.
+   * A new arts emission will occur subsequently.
+   * @param artsData The arts data required for delete operation.
+   */
+  public deleteArts(artsData: DeleteArtsParams[]) {
+    this.deleteOperation(artsData).subscribe((response) => {
+      // Remove the deleted arts from arts list
+      response.items.forEach((respItem) =>
+        this.cachedArts.splice(
+          this.cachedArts.findIndex((art) => art.artId === respItem.artId),
+          1
+        )
+      );
+      // Emit the new arts list
+      this.arts.next(cloneDeep({ items: this.cachedArts }));
+    });
+  }
+
+  /**
+   * Performs a delete and put arts API operations sequentially. Some
+   * arts will be deleted from the user album and then the other arts
+   * will added and or edited to and or from the album.
+   * @param delData The arts data required for delete operation.
+   * @param putData The arts data to be added or edited.
+   */
+  public deletePutArts(delData: DeleteArtsParams[], putData: PutArtsParams[]) {
+    // Pipe sequentially the delete and put arts operations
+    of(
+      { func: this.deleteOperation.bind(this), arg: delData as any[] },
+      { func: this.putArtsOperation.bind(this), arg: putData as any[] }
+    )
+      .pipe(
+        concatMap((delPutArg) => {
+          // Execute the operation
+          if (delPutArg.arg.length > 0) return delPutArg.func(delPutArg.arg);
+          // No operation is needed, emit undefined
+          else return of(undefined);
+        }),
+        // We only care about the put operation response
+        last()
+      )
+      .subscribe((response) => {
+        if (response) {
+          // All remaining arts are returned, update the cached list
+          this.updateCachedArts(response as Art[]);
+        } else {
+          // If response is undefined, it means the art list is empty
+          this.cachedArts = [];
+        }
+        // Emit the new arts list
+        this.arts.next(cloneDeep({ items: this.cachedArts }));
+      });
+  }
+
+  /**
+   * Fetches all cached arts.
+   * A new arts emission will occur subsequently.
+   */
+  public fetchCachedArts() {
+    // Emit the cached arts list
+    this.arts.next(cloneDeep({ items: this.cachedArts }));
+  }
+
+  /**
+   * Fetches a cached art by its ID.
+   * A new arts emission will occur subsequently.
+   * @param artId The art ID.
+   */
+  public fetchCachedArt(artId: string) {
+    // Find the art
+    const art = this.cachedArts.find((art) => art.artId === artId);
+    // Emit the cached art if found or an empty array otherwise
+    this.arts.next(cloneDeep({ items: art ? [art] : [] }));
+  }
+
+  /**
+   * The add and or edit arts to or from an user album API request.
+   * @param artsData The arts data to be added or edited.
+   * @returns The add and or edit updated list response observable.
+   */
+  private putArtsOperation(artsData: PutArtsParams[]) {
     // Split the arts request data and arts images files
     const putArtsData = splitArrObjsProps(artsData, 'artImg');
     // Perform the add / edit request
-    this.http
+    return this.http
       .put<PutArtsResponse>(
         this.endpoints.putArts,
         putArtsData.remainingProps,
         { responseType: 'json' }
       )
-      .pipe(switchMap((putRes) => this.uploadArtsImgs(artsData, putRes)))
-      .subscribe((response) => {
-        // All arts are always returned. Update the cached arts list
-        this.cachedArts = response;
-        // Emit the new arts list
-        this.arts.next(cloneDeep({ items: this.cachedArts }));
-      });
+      .pipe(switchMap((putRes) => this.uploadArtsImgs(artsData, putRes)));
   }
 
-  public deleteArts(artsData: DeleteArtsParams) {
+  /**
+   * The delete arts from an user album API request.
+   * @param artsData The arts data required for delete operation.
+   * @returns An delete arts response observable.
+   */
+  private deleteOperation(artsData: DeleteArtsParams[]) {
     // Perform the delete request to API server
-    this.http
-      .request<DeleteArtsResponse>('delete', this.endpoints.deleteArts, {
-        body: artsData,
-        responseType: 'json',
-      })
-      .subscribe((response) => {
-        // Remove the deleted arts from arts list
-        response.items.forEach((respItem) =>
-          this.cachedArts.splice(
-            this.cachedArts.findIndex((art) => art.artId === respItem.artId),
-            1
-          )
-        );
-        // Emit the new arts list
-        this.arts.next(cloneDeep({ items: this.cachedArts }));
-      });
-  }
-
-  /**
-   * Gets all cached arts.
-   * @returns The cached arts list. If no art is cached it will return
-   * an empty array.
-   */
-  public getCachedArts() {
-    return cloneDeep({ items: this.cachedArts });
-  }
-
-  /**
-   * Gets a cached art by its ID.
-   * @param artId The art ID.
-   * @returns The cached art if exists or undefined otherwise.
-   */
-  public getCachedArt(artId: string) {
-    return cloneDeep({
-      item: this.cachedArts.find((art) => art.artId === artId),
-    });
+    return this.http.request<DeleteArtsResponse>(
+      'delete',
+      this.endpoints.deleteArts,
+      { body: artsData, responseType: 'json' }
+    );
   }
 
   /**
@@ -184,6 +245,7 @@ export class ArtService {
               'Missing art information or image file to proceed with the upload.'
             );
         }),
+        toArray(),
         switchMap(() => of(onlyArtsData.remainingProps))
       );
     } else {
@@ -231,5 +293,19 @@ export class ArtService {
         };
       }
     });
+  }
+
+  /**
+   * Update the cached arts list according to a new list.
+   * @param artsData The new arts list.
+   */
+  private updateCachedArts(artsData: Art[]) {
+    this.cachedArts = artsData.map((artData) => ({
+      ...artData,
+      imgUrl: artData.imgUrl
+        ? artData.imgUrl
+        : this.cachedArts.find((cachedArt) => artData.artId === cachedArt.artId)
+            ?.imgUrl,
+    }));
   }
 }

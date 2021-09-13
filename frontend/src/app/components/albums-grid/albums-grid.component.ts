@@ -27,7 +27,7 @@ export class AlbumsGridComponent implements OnInit, OnDestroy {
   ) {}
 
   /**
-   * Subscribe to albums list emissions and fetch all public albums.
+   * Subscribe to albums list emissions.
    */
   ngOnInit(): void {
     // Subscribe for albums list emissions

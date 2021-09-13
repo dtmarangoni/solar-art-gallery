@@ -1,4 +1,4 @@
-<header>
+<header class="mx-4">
   <h2 class="fw-light text-center text-uppercase">My Portfolio</h2>
 
   <hr />
@@ -11,10 +11,20 @@
 </header>
 
 <main>
-  <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 row-cols-xxl-4 g-5">
+  <div
+    class="no-albums d-flex align-items-center justify-content-center"
+    *ngIf="!(loadingState.isLoading | async) && albums && albums.length === 0"
+  >
+    <h5 class="fw-light text-center mx-4">Your portfolio is empty.</h5>
+  </div>
+
+  <div
+    class="row row-cols-1 row-cols-md-2 row-cols-xl-3 row-cols-xxl-4 g-5"
+    *ngIf="albums && albums.length > 0"
+  >
     <div
       class="col d-flex align-items-center justify-content-center"
-      *ngFor="let album of dummyAlbums; index as i"
+      *ngFor="let album of albums; index as i"
     >
       <div class="card h-100 d-flex">
         <div
@@ -49,14 +59,14 @@
           <button
             type="button"
             class="btn edit-btn btn-sm me-1"
-            (click)="onOpenEditModal(i)"
+            (click)="onOpenEditModal(album)"
           >
             <i class="fas fa-pen-fancy"></i>
           </button>
           <button
             type="button"
             class="btn btn-light btn-sm"
-            (click)="onOpenDelConfirmModal(album.albumId)"
+            (click)="onOpenDelConfirmModal(album)"
           >
             <i class="far fa-trash-alt"></i>
           </button>

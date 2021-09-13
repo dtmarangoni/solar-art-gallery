@@ -3,7 +3,7 @@
 /**
  * The AWS host API ID.
  */
-const apiId = 'rnhm4a3zre';
+const apiId = 'yto3wa7xea';
 
 /**
  * The host AWS cloud region.

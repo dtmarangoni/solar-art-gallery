@@ -38,6 +38,7 @@ export class AlbumService {
 
   /**
    * Fetch all public albums.
+   * A new albums emission will occur subsequently.
    * @param queryParams The pagination query params.
    */
   public fetchPublicAlbums(queryParams?: PaginationQueryParams) {
@@ -59,6 +60,7 @@ export class AlbumService {
 
   /**
    * Fetches a public album.
+   * A new albums emission will occur subsequently.
    * @param albumData The necessary album data to fetch operation.
    */
   public fetchPublicAlbum(albumData: GetAlbumParams) {
@@ -77,6 +79,7 @@ export class AlbumService {
 
   /**
    * Fetch all user albums.
+   * A new albums emission will occur subsequently.
    * @param queryParams The pagination query params.
    */
   public fetchUserAlbums(queryParams?: PaginationQueryParams) {
@@ -98,6 +101,7 @@ export class AlbumService {
 
   /**
    * Fetches an user album.
+   * A new albums emission will occur subsequently.
    * @param albumData The necessary album data to fetch operation.
    */
   public fetchUserAlbum(albumData: GetAlbumParams) {
@@ -116,6 +120,7 @@ export class AlbumService {
 
   /**
    * Add a new album to user portfolio.
+   * A new albums emission will occur subsequently.
    * @param albumData The new album data.
    */
   public addAlbum(albumData: AddAlbumParams) {
@@ -137,6 +142,7 @@ export class AlbumService {
 
   /**
    * Edit an album from user portfolio.
+   * A new albums emission will occur subsequently.
    * @param albumData The album data to be edited.
    */
   public editAlbum(albumData: EditAlbumParams) {
@@ -167,7 +173,8 @@ export class AlbumService {
 
   /**
    * Delete an album from user portfolio.
-   * @param albumData The album data to be deleted.
+   * A new albums emission will occur subsequently.
+   * @param albumData The album data required for delete operation.
    */
   public deleteAlbum(albumData: DeleteAlbumParams) {
     // Perform the delete request to API server
@@ -187,23 +194,24 @@ export class AlbumService {
   }
 
   /**
-   * Gets all cached albums.
-   * @returns The cached albums list. If no album is cached it will
-   * return an empty array.
+   * Fetches all cached albums.
+   * A new albums emission will occur subsequently.
    */
-  public getCachedAlbums() {
-    return cloneDeep({ items: this.cachedAlbums });
+  public fetchCachedAlbums() {
+    // Emit the cached albums list
+    this.albums.next(cloneDeep({ items: this.cachedAlbums }));
   }
 
   /**
-   * Gets a cached album by its ID.
+   * Fetches a cached album by its ID.
+   * A new albums emission will occur subsequently.
    * @param albumId The album ID.
-   * @returns The cached album if exists or undefined otherwise.
    */
-  public getCachedAlbum(albumId: string) {
-    return cloneDeep({
-      item: this.cachedAlbums.find((album) => album.albumId === albumId),
-    });
+  public fetchCachedAlbum(albumId: string) {
+    // Find the album
+    const album = this.cachedAlbums.find((album) => album.albumId === albumId);
+    // Emit the cached album if found or an empty array otherwise
+    this.albums.next(cloneDeep({ items: album ? [album] : [] }));
   }
 
   /**

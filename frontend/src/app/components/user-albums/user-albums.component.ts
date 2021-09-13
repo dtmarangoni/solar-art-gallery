@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
 
+import { LoadingStateService } from '../../services/loading-state/loading-state.service';
+import { AlbumService } from '../../services/album/album.service';
+import { Album } from '../../../models/database/Album';
 import { AddModalComponent } from '../add-modal/add-modal.component';
 import { EditModalComponent } from '../edit-modal/edit-modal.component';
 import { DelConfirmModalComponent } from '../del-confirm-modal/del-confirm-modal.component';
@@ -15,7 +19,11 @@ import {
   templateUrl: './user-albums.component.html',
   styleUrls: ['./user-albums.component.scss'],
 })
-export class UserAlbumsComponent implements OnInit {
+export class UserAlbumsComponent implements OnInit, OnDestroy {
+  // The albums emission subscription
+  private albumsSubs!: Subscription;
+  // The fetched albums list
+  albums!: Album[];
   // The add modal reference
   private addModalRef!: MdbModalRef<AddModalComponent>;
   // The edit modal reference
@@ -23,67 +31,32 @@ export class UserAlbumsComponent implements OnInit {
   // The delete confirm modal reference
   private delConfirmModalRef!: MdbModalRef<DelConfirmModalComponent>;
 
-  dummyAlbums = [
-    {
-      coverUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Claude_Monet_033.jpg/800px-Claude_Monet_033.jpg',
-      visibility: 'private',
-      creationDate: '2021-01-27T03:03:42Z',
-      description:
-        'Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.',
-      albumId: '08c17db6-547f-4078-924f-7eaaaf3bb742',
-      title: 'Urban Places',
-    },
-    {
-      coverUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Vincent_Willem_van_Gogh_128.jpg/800px-Vincent_Willem_van_Gogh_128.jpg',
-      visibility: 'public',
-      creationDate: '2020-11-29T00:10:51Z',
-      description: 'Sed ante. Vivamus tortor. Duis mattis egestas metus.',
-      albumId: 'e6323b1c-038d-43de-a459-4fc78e9c296e',
-      title: 'Flowers',
-    },
-    {
-      coverUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Water-Lily_Pond_1900_Claude_Monet_Boston_MFA.jpg/1024px-Water-Lily_Pond_1900_Claude_Monet_Boston_MFA.jpg',
-      visibility: 'public',
-      creationDate: '2020-11-26T00:34:23Z',
-      description:
-        'Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.',
-      albumId: 'fbefab56-42e1-40af-9145-fbc34cc65f2f',
-      title: 'Nature Scenery',
-    },
-    {
-      coverUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Vincent_van_Gogh_-_Self-portrait_with_grey_felt_hat_-_Google_Art_Project.jpg/800px-Vincent_van_Gogh_-_Self-portrait_with_grey_felt_hat_-_Google_Art_Project.jpg',
-      visibility: 'public',
-      creationDate: '2020-08-10T19:50:02Z',
-      description:
-        'Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.',
-      albumId: '1efc348c-b3ad-4f03-a2ff-423f77444a30',
-      title: 'Portraits',
-    },
-    {
-      coverUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Vincent_van_Gogh_-_Wheatfield_with_crows_-_Google_Art_Project.jpg/1920px-Vincent_van_Gogh_-_Wheatfield_with_crows_-_Google_Art_Project.jpg',
-      visibility: 'public',
-      creationDate: '2020-07-20T00:00:51Z',
-      description: 'Sed ante. Vivamus tortor. Duis mattis egestas metus.',
-      albumId: 'f5553b1c-038d-43de-a459-4fc78e9c296e',
-      title: 'Wheatfields',
-    },
-  ];
-
   /**
    * Constructs the User Albums component.
+   * @param loadingState The Loading State service.
+   * @param albumService The API Album service.
    * @param modalService The MDB angular modal service.
    */
-  constructor(private modalService: MdbModalService) {}
-
-  ngOnInit(): void {}
+  constructor(
+    public loadingState: LoadingStateService,
+    private albumService: AlbumService,
+    private modalService: MdbModalService
+  ) {}
 
   /**
-   * Opens the add modal and subscribe for on close event.
+   * Subscribe to albums list emissions and fetch all user albums.
+   */
+  ngOnInit(): void {
+    // Subscribe for albums list emissions
+    this.albumsSubs = this.albumService.albums.subscribe((response) => {
+      this.albums = response.items;
+      // Set the loading state as not loading
+      this.loadingState.setLoadingState(false);
+    });
+  }
+
+  /**
+   * Opens the add album modal and subscribe for on close event.
    */
   onOpenAddModal() {
     // Open the add modal
@@ -94,37 +67,50 @@ export class UserAlbumsComponent implements OnInit {
     // Subscribe for on close event
     this.addModalRef.onClose.subscribe((albumData: ModalAlbumData) => {
       if (albumData) {
-        console.log(albumData);
+        // Set the loading state as loading
+        this.loadingState.setLoadingState(true);
+        // Add a new album to user portfolio
+        const { imgFile, ...data } = albumData;
+        this.albumService.addAlbum({ ...data, coverImg: imgFile });
       }
     });
   }
 
   /**
-   * Opens the edit modal and subscribe for on close event.
-   * @param albumIndex The album index number from albums array.
+   * Opens the edit album modal and subscribe for on close event.
+   * @param album The album item from albums array.
    */
-  onOpenEditModal(albumIndex: number) {
+  onOpenEditModal(album: Album) {
     // Open the edit modal
     this.editModalRef = this.modalService.open(EditModalComponent, {
       modalClass: 'modal-dialog-centered',
-      data: {
-        modalType: EditModalTypes.editAlbum,
-        albumOrArt: this.dummyAlbums[albumIndex],
-      },
+      data: { modalType: EditModalTypes.editAlbum, albumOrArt: album },
     });
     // Subscribe for on close event
     this.editModalRef.onClose.subscribe((albumData: ModalAlbumData) => {
       if (albumData) {
-        console.log(albumData);
+        // Set the loading state as loading
+        this.loadingState.setLoadingState(true);
+        // Edit the album from user portfolio
+        const data = {
+          albumId: album.albumId,
+          title: albumData.title,
+          description: albumData.description,
+          visibility: albumData.visibility,
+          coverImg: albumData.imgFile,
+          genUploadUrl: !!albumData.imgFile,
+        };
+        this.albumService.editAlbum(data);
       }
     });
   }
 
   /**
-   * Opens the delete confirm modal and subscribe for on close event.
-   * @param albumId The ID of the album to be deleted.
+   * Opens the delete album confirm modal and subscribe for on close
+   * event.
+   * @param album The album item from albums array.
    */
-  onOpenDelConfirmModal(albumId: string) {
+  onOpenDelConfirmModal(album: Album) {
     // Open the delete confirm modal
     this.delConfirmModalRef = this.modalService.open(DelConfirmModalComponent, {
       modalClass: 'modal-dialog-centered',
@@ -132,8 +118,18 @@ export class UserAlbumsComponent implements OnInit {
     // Subscribe for on close event
     this.delConfirmModalRef.onClose.subscribe((deleteConfirm: boolean) => {
       if (deleteConfirm) {
-        console.log(`Delete albumId - ${albumId}`, deleteConfirm);
+        // Set the loading state as loading
+        this.loadingState.setLoadingState(true);
+        // Delete the album from user portfolio
+        this.albumService.deleteAlbum({ albumId: album.albumId });
       }
     });
+  }
+
+  /**
+   * Avoid memory leaks unsubscribing from all registered services.
+   */
+  ngOnDestroy(): void {
+    this.albumsSubs.unsubscribe();
   }
 }

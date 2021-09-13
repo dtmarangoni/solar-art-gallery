@@ -1,16 +1,27 @@
-<div *ngIf="!(loadingState.isLoading | async) && album">
+<div *ngIf="!(loadingState.isLoading | async)">
   <header>
-    <h4 class="fw-light text-center text-uppercase">
+    <h4 class="fw-light text-center text-uppercase" *ngIf="album">
       {{ album.ownerName }} - {{ album.title }}
+    </h4>
+
+    <h4 class="fw-light text-center text-uppercase" *ngIf="!album">
+      Album Not Found
     </h4>
   </header>
 
   <main>
     <div
       class="no-arts d-flex justify-content-center align-items-center"
-      *ngIf="arts.length === 0"
+      *ngIf="album && arts && arts.length === 0"
     >
       <h5 class="fw-light my-5 mx-4">This album is empty.</h5>
+    </div>
+
+    <div
+      class="no-arts d-flex justify-content-center align-items-center"
+      *ngIf="!album"
+    >
+      <h5 class="fw-light my-5 mx-4">This album doesn't exists.</h5>
     </div>
 
     <mdb-carousel
@@ -18,7 +29,7 @@
       [interval]="0"
       [dark]="true"
       #carousel
-      *ngIf="arts.length > 0"
+      *ngIf="arts && arts.length > 0"
     >
       <mdb-carousel-item *ngFor="let art of arts; index as i">
         <div class="card">

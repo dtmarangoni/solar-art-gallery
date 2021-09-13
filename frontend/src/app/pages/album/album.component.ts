@@ -1,7 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { of, Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 import { LoadingStateService } from '../../services/loading-state/loading-state.service';
 import { AlbumService } from '../../services/album/album.service';
@@ -12,7 +11,7 @@ import { ArtService } from '../../services/art/art.service';
   templateUrl: './album.component.html',
   styleUrls: ['./album.component.scss'],
 })
-export class AlbumComponent implements OnInit, OnDestroy {
+export class AlbumComponent implements OnInit, AfterViewInit, OnDestroy {
   // The album emission subscription
   private albumSubs!: Subscription;
 
@@ -31,45 +30,44 @@ export class AlbumComponent implements OnInit, OnDestroy {
   ) {}
 
   /**
-   * Init album and arts data and services subscriptions.
+   * Set the page loading state as loading.
    */
   ngOnInit(): void {
-    // Set the loading state as loading
     this.loadingState.setLoadingState(true);
+  }
 
-    // Fetch the album from cache or API server
-    this.albumSubs = this.fetchAlbumData().subscribe((album) =>
-      // Fetch the arts list at init
-      this.artService.fetchPublicAlbumArts({ albumId: album.albumId })
-    );
+  /**
+   * Fetch the album and arts data after Angular initializes the
+   * component's views and child views. The reason being is that child
+   * views subscribes for data responses.
+   */
+  ngAfterViewInit(): void {
+    this.fetchAlbumArtsData();
   }
 
   /**
    * Fetch the public album data from cache or from API server.
-   * @returns The album item.
+   * After fetching the album, retrieve the album arts list data.
    */
-  private fetchAlbumData() {
+  private fetchAlbumArtsData() {
     // Get the album ID
     const albumId = this.route.snapshot.paramMap.get('id');
-    // Get the album from cache
-    const album = this.albumService.getCachedAlbum(albumId!).item;
 
-    if (album) {
-      // Album already in cached list
-      return of(album);
-    } else {
-      // If album isn't present in cached list, fetch it from server
-      this.albumService.fetchPublicAlbum({ albumId: albumId! });
+    // Subscribe for albums emissions
+    this.albumSubs = this.albumService.albums.subscribe((response) => {
+      if (response.items.length === 0) {
+        // Album not found in cache, thus fetch it from API server
+        this.albumService.fetchPublicAlbum({ albumId: albumId! });
+      } else {
+        // Album found, fetch the album arts list
+        this.artService.fetchPublicAlbumArts({
+          albumId: response.items[0].albumId,
+        });
+      }
+    });
 
-      // If the albums isn't present in backend, the observable will
-      // throw an error
-      return this.albumService.albums.pipe(
-        switchMap(() =>
-          // Get the album from cache
-          of(this.albumService.getCachedAlbum(albumId!).item!)
-        )
-      );
-    }
+    // Fetch the album from cache
+    this.albumService.fetchCachedAlbum(albumId!);
   }
 
   /**

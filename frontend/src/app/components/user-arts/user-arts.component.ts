@@ -1,7 +1,18 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import {
+  AbstractControl,
+  FormArray,
+  FormControl,
+  FormGroup,
+} from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
 
+import { LoadingStateService } from '../../services/loading-state/loading-state.service';
+import { AlbumService } from '../../services/album/album.service';
+import { ArtService } from '../../services/art/art.service';
+import { Album } from '../../../models/database/Album';
+import { Art } from '../../../models/database/Art';
 import { ViewModalComponent } from '../view-modal/view-modal.component';
 import { AddModalComponent } from '../add-modal/add-modal.component';
 import { EditModalComponent } from '../edit-modal/edit-modal.component';
@@ -10,8 +21,6 @@ import {
   EditModalTypes,
   ModalArtData,
 } from '../../../models/ModalTypes';
-import { Art } from '../../../models/database/Art';
-import { Album } from '../../../models/database/Album';
 import { readFileAsBase64 } from '../../utils/app-utils';
 
 @Component({
@@ -19,98 +28,63 @@ import { readFileAsBase64 } from '../../utils/app-utils';
   templateUrl: './user-arts.component.html',
   styleUrls: ['./user-arts.component.scss'],
 })
-export class UserArtsComponent implements OnInit {
-  // Arts Album data
-  album!: Album; // TODO implement album logic
+export class UserArtsComponent implements OnInit, OnDestroy {
+  // The albums emission subscription
+  private albumsSubs!: Subscription;
+  // The arts emission subscription
+  private artsSubs!: Subscription;
+  // The arts album
+  album!: Album;
+  // The fetched album arts
+  arts!: Art[];
   // The form group
   form!: FormGroup;
-  // Art delete queue
-  artsToDelete!: Art[];
   // The add modal reference
   private addModalRef!: MdbModalRef<AddModalComponent>;
   // The edit modal reference
   private editModalRef!: MdbModalRef<EditModalComponent>;
 
-  @Input() matchSize: boolean = true;
-
-  dummyArts = [
-    {
-      sequenceNum: 0,
-      creationDate: '2021-01-01T08:10:20Z',
-      artId: 'rj7239tr-e107-4e34-8057-4b42477a1259',
-      description:
-        'Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.',
-      albumId: '08c17db6-547f-4078-924f-7eaaaf3bb742',
-      imgUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Claude_Monet_033.jpg/800px-Claude_Monet_033.jpg',
-      title: 'Cathedral in Rouen',
-    },
-    {
-      sequenceNum: 1,
-      creationDate: '2021-02-11T08:10:20Z',
-      artId: 'yup23955-e107-4e34-8057-4b42477a1259',
-      description:
-        'Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.',
-      albumId: '08c17db6-547f-4078-924f-7eaaaf3bb742',
-      imgUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/5/5c/Claude_Monet%2C_Impression%2C_soleil_levant%2C_1872.jpg',
-      title: 'Sunrise',
-    },
-    {
-      sequenceNum: 2,
-      creationDate: '2021-03-16T08:10:20Z',
-      artId: 'gg0039rr-e107-4e34-8057-4b42477a1259',
-      description:
-        'Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.',
-      albumId: '08c17db6-547f-4078-924f-7eaaaf3bb742',
-      imgUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/La_Seine_%C3%A0_Asni%C3%A8re_-_Monet.jpg/1280px-La_Seine_%C3%A0_Asni%C3%A8re_-_Monet.jpg',
-      title: 'La Seine à Asnières',
-    },
-    {
-      sequenceNum: 3,
-      creationDate: '2021-05-21T08:10:20Z',
-      artId: 'dac239tr-e107-4e34-8259-4b42477a1259',
-      description:
-        'Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.',
-      albumId: '08c17db6-547f-4078-924f-7eaaaf3bb742',
-      imgUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/1/10/Eglise_de_V%C3%A9theuil.jpg',
-      title: 'Eglise de Vétheuil',
-    },
-  ];
-
   /**
    * Constructs the User Arts from an album component.
    * @param modalService The MDB angular modal service.
+   * @param loadingState The Loading State service.
+   * @param albumService The API Album service.
+   * @param artService The API Art service.
    */
-  constructor(private modalService: MdbModalService) {}
+  constructor(
+    private modalService: MdbModalService,
+    public loadingState: LoadingStateService,
+    private albumService: AlbumService,
+    private artService: ArtService
+  ) {}
 
   /**
-   * Initialize the form and component elements.
+   * Init services subscriptions.
    */
   ngOnInit(): void {
-    // Initialize the component elements
-    this.initComponentElements();
-    // Initialize the form
-    this.initForm();
+    // Subscribe for albums list emissions
+    this.albumsSubs = this.albumService.albums.subscribe((response) => {
+      // Get the arts album
+      this.album = response.items[0];
+    });
+
+    // Subscribe for arts list emissions
+    this.artsSubs = this.artService.arts.subscribe((response) => {
+      this.arts = response.items;
+      // Initialize the form
+      this.initForm();
+      // Set the loading state as not loading
+      this.loadingState.setLoadingState(false);
+    });
   }
 
   /**
-   * Initialize the components elements.
-   */
-  private initComponentElements() {
-    // Starts the arts delete queue as empty
-    this.artsToDelete = [];
-  }
-
-  /**
-   * Initialize the form.
+   * Initialize the form with fetched user arts.
    */
   private initForm() {
     this.form = new FormGroup({ arts: new FormArray([]) });
-    // Add the initial art elements to form array
-    this.dummyArts.forEach((art) => this.addArtToFormArray(art));
+    // Add the fetched art elements to form array
+    this.arts.forEach((art) => this.addArtToFormArray(art));
   }
 
   /**
@@ -165,7 +139,7 @@ export class UserArtsComponent implements OnInit {
   private async newArtToFmCtrls(artData: ModalArtData, formGroup: FormGroup) {
     // Image file preview as base64 to HTML page element
     const base64Img = await readFileAsBase64(artData.imgFile);
-    formGroup.addControl('albumId', new FormControl('albumID - 12387921')); // TODO implement album logic
+    formGroup.addControl('albumId', new FormControl(this.album.albumId));
     formGroup.addControl('imgFile', new FormControl(artData.imgFile));
     formGroup.addControl('imgUrl', new FormControl(base64Img));
   }
@@ -190,9 +164,8 @@ export class UserArtsComponent implements OnInit {
 
     // Get the current art group being shifted
     const currentArtGroup = this.artsFormArray.at(currentIndex);
-    // Remove the art group from old position
+    // Remove the art group from old position and add to new position
     this.artsFormArray.removeAt(currentIndex);
-    // Add the art group to the new position
     this.artsFormArray.insert(newIndex, currentArtGroup);
 
     // Mark the form as dirty
@@ -211,7 +184,7 @@ export class UserArtsComponent implements OnInit {
   }
 
   /**
-   * Opens the add modal and subscribe for on close event.
+   * Opens the add art modal and subscribe for on close event.
    */
   onOpenAddModal() {
     // Open the add modal
@@ -230,37 +203,20 @@ export class UserArtsComponent implements OnInit {
   }
 
   /**
-   * Opens the edit modal and subscribe for on close event.
-   * @param artGroupIndex The art group index number from arts array.
+   * Opens the edit art modal and subscribe for on close event.
+   * @param artGroup The art group from arts array.
    */
-  onOpenEditModal(artGroupIndex: number) {
+  onOpenEditModal(artGroup: AbstractControl) {
     // Open the edit modal
     this.editModalRef = this.modalService.open(EditModalComponent, {
       modalClass: 'modal-dialog-centered',
-      data: {
-        modalType: EditModalTypes.editArt,
-        albumOrArt: (this.artsFormArray.at(artGroupIndex) as FormGroup).value,
-      },
+      data: { modalType: EditModalTypes.editArt, albumOrArt: artGroup.value },
     });
     // Subscribe for on close event
     this.editModalRef.onClose.subscribe(async (artData: ModalArtData) => {
       if (artData) {
-        // The group control of edited data
-        const groupCtrl = this.artsFormArray.at(artGroupIndex) as FormGroup;
         // Patch the edited values
-        groupCtrl.patchValue({
-          title: artData.title,
-          description: artData.description,
-        });
-
-        if (artData.imgFile) {
-          // Art image was changed, thus generate the image preview
-          const base64Img = await readFileAsBase64(artData.imgFile);
-          groupCtrl.patchValue({ imgUrl: base64Img });
-          // Add the image file to group controls
-          groupCtrl.addControl('imgFile', new FormControl(artData.imgFile));
-        }
-
+        await this.patchArtGroupCtrl(artGroup, artData);
         // Mark the form as dirty
         this.artsFormArray.markAsDirty();
       }
@@ -268,33 +224,44 @@ export class UserArtsComponent implements OnInit {
   }
 
   /**
-   * Toggles an art group as to be deleted and adds or removes the art
-   * data to or from delete queue.
-   * @param artGroupIndex The art group index number from arts array.
+   * After user edition, patches the art group form control.
+   * @param artGroup The art form group control.
+   * @param artData The patch art data.
    */
-  onDeleteArt(artGroupIndex: number) {
-    // The deleted group control
-    const groupCtrl = this.artsFormArray.at(artGroupIndex) as FormGroup;
+  private async patchArtGroupCtrl(
+    artGroup: AbstractControl,
+    artData: ModalArtData
+  ) {
+    // Patch the edited values
+    artGroup.patchValue({
+      title: artData.title,
+      description: artData.description,
+    });
 
+    if (artData.imgFile) {
+      // Art image was changed, thus generate the image preview
+      const base64Img = await readFileAsBase64(artData.imgFile);
+      artGroup.patchValue({ imgUrl: base64Img });
+      // Add or update the image file to group control
+      const artFormGroup = artGroup as FormGroup;
+      const imgCtrl = artFormGroup.get('imgFile');
+      if (imgCtrl) imgCtrl.setValue(artData.imgFile);
+      else artFormGroup.addControl('imgFile', new FormControl(artData.imgFile));
+    }
+  }
+
+  /**
+   * Toggles an art group as to be deleted.
+   * @param artGroup The art group from arts array.
+   */
+  onDeleteArt(artGroup: AbstractControl) {
     // Check whether this art group already has the delete control
-    if (groupCtrl.get('delete')) {
+    if (artGroup.get('delete')) {
       // Toggles its current state
-      groupCtrl.patchValue({ delete: !groupCtrl.get('delete')?.value });
+      artGroup.patchValue({ delete: !artGroup.get('delete')?.value });
     } else {
       // Add the delete control for art group
-      groupCtrl.addControl('delete', new FormControl(true));
-    }
-
-    // If necessary, add or remove art data from delete queue
-    // Only add or remove from delete queue existing arts in backend
-    if (groupCtrl.get('artId')) {
-      if (groupCtrl.get('delete')?.value) {
-        this.artsToDelete.push(groupCtrl.value);
-      } else {
-        this.artsToDelete = this.artsToDelete.filter(
-          (art) => art.artId !== groupCtrl.get('artId')?.value
-        );
-      }
+      (artGroup as FormGroup).addControl('delete', new FormControl(true));
     }
 
     // Mark the form as dirty
@@ -302,10 +269,55 @@ export class UserArtsComponent implements OnInit {
   }
 
   /**
-   * Send the form values.
+   * Add and, update or delete user album arts.
    */
   onSubmit() {
-    console.log(this.form.value);
-    console.log(this.artsToDelete);
+    // Set the loading state as loading
+    this.loadingState.setLoadingState(true);
+
+    // Split the put and delete arts
+    const { deleteData, putData } = this.splitPutDeleteArts();
+    // Performs a delete and put operation sequentially
+    this.artService.deletePutArts(deleteData, putData);
+
+    if (deleteData.length === 0 && putData.length === 0)
+      // Delete if only local existing arts
+      // If no server site API call is required, refresh the data to previous state
+      this.artService.fetchCachedArts();
+  }
+
+  /**
+   * Split the user album arts to be added or edited from the ones to
+   * be deleted.
+   */
+  private splitPutDeleteArts(): { putData: []; deleteData: [] } {
+    return (this.form.value.arts as []).reduce(
+      (acc, art: any) => {
+        if (!art?.delete)
+          // To be added or edited in backend
+          acc.putData.push({
+            albumId: art.albumId,
+            artId: art?.artId,
+            title: art?.title,
+            description: art?.description,
+            artImg: art?.imgFile,
+            genUploadUrl: !!(art?.artId && art?.imgFile),
+          });
+        else if (art?.artId)
+          // To be deleted in backend
+          acc.deleteData.push({ albumId: art.albumId, artId: art.artId });
+
+        return acc;
+      },
+      { putData: [], deleteData: [] } as any
+    );
+  }
+
+  /**
+   * Avoid memory leaks unsubscribing from all registered services.
+   */
+  ngOnDestroy() {
+    this.artsSubs.unsubscribe();
+    this.albumsSubs.unsubscribe();
   }
 }
