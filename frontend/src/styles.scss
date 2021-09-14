@@ -1,0 +1,32 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "~@fortawesome/fontawesome-free/scss/solid.scss";
+@import "~@fortawesome/fontawesome-free/scss/regular.scss";
+@import "~@fortawesome/fontawesome-free/scss/brands.scss";
+
+@import "~mdb-angular-ui-kit/assets/scss/mdb.scss";
+
+/* Project color theme */
+:root {
+  --mdb-dark-tint-1: #3b3b3b;
+  --mdb-dark-tint-2: #515151;
+  --mdb-dark-tint-3: #676767;
+  --mdb-dark-tint-9: #e9e9e9;
+  --hover-img: rgba(251, 251, 251, 0.3);
+}
+
+/* Global view art modal dialog size */
+
+.modal {
+  display: flex !important;
+  justify-content: center;
+  align-content: center;
+
+  .art-modal-dialog {
+    max-width: 100%;
+    width: auto;
+    max-height: 100%;
+    height: auto;
+    display: inline-block;
+  }
+}

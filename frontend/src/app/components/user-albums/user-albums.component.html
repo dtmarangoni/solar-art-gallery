@@ -1,0 +1,77 @@
+<header class="mx-4">
+  <h2 class="fw-light text-center text-uppercase">My Portfolio</h2>
+
+  <hr />
+
+  <div class="text-end">
+    <a class="btn btn-lg new-album-btn" role="button" (click)="onOpenAddModal()"
+      >New Album</a
+    >
+  </div>
+</header>
+
+<main>
+  <div
+    class="no-albums d-flex align-items-center justify-content-center"
+    *ngIf="!(loadingState.isLoading | async) && albums && albums.length === 0"
+  >
+    <h5 class="fw-light text-center mx-4">Your portfolio is empty.</h5>
+  </div>
+
+  <div
+    class="row row-cols-1 row-cols-md-2 row-cols-xl-3 row-cols-xxl-4 g-5"
+    *ngIf="albums && albums.length > 0"
+  >
+    <div
+      class="col d-flex align-items-center justify-content-center"
+      *ngFor="let album of albums; index as i"
+    >
+      <div class="card h-100 d-flex">
+        <div
+          class="card-header m-0 p-0 hover-overlay"
+          mdbRipple
+          rippleColor="light"
+        >
+          <img
+            [src]="album.coverUrl"
+            [alt]="album.title"
+            class="card-img-top"
+          />
+          <a [routerLink]="['/', 'portfolio', 'albums', album.albumId]">
+            <div class="card-a-href mask"></div>
+          </a>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{ album.title }}</h5>
+          <p class="card-text">{{ album.description }}</p>
+        </div>
+        <div
+          class="
+            card-footer
+            flex-grow-1
+            d-flex
+            align-items-center
+            justify-content-end
+            px-4
+            py-3
+          "
+        >
+          <button
+            type="button"
+            class="btn edit-btn btn-sm me-1"
+            (click)="onOpenEditModal(album)"
+          >
+            <i class="fas fa-pen-fancy"></i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-light btn-sm"
+            (click)="onOpenDelConfirmModal(album)"
+          >
+            <i class="far fa-trash-alt"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

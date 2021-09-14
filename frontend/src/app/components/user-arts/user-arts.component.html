@@ -1,0 +1,145 @@
+<div *ngIf="album && arts">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <header class="mx-4">
+      <h2 class="fw-light text-center text-uppercase">{{ album.title }}</h2>
+
+      <hr />
+
+      <div class="text-center text-sm-end">
+        <button
+          type="button"
+          type="submit"
+          [disabled]="!form.valid || form.pristine"
+          class="btn btn-lg save-changes-btn"
+        >
+          Save Changes
+        </button>
+      </div>
+
+      <div class="text-center text-md-start">
+        <button
+          type="button"
+          class="btn btn-lg btn-light new-art-btn"
+          (click)="onOpenAddModal()"
+        >
+          Add Painting
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <div
+        class="no-arts d-flex justify-content-center align-items-center"
+        *ngIf="
+          !(loadingState.isLoading | async) &&
+          artsFormArray?.controls &&
+          artsFormArray.controls.length === 0
+        "
+      >
+        <h5 class="fw-light my-5 mx-4">Your album is empty.</h5>
+      </div>
+
+      <div
+        class="row row-cols-1 row-cols-md-2 row-cols-xl-3 row-cols-xxl-4 g-5"
+        formArrayName="arts"
+        *ngIf="artsFormArray?.controls && artsFormArray.controls.length > 0"
+      >
+        <div
+          class="col d-flex align-items-center justify-content-center"
+          *ngFor="let artGroup of artsFormArray.controls; index as i"
+        >
+          <div
+            [ngClass]="{
+              'card h-100 d-flex': true,
+              'opacity-50': artGroup.get('delete')?.value
+            }"
+            [formGroupName]="i"
+          >
+            <div
+              class="card-header m-0 p-0 hover-overlay"
+              mdbRipple
+              rippleColor="light"
+            >
+              <img
+                [src]="artGroup.get('imgUrl')?.value"
+                [alt]="artGroup.get('title')?.value"
+                class="card-img-top"
+              />
+              <a (click)="onOpenViewModal(artGroup.value)">
+                <div class="card-a-href mask"></div>
+              </a>
+            </div>
+
+            <div class="card-body">
+              <h5 class="card-title">{{ artGroup.get("title")?.value }}</h5>
+              <p class="card-text">{{ artGroup.get("description")?.value }}</p>
+            </div>
+
+            <div
+              class="
+                card-footer
+                flex-grow-1
+                d-flex
+                justify-content-end
+                align-items-center
+                ps-3
+                pe-4
+                py-3
+              "
+            >
+              <div class="flex-grow-1">
+                <button
+                  type="button"
+                  class="btn btn-outline-info btn-sm drag-btn"
+                  [disabled]="i === 0 || artGroup.get('delete')?.value"
+                  (click)="shift(-1, i)"
+                >
+                  <i class="fas fa-angle-left fa-lg"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-info btn-sm drag-btn"
+                  [disabled]="
+                    i === artsFormArray.length - 1 ||
+                    artGroup.get('delete')?.value
+                  "
+                  (click)="shift(1, i)"
+                >
+                  <i class="fas fa-angle-right fa-lg"></i>
+                </button>
+              </div>
+              <button
+                type="button"
+                class="btn edit-btn btn-sm me-1"
+                [disabled]="artGroup.get('delete')?.value"
+                (click)="onOpenEditModal(artGroup)"
+              >
+                <i class="fas fa-pen-fancy"></i>
+              </button>
+              <button
+                type="button"
+                class="btn btn-light btn-sm"
+                (click)="onDeleteArt(artGroup)"
+              >
+                <i class="far fa-trash-alt"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </form>
+</div>
+
+<div *ngIf="!(loadingState.isLoading | async) && !album">
+  <header>
+    <h2 class="fw-light text-center text-uppercase">Album Not Found</h2>
+    <hr class="mb-5" />
+  </header>
+
+  <main>
+    <div class="no-album d-flex justify-content-center align-items-center">
+      <h5 class="fw-light my-5 mx-4">This album doesn't exists.</h5>
+    </div>
+  </main>
+</div>

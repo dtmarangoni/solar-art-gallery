@@ -1,0 +1,16 @@
+[
+    {
+        "userId": "c8663d5d-0472-4b1e-861f-cc9c2795e43a",
+        "registrationDate": "2020-05-10T19:50:02Z",
+        "name": "Vincent van Gogh",
+        "email": "vicentvangogh@gmail.com",
+        "picture": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Vincent_van_Gogh_-_Self-Portrait_-_Google_Art_Project_%28454045%29.jpg/800px-Vincent_van_Gogh_-_Self-Portrait_-_Google_Art_Project_%28454045%29.jpg"
+    },
+    {
+        "userId": "4d38799d-3be6-4000-9bce-1ab09036c017",
+        "registrationDate": "2020-02-10T19:50:02Z",
+        "name": "Claude Monet",
+        "email": "claudemonet@gmail.com",
+        "picture": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Claude_Monet_1899_Nadar.jpg/255px-Claude_Monet_1899_Nadar.jpg"
+    }
+]

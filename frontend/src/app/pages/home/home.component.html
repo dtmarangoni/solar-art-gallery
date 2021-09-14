@@ -1,0 +1,6 @@
+<div class="container-fluid w-auto d-flex justify-content-center">
+  <app-loading-spinner *ngIf="loadingState.isLoading | async">
+  </app-loading-spinner>
+
+  <app-albums-grid></app-albums-grid>
+</div>

@@ -1,0 +1,13 @@
+<div class="container-fluid w-auto">
+  <app-loading-spinner *ngIf="loadingState.isLoading | async">
+  </app-loading-spinner>
+
+  <div class="row">
+    <div class="col-3">
+      <app-arts-sidebar></app-arts-sidebar>
+    </div>
+    <div class="col-9">
+      <app-arts-carousel></app-arts-carousel>
+    </div>
+  </div>
+</div>

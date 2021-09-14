@@ -1,0 +1,78 @@
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <!-- Container wrapper -->
+  <div class="container-fluid">
+    <!-- Navbar brand -->
+    <a class="navbar-brand fw-bold" routerLink="/home">Solar Art Gallery</a>
+
+    <!-- Toggle button -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      (click)="basicNavbar.toggle()"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Collapsible wrapper -->
+    <div
+      class="collapse navbar-collapse"
+      id="navbarSupportedContent"
+      mdbCollapse
+      #basicNavbar="mdbCollapse"
+    >
+      <!-- links -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" routerLink="/home"
+            >Home</a
+          >
+        </li>
+        <li
+          class="nav-item"
+          *ngIf="!(auth.isLoading$ | async) && (auth.isAuthenticated$ | async)"
+        >
+          <a class="nav-link" routerLink="/portfolio/albums">My Portfolio</a>
+        </li>
+      </ul>
+
+      <img
+        [src]="userProfile.picture"
+        class="rounded-circle avatar me-2"
+        alt="user avatar"
+        *ngIf="!(auth.isLoading$ | async) && (auth.isAuthenticated$ | async)"
+      />
+
+      <ol class="breadcrumb">
+        <li
+          *ngIf="!(auth.isLoading$ | async) && !(auth.isAuthenticated$ | async)"
+          class="breadcrumb-item"
+        >
+          <a role="button" (click)="signInWithRedirect()"
+            ><i class="fas fa-user mx-2"></i>Sign In</a
+          >
+        </li>
+        <li
+          *ngIf="!(auth.isLoading$ | async) && !(auth.isAuthenticated$ | async)"
+          class="breadcrumb-item"
+        >
+          <a role="button" (click)="signUpWithRedirect()">Sign Up</a>
+        </li>
+        <li
+          *ngIf="!(auth.isLoading$ | async) && (auth.isAuthenticated$ | async)"
+          class="breadcrumb-item"
+        >
+          <a role="button" (click)="signOutWithRedirect()"
+            ><i class="fas fa-sign-out-alt mx-2"></i>Sign Out</a
+          >
+        </li>
+      </ol>
+      <!-- links -->
+    </div>
+    <!-- Collapsible wrapper -->
+  </div>
+  <!-- Container wrapper -->
+</nav>
+<!-- Navbar -->

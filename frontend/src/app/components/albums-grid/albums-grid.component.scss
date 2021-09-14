@@ -1,0 +1,22 @@
+header {
+  h2 {
+    letter-spacing: 2rem;
+    margin-bottom: 3.5rem;
+  }
+}
+
+main {
+  .card {
+    img {
+      min-width: 20rem;
+      max-width: 20rem;
+      min-height: 20rem;
+      max-height: 20rem;
+      object-fit: cover;
+    }
+
+    .card-a-href {
+      background-color: var(--hover-img);
+    }
+  }
+}

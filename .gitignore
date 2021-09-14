@@ -78,18 +78,27 @@ typings/
 # Next.js build output
 .next
 
-# Nuxt.js build / generate output
+# Nuxt.js build
 .nuxt
+
+# vuepress build output
+.vuepress/dist
+
+# Build output
 dist
+www
+tmp
+out-tsc
+
+# profiling files
+chrome-profiler-events*.json
+speed-measure-plugin*.json
 
 # Gatsby files
 .cache/
 # Comment in the public line in if your project uses Gatsby and *not* Next.js
 # https://nextjs.org/blog/next-9-1#public-directory-support
 # public
-
-# vuepress build output
-.vuepress/dist
 
 # Serverless directories
 .serverless/
@@ -100,5 +109,23 @@ dist
 # DynamoDB Local files
 .dynamodb/
 
+# S3 Bucket Local files
+buckets
+
 # TernJS port file
 .tern-port
+
+# Webpack directories
+.webpack
+
+# VS Code local files
+.vscode
+.history/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# System Files
+.DS_Store
+Thumbs.db

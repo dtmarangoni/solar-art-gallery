@@ -1,0 +1,68 @@
+.card {
+  min-width: 40rem;
+
+  .img-wrapper {
+    position: relative;
+
+    img {
+      object-fit: cover;
+    }
+
+    .btn-overlay {
+      position: absolute;
+      top: 7%;
+      bottom: 0;
+      left: 0;
+      right: 12%;
+      text-align: end;
+
+      input[type="file"] {
+        display: none;
+      }
+
+      i {
+        opacity: 80%;
+      }
+    }
+  }
+
+  .card-body {
+    h4 {
+      letter-spacing: 0.7rem;
+    }
+
+    hr {
+      margin-bottom: 2rem;
+    }
+
+    .form-check.form-switch {
+      margin-top: -0.5rem;
+      margin-right: 0.5rem;
+
+      input[type="checkbox"]:checked {
+        background-color: var(--mdb-dark-tint-3);
+        border-color: var(--mdb-dark-tint-3);
+        color: var(--mdb-dark-tint-3);
+      }
+
+      input[type="checkbox"]:checked:after {
+        background-color: var(--mdb-dark-tint-1);
+        border-color: var(--mdb-dark-tint-1);
+        color: var(--mdb-dark-tint-1);
+      }
+    }
+
+    mdb-form-control {
+      margin-bottom: 1.5rem;
+    }
+
+    button {
+      min-width: 6rem;
+    }
+
+    .add-btn {
+      background-color: var(--mdb-dark-tint-1);
+      color: var(--mdb-white);
+    }
+  }
+}
