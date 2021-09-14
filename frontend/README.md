@@ -1,27 +1,26 @@
-# SolarArtGallery
+# Solar Art Gallery Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.14.
+A frontend UI built with [Angular](https://angular.io/) and [Material Design Bootstrap UI](https://mdbootstrap.com/) for the fifth project of Udacity Cloud Developer Nanodegree.
 
-## Development server
+## Installation instructions
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+To start the frontend application locally please follow the instructions below.
 
-## Code scaffolding
+1. Requirements:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+   - [Install Node.js](https://nodejs.org/en/) (tested with Node.Js 14);
 
-## Build
+2. In the project root folder, please run:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+   - Download and install the required npm packages: `npm i`;
 
-## Running unit tests
+3. Set the current backend environment in file [environment.ts](./src/environments/environment.ts)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+   - For Serverless framework running locally set in file
+     - `apiHost: apiHostConfig.endpoints.dev`
+   - For Serverless framework running in AWS cloud set in file
+     - `apiHost: apiHostConfig.endpoints.prod`
 
-## Running end-to-end tests
+4. To start the local dev server, please run:
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+   - In root folder run: `npm start`
